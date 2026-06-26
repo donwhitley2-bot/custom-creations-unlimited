@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Be polite to AI/marketing scrapers if desired by uncommenting:
+# User-agent: GPTBot
+# Disallow: /
+
+Sitemap: https://www.customcreationsunlimited.com/sitemap.xml
