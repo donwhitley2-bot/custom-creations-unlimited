@@ -142,7 +142,7 @@ bash scripts/build-all.sh
 ```
 
 ### Still sample data (swap before launch)
-- **Business facts** — phone `(678) 555-0142`, address, hours, email `hello@ccucustom.com`,
+- **Business facts** — phone `(404) 967-8028`, address, hours, email `info@ccucustom.com`,
   social URLs. Search/replace with the real ones.
 - **Reviews / client names / team names** are realistic samples.
 

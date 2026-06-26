@@ -90,7 +90,7 @@ def header(active):
     </ul>
     <div class="mobile-nav__cta">
       <a class="btn btn--gold btn--lg btn--block" href="quote.html">Request a Quote</a>
-      <a class="btn btn--ghost btn--lg btn--block" href="tel:+16785550142">Call (678) 555-0142</a>
+      <a class="btn btn--ghost btn--lg btn--block" href="tel:+14049678028">Call (404) 967-8028</a>
     </div>
   </div>'''
 
@@ -117,8 +117,8 @@ FOOTER = f'''<footer class="site-footer">
           <a href="index.html#reviews">Reviews</a><a href="index.html#faq">FAQ</a><a href="contact.html">Contact</a>
         </div>
         <div class="footer-col"><h4>Get in touch</h4>
-          <a href="tel:+16785550142">(678) 555-0142</a>
-          <a href="mailto:hello@ccucustom.com">hello@ccucustom.com</a>
+          <a href="tel:+14049678028">(404) 967-8028</a>
+          <a href="mailto:info@ccucustom.com">info@ccucustom.com</a>
           <a href="contact.html">1180 Industrial Park Blvd<br>Atlanta, GA 30318</a>
         </div>
       </div>
@@ -129,7 +129,7 @@ FOOTER = f'''<footer class="site-footer">
     </div>
   </footer>
   <div class="floating">
-    <a class="fab fab--call" href="tel:+16785550142" aria-label="Call us"><svg viewBox="0 0 24 24" fill="none"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3 19.5 19.5 0 01-6-6 19.8 19.8 0 01-3-8.7A2 2 0 014.1 2h3a2 2 0 012 1.7c.1 1 .4 2 .7 2.9a2 2 0 01-.4 2.1L8.1 9.9a16 16 0 006 6l1.2-1.3a2 2 0 012.1-.4c.9.3 1.9.6 2.9.7a2 2 0 011.7 2z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></a>
+    <a class="fab fab--call" href="tel:+14049678028" aria-label="Call us"><svg viewBox="0 0 24 24" fill="none"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3 19.5 19.5 0 01-6-6 19.8 19.8 0 01-3-8.7A2 2 0 014.1 2h3a2 2 0 012 1.7c.1 1 .4 2 .7 2.9a2 2 0 01-.4 2.1L8.1 9.9a16 16 0 006 6l1.2-1.3a2 2 0 012.1-.4c.9.3 1.9.6 2.9.7a2 2 0 011.7 2z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></a>
     <a class="fab fab--quote" href="quote.html" aria-label="Request a quote"><svg viewBox="0 0 24 24" fill="none"><path d="M4 5h16v11H8l-4 4z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M8 9h8M8 12h5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></a>
   </div>
   <button class="back-to-top" id="backToTop" aria-label="Back to top"><svg viewBox="0 0 24 24" fill="none"><path d="M12 19V5M5 12l7-7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
@@ -180,7 +180,7 @@ CTA = '''<section class="section"><div class="container"><div class="cta-banner"
       <h2>Ready to make your mark?</h2>
       <p>Tell us about your project and we'll send a free design proof and exact quote — usually within one business day.</p>
       <div class="hero__cta"><a class="btn btn--gold btn--lg" href="quote.html">Start my quote ''' + ARROW + '''</a>
-      <a class="btn btn--light btn--lg" href="tel:+16785550142">Call (678) 555-0142</a></div>
+      <a class="btn btn--light btn--lg" href="tel:+14049678028">Call (404) 967-8028</a></div>
     </div></div></div></section>'''
 
 # ==========================================================================
@@ -399,14 +399,14 @@ def about_page():
 # ==========================================================================
 def contact_page():
     info = f'''<div class="contact-info" data-reveal>
-        <a class="contact-row" href="tel:+16785550142"><span class="contact-row__icon"><svg viewBox="0 0 24 24" fill="none"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3 19.5 19.5 0 01-6-6 19.8 19.8 0 01-3-8.7A2 2 0 014.1 2h3a2 2 0 012 1.7c.1 1 .4 2 .7 2.9a2 2 0 01-.4 2.1L8.1 9.9a16 16 0 006 6l1.2-1.3a2 2 0 012.1-.4c.9.3 1.9.6 2.9.7a2 2 0 011.7 2z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></span><span><span class="contact-row__label">Call us</span><strong>(678) 555-0142</strong></span></a>
-        <a class="contact-row" href="mailto:hello@ccucustom.com"><span class="contact-row__icon"><svg viewBox="0 0 24 24" fill="none"><path d="M4 5h16v14H4zM4 6l8 6 8-6" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></span><span><span class="contact-row__label">Email us</span><strong>hello@ccucustom.com</strong></span></a>
+        <a class="contact-row" href="tel:+14049678028"><span class="contact-row__icon"><svg viewBox="0 0 24 24" fill="none"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3 19.5 19.5 0 01-6-6 19.8 19.8 0 01-3-8.7A2 2 0 014.1 2h3a2 2 0 012 1.7c.1 1 .4 2 .7 2.9a2 2 0 01-.4 2.1L8.1 9.9a16 16 0 006 6l1.2-1.3a2 2 0 012.1-.4c.9.3 1.9.6 2.9.7a2 2 0 011.7 2z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></span><span><span class="contact-row__label">Call us</span><strong>(404) 967-8028</strong></span></a>
+        <a class="contact-row" href="mailto:info@ccucustom.com"><span class="contact-row__icon"><svg viewBox="0 0 24 24" fill="none"><path d="M4 5h16v14H4zM4 6l8 6 8-6" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></span><span><span class="contact-row__label">Email us</span><strong>info@ccucustom.com</strong></span></a>
         <div class="contact-row"><span class="contact-row__icon"><svg viewBox="0 0 24 24" fill="none"><path d="M12 21s-7-5.5-7-11a7 7 0 0114 0c0 5.5-7 11-7 11z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="12" cy="10" r="2.5" stroke="currentColor" stroke-width="2"/></svg></span><span><span class="contact-row__label">Showroom &amp; studio</span><strong>1180 Industrial Park Blvd, Suite 200<br>Atlanta, GA 30318</strong></span></div>
         <div class="contact-row"><span class="contact-row__icon"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M12 7v5l3 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span><span><span class="contact-row__label">Hours</span><strong>Mon–Fri 9am–6pm · Sat 10am–2pm</strong></span></div>
       </div>'''
     form = f'''<div data-reveal data-delay="1">
         <div class="form-card">
-          <form class="form" action="https://formspree.io/f/xykqkqao" method="POST" data-mailto-form data-mailto="hello@ccucustom.com" data-subject="Website contact message" novalidate>
+          <form class="form" action="https://formspree.io/f/xykqkqao" method="POST" data-mailto-form data-mailto="info@ccucustom.com" data-subject="Website contact message" novalidate>
             <input type="hidden" name="_subject" value="New website contact message" />
             <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true" />
             <div class="form-row">
@@ -424,7 +424,7 @@ def contact_page():
               </select></div>
             <div class="field"><label for="c-msg">Message <span class="req">*</span></label><textarea class="textarea" id="c-msg" name="Message" data-label="Message" placeholder="Tell us what you're looking for…" required></textarea></div>
             <button class="btn btn--gold btn--lg" type="submit">Send message {ARROW}</button>
-            <p class="muted" style="font-size:.82rem">Prefer to talk? Call <a href="tel:+16785550142" style="color:var(--accent)">(678) 555-0142</a> during business hours.</p>
+            <p class="muted" style="font-size:.82rem">Prefer to talk? Call <a href="tel:+14049678028" style="color:var(--accent)">(404) 967-8028</a> during business hours.</p>
           </form>
         </div>
         <div class="form-success"><div class="form-success__icon"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
@@ -448,7 +448,7 @@ def contact_page():
       <div class="map-wrap" data-reveal aria-hidden="false"><iframe title="Custom Creations Unlimited studio location map" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=Atlanta%2C%20GA%2030318&output=embed"></iframe></div>
     </div></section>'''
     return page("contact.html","Contact Custom Creations Unlimited | Custom Branding in Atlanta, GA",
-        "Contact Custom Creations Unlimited for custom embroidery, apparel, awards and engraving. Call (678) 555-0142, email hello@ccucustom.com, or visit our Atlanta studio. Mon–Fri 9–6.",
+        "Contact Custom Creations Unlimited for custom embroidery, apparel, awards and engraving. Call (404) 967-8028, email info@ccucustom.com, or visit our Atlanta studio. Mon–Fri 9–6.",
         "contact Custom Creations Unlimited, custom branding Atlanta, embroidery near me, request a quote, branding studio Atlanta",
         "contact", body)
 
@@ -472,7 +472,7 @@ def quote_page():
     <section class="section section--tight"><div class="container">
       <div class="quote-grid">
         <div class="form-card" data-reveal>
-          <form class="form" action="https://formspree.io/f/xykqkqao" method="POST" data-mailto-form data-mailto="hello@ccucustom.com" data-subject="New quote request" novalidate>
+          <form class="form" action="https://formspree.io/f/xykqkqao" method="POST" data-mailto-form data-mailto="info@ccucustom.com" data-subject="New quote request" novalidate>
             <input type="hidden" name="_subject" value="New quote request from the website" />
             <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true" />
             <div class="fieldset">
@@ -546,7 +546,7 @@ def quote_page():
           <div class="aside-card" style="background:var(--grad-ink);color:var(--text-inverse);border:0">
             <h3 style="color:#fff">Rather just call?</h3>
             <p style="color:rgba(247,244,238,.8);font-size:.92rem;margin-bottom:1rem">Talk through your project with a real person.</p>
-            <a class="btn btn--gold btn--block" href="tel:+16785550142">(678) 555-0142</a>
+            <a class="btn btn--gold btn--block" href="tel:+14049678028">(404) 967-8028</a>
           </div>
         </aside>
       </div>
@@ -567,7 +567,7 @@ def quote_page():
 # ==========================================================================
 FAQ_GROUPS = [
     ("Ordering & quotes", [
-        ("How do I get a quote?", "Use our <a href=\"quote.html\" style=\"color:var(--accent)\">quote builder</a>, email <a href=\"mailto:hello@ccucustom.com\" style=\"color:var(--accent)\">hello@ccucustom.com</a>, call (678) 555-0142, or stop by the studio. We reply with a free proof and exact pricing — usually within one business day."),
+        ("How do I get a quote?", "Use our <a href=\"quote.html\" style=\"color:var(--accent)\">quote builder</a>, email <a href=\"mailto:info@ccucustom.com\" style=\"color:var(--accent)\">info@ccucustom.com</a>, call (404) 967-8028, or stop by the studio. We reply with a free proof and exact pricing — usually within one business day."),
         ("Is there a minimum order?", "Most items have no minimum — order a single engraved gift or thousands of branded shirts. Screen printing is most cost-effective at 12+ pieces; we'll always recommend the best method for your quantity."),
         ("How much will my order cost?", "Pricing depends on the product, decoration method, quantity and number of colors. Per-piece cost drops as quantities grow. Send us the details and we'll give you transparent, itemized pricing — no hidden fees."),
         ("Do you require a deposit?", "For most orders we collect payment or a deposit once you approve your proof, before production begins. Established corporate accounts can be set up with terms."),

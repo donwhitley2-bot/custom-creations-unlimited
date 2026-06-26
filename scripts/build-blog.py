@@ -51,7 +51,7 @@ def header(active):
       <li><a class="mobile-nav__link" href="{P}faq.html">FAQ</a></li>
       <li><a class="mobile-nav__link" href="{P}contact.html">Contact</a></li>
     </ul>
-    <div class="mobile-nav__cta"><a class="btn btn--gold btn--lg btn--block" href="{P}quote.html">Request a Quote</a><a class="btn btn--ghost btn--lg btn--block" href="tel:+16785550142">Call (678) 555-0142</a></div>
+    <div class="mobile-nav__cta"><a class="btn btn--gold btn--lg btn--block" href="{P}quote.html">Request a Quote</a><a class="btn btn--ghost btn--lg btn--block" href="tel:+14049678028">Call (404) 967-8028</a></div>
   </div>'''
 
 FOOTER = f'''<footer class="site-footer"><div class="container"><div class="footer-top">
@@ -61,11 +61,11 @@ FOOTER = f'''<footer class="site-footer"><div class="container"><div class="foot
       </div>
       <div class="footer-col"><h4>Services</h4>{"".join(f'<a href="{P}services/{s}.html">{n}</a>' for s,n in SVC)}</div>
       <div class="footer-col"><h4>Company</h4><a href="{P}about.html">About Us</a><a href="{P}gallery.html">Gallery</a><a href="{P}industries.html">Industries</a><a href="index.html">Blog</a><a href="{P}faq.html">FAQ</a><a href="{P}contact.html">Contact</a></div>
-      <div class="footer-col"><h4>Get in touch</h4><a href="tel:+16785550142">(678) 555-0142</a><a href="mailto:hello@ccucustom.com">hello@ccucustom.com</a><a href="{P}contact.html">1180 Industrial Park Blvd<br>Atlanta, GA 30318</a></div>
+      <div class="footer-col"><h4>Get in touch</h4><a href="tel:+14049678028">(404) 967-8028</a><a href="mailto:info@ccucustom.com">info@ccucustom.com</a><a href="{P}contact.html">1180 Industrial Park Blvd<br>Atlanta, GA 30318</a></div>
     </div>
     <div class="footer-bottom"><span>© <span id="year"></span> Custom Creations Unlimited All rights reserved. · Atlanta, GA</span><nav aria-label="Legal"><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Accessibility</a></nav></div>
   </div></footer>
-  <div class="floating"><a class="fab fab--call" href="tel:+16785550142" aria-label="Call us"><svg viewBox="0 0 24 24" fill="none"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3 19.5 19.5 0 01-6-6 19.8 19.8 0 01-3-8.7A2 2 0 014.1 2h3a2 2 0 012 1.7c.1 1 .4 2 .7 2.9a2 2 0 01-.4 2.1L8.1 9.9a16 16 0 006 6l1.2-1.3a2 2 0 012.1-.4c.9.3 1.9.6 2.9.7a2 2 0 011.7 2z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></a><a class="fab fab--quote" href="{P}quote.html" aria-label="Request a quote"><svg viewBox="0 0 24 24" fill="none"><path d="M4 5h16v11H8l-4 4z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M8 9h8M8 12h5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></a></div>
+  <div class="floating"><a class="fab fab--call" href="tel:+14049678028" aria-label="Call us"><svg viewBox="0 0 24 24" fill="none"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3 19.5 19.5 0 01-6-6 19.8 19.8 0 01-3-8.7A2 2 0 014.1 2h3a2 2 0 012 1.7c.1 1 .4 2 .7 2.9a2 2 0 01-.4 2.1L8.1 9.9a16 16 0 006 6l1.2-1.3a2 2 0 012.1-.4c.9.3 1.9.6 2.9.7a2 2 0 011.7 2z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></a><a class="fab fab--quote" href="{P}quote.html" aria-label="Request a quote"><svg viewBox="0 0 24 24" fill="none"><path d="M4 5h16v11H8l-4 4z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M8 9h8M8 12h5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></a></div>
   <button class="back-to-top" id="backToTop" aria-label="Back to top"><svg viewBox="0 0 24 24" fill="none"><path d="M12 19V5M5 12l7-7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
   <script src="{P}assets/js/main.js" defer></script>'''
 
