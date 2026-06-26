@@ -118,7 +118,7 @@ FOOTER = f'''<footer class="site-footer">
         </div>
         <div class="footer-col"><h4>Get in touch</h4>
           <a href="tel:+16785550142">(678) 555-0142</a>
-          <a href="mailto:hello@customcreationsunlimited.com">hello@customcreationsunlimited.com</a>
+          <a href="mailto:hello@ccucustom.com">hello@ccucustom.com</a>
           <a href="contact.html">1180 Industrial Park Blvd<br>Atlanta, GA 30318</a>
         </div>
       </div>
@@ -148,13 +148,13 @@ def page(slug, title, desc, keywords, active, body, schema=""):
   <title>{title}</title>
   <meta name="description" content="{desc}" />
   <meta name="keywords" content="{keywords}" />
-  <link rel="canonical" href="https://www.customcreationsunlimited.com/{slug}" />
+  <link rel="canonical" href="https://www.ccucustom.com/{slug}" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Custom Creations Unlimited" />
   <meta property="og:title" content="{title}" />
   <meta property="og:description" content="{desc}" />
-  <meta property="og:url" content="https://www.customcreationsunlimited.com/{slug}" />
-  <meta property="og:image" content="https://www.customcreationsunlimited.com/assets/img/og-cover.jpg" />
+  <meta property="og:url" content="https://www.ccucustom.com/{slug}" />
+  <meta property="og:image" content="https://www.ccucustom.com/assets/img/og-cover.jpg" />
   <meta name="twitter:card" content="summary_large_image" />
   {FONT}
   <link rel="stylesheet" href="assets/css/styles.css" />
@@ -400,13 +400,13 @@ def about_page():
 def contact_page():
     info = f'''<div class="contact-info" data-reveal>
         <a class="contact-row" href="tel:+16785550142"><span class="contact-row__icon"><svg viewBox="0 0 24 24" fill="none"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3 19.5 19.5 0 01-6-6 19.8 19.8 0 01-3-8.7A2 2 0 014.1 2h3a2 2 0 012 1.7c.1 1 .4 2 .7 2.9a2 2 0 01-.4 2.1L8.1 9.9a16 16 0 006 6l1.2-1.3a2 2 0 012.1-.4c.9.3 1.9.6 2.9.7a2 2 0 011.7 2z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></span><span><span class="contact-row__label">Call us</span><strong>(678) 555-0142</strong></span></a>
-        <a class="contact-row" href="mailto:hello@customcreationsunlimited.com"><span class="contact-row__icon"><svg viewBox="0 0 24 24" fill="none"><path d="M4 5h16v14H4zM4 6l8 6 8-6" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></span><span><span class="contact-row__label">Email us</span><strong>hello@customcreationsunlimited.com</strong></span></a>
+        <a class="contact-row" href="mailto:hello@ccucustom.com"><span class="contact-row__icon"><svg viewBox="0 0 24 24" fill="none"><path d="M4 5h16v14H4zM4 6l8 6 8-6" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></span><span><span class="contact-row__label">Email us</span><strong>hello@ccucustom.com</strong></span></a>
         <div class="contact-row"><span class="contact-row__icon"><svg viewBox="0 0 24 24" fill="none"><path d="M12 21s-7-5.5-7-11a7 7 0 0114 0c0 5.5-7 11-7 11z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="12" cy="10" r="2.5" stroke="currentColor" stroke-width="2"/></svg></span><span><span class="contact-row__label">Showroom &amp; studio</span><strong>1180 Industrial Park Blvd, Suite 200<br>Atlanta, GA 30318</strong></span></div>
         <div class="contact-row"><span class="contact-row__icon"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M12 7v5l3 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span><span><span class="contact-row__label">Hours</span><strong>Mon–Fri 9am–6pm · Sat 10am–2pm</strong></span></div>
       </div>'''
     form = f'''<div data-reveal data-delay="1">
         <div class="form-card">
-          <form class="form" action="https://formspree.io/f/xykqkqao" method="POST" data-mailto-form data-mailto="hello@customcreationsunlimited.com" data-subject="Website contact message" novalidate>
+          <form class="form" action="https://formspree.io/f/xykqkqao" method="POST" data-mailto-form data-mailto="hello@ccucustom.com" data-subject="Website contact message" novalidate>
             <input type="hidden" name="_subject" value="New website contact message" />
             <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true" />
             <div class="form-row">
@@ -448,7 +448,7 @@ def contact_page():
       <div class="map-wrap" data-reveal aria-hidden="false"><iframe title="Custom Creations Unlimited studio location map" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=Atlanta%2C%20GA%2030318&output=embed"></iframe></div>
     </div></section>'''
     return page("contact.html","Contact Custom Creations Unlimited | Custom Branding in Atlanta, GA",
-        "Contact Custom Creations Unlimited for custom embroidery, apparel, awards and engraving. Call (678) 555-0142, email hello@customcreationsunlimited.com, or visit our Atlanta studio. Mon–Fri 9–6.",
+        "Contact Custom Creations Unlimited for custom embroidery, apparel, awards and engraving. Call (678) 555-0142, email hello@ccucustom.com, or visit our Atlanta studio. Mon–Fri 9–6.",
         "contact Custom Creations Unlimited, custom branding Atlanta, embroidery near me, request a quote, branding studio Atlanta",
         "contact", body)
 
@@ -472,7 +472,7 @@ def quote_page():
     <section class="section section--tight"><div class="container">
       <div class="quote-grid">
         <div class="form-card" data-reveal>
-          <form class="form" action="https://formspree.io/f/xykqkqao" method="POST" data-mailto-form data-mailto="hello@customcreationsunlimited.com" data-subject="New quote request" novalidate>
+          <form class="form" action="https://formspree.io/f/xykqkqao" method="POST" data-mailto-form data-mailto="hello@ccucustom.com" data-subject="New quote request" novalidate>
             <input type="hidden" name="_subject" value="New quote request from the website" />
             <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true" />
             <div class="fieldset">
@@ -567,7 +567,7 @@ def quote_page():
 # ==========================================================================
 FAQ_GROUPS = [
     ("Ordering & quotes", [
-        ("How do I get a quote?", "Use our <a href=\"quote.html\" style=\"color:var(--accent)\">quote builder</a>, email <a href=\"mailto:hello@customcreationsunlimited.com\" style=\"color:var(--accent)\">hello@customcreationsunlimited.com</a>, call (678) 555-0142, or stop by the studio. We reply with a free proof and exact pricing — usually within one business day."),
+        ("How do I get a quote?", "Use our <a href=\"quote.html\" style=\"color:var(--accent)\">quote builder</a>, email <a href=\"mailto:hello@ccucustom.com\" style=\"color:var(--accent)\">hello@ccucustom.com</a>, call (678) 555-0142, or stop by the studio. We reply with a free proof and exact pricing — usually within one business day."),
         ("Is there a minimum order?", "Most items have no minimum — order a single engraved gift or thousands of branded shirts. Screen printing is most cost-effective at 12+ pieces; we'll always recommend the best method for your quantity."),
         ("How much will my order cost?", "Pricing depends on the product, decoration method, quantity and number of colors. Per-piece cost drops as quantities grow. Send us the details and we'll give you transparent, itemized pricing — no hidden fees."),
         ("Do you require a deposit?", "For most orders we collect payment or a deposit once you approve your proof, before production begins. Established corporate accounts can be set up with terms."),

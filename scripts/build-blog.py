@@ -61,7 +61,7 @@ FOOTER = f'''<footer class="site-footer"><div class="container"><div class="foot
       </div>
       <div class="footer-col"><h4>Services</h4>{"".join(f'<a href="{P}services/{s}.html">{n}</a>' for s,n in SVC)}</div>
       <div class="footer-col"><h4>Company</h4><a href="{P}about.html">About Us</a><a href="{P}gallery.html">Gallery</a><a href="{P}industries.html">Industries</a><a href="index.html">Blog</a><a href="{P}faq.html">FAQ</a><a href="{P}contact.html">Contact</a></div>
-      <div class="footer-col"><h4>Get in touch</h4><a href="tel:+16785550142">(678) 555-0142</a><a href="mailto:hello@customcreationsunlimited.com">hello@customcreationsunlimited.com</a><a href="{P}contact.html">1180 Industrial Park Blvd<br>Atlanta, GA 30318</a></div>
+      <div class="footer-col"><h4>Get in touch</h4><a href="tel:+16785550142">(678) 555-0142</a><a href="mailto:hello@ccucustom.com">hello@ccucustom.com</a><a href="{P}contact.html">1180 Industrial Park Blvd<br>Atlanta, GA 30318</a></div>
     </div>
     <div class="footer-bottom"><span>© <span id="year"></span> Custom Creations Unlimited All rights reserved. · Atlanta, GA</span><nav aria-label="Legal"><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Accessibility</a></nav></div>
   </div></footer>
@@ -79,11 +79,11 @@ def page(slug, title, desc, keywords, active, body, schema=""):
   <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="theme-color" content="#0a0a0f" />
   <title>{title}</title>
   <meta name="description" content="{desc}" /><meta name="keywords" content="{keywords}" />
-  <link rel="canonical" href="https://www.customcreationsunlimited.com/blog/{slug}" />
+  <link rel="canonical" href="https://www.ccucustom.com/blog/{slug}" />
   <meta property="og:type" content="article" /><meta property="og:site_name" content="Custom Creations Unlimited" />
   <meta property="og:title" content="{title}" /><meta property="og:description" content="{desc}" />
-  <meta property="og:url" content="https://www.customcreationsunlimited.com/blog/{slug}" />
-  <meta property="og:image" content="https://www.customcreationsunlimited.com/assets/img/og-cover.jpg" /><meta name="twitter:card" content="summary_large_image" />
+  <meta property="og:url" content="https://www.ccucustom.com/blog/{slug}" />
+  <meta property="og:image" content="https://www.ccucustom.com/assets/img/og-cover.jpg" /><meta name="twitter:card" content="summary_large_image" />
   {FONT}
   <link rel="stylesheet" href="{P}assets/css/styles.css" /><link rel="icon" href="{FAVICON}" />
   {schema}
@@ -231,7 +231,7 @@ def post_page(post):
         "description": post["excerpt"], "datePublished": post["date"],
         "author": {"@type": "Person", "name": post["author"]},
         "publisher": {"@type": "Organization", "name": "Custom Creations Unlimited"},
-        "mainEntityOfPage": f"https://www.customcreationsunlimited.com/blog/{post['slug']}.html",
+        "mainEntityOfPage": f"https://www.ccucustom.com/blog/{post['slug']}.html",
     }) + '</script>'
     related = "".join(card(BYSLUG[s]) for s in post.get("related", []) if s in BYSLUG)
     body = f'''    <article>
@@ -311,7 +311,7 @@ def blog_index():
       </form>
       <p id="news-msg" style="font-size:.85rem;margin-top:.8rem;color:var(--gold-300)" hidden>Thanks — you're on the list!</p>
     </div></div></div></section>'''
-    schema = '<script type="application/ld+json">{"@context":"https://schema.org","@type":"Blog","name":"Custom Creations Unlimited Journal","url":"https://www.customcreationsunlimited.com/blog/"}</script>'
+    schema = '<script type="application/ld+json">{"@context":"https://schema.org","@type":"Blog","name":"Custom Creations Unlimited Journal","url":"https://www.ccucustom.com/blog/"}</script>'
     return page("index.html", "Blog | Custom Branding Tips & Guides | Custom Creations Unlimited",
         "The Custom Creations Unlimited journal — practical guides on custom apparel, embroidery, promotional products, awards and corporate gifting from a premium branding house.",
         "custom branding blog, embroidery tips, promotional products guide, corporate gifting, awards, apparel printing",

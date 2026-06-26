@@ -5,4 +5,4 @@ Allow: /
 # User-agent: GPTBot
 # Disallow: /
 
-Sitemap: https://www.customcreationsunlimited.com/sitemap.xml
+Sitemap: https://www.ccucustom.com/sitemap.xml

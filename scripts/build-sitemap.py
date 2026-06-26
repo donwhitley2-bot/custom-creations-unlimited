@@ -6,7 +6,7 @@ Run after the other generators:  python3 scripts/build-sitemap.py
 import os, datetime
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.normpath(os.path.join(HERE, ".."))
-DOMAIN = "https://www.customcreationsunlimited.com"
+DOMAIN = "https://www.ccucustom.com"
 TODAY = datetime.date.today().isoformat()
 
 def priority(rel):

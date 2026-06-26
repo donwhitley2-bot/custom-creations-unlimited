@@ -142,7 +142,7 @@ bash scripts/build-all.sh
 ```
 
 ### Still sample data (swap before launch)
-- **Business facts** — phone `(678) 555-0142`, address, hours, email `hello@customcreationsunlimited.com`,
+- **Business facts** — phone `(678) 555-0142`, address, hours, email `hello@ccucustom.com`,
   social URLs. Search/replace with the real ones.
 - **Reviews / client names / team names** are realistic samples.
 
@@ -184,7 +184,7 @@ It's static — host anywhere:
 - [ ] Update canonical/OG URLs to the real domain.
 - [x] Forms wired to Formspree (`f/xykqkqao`) — confirm the form once on first submission.
 - [x] `sitemap.xml` + `robots.txt` generated (`python3 scripts/build-sitemap.py` to refresh).
-- [ ] Update the domain in `build-sitemap.py` / canonical tags if not `customcreationsunlimited.com`.
+- [ ] Update the domain in `build-sitemap.py` / canonical tags if not `ccucustom.com`.
 - [ ] Add GA4 / Google Tag Manager snippet to the `<head>` (in each generator's head block).
 
 ---

@@ -418,13 +418,13 @@ TEMPLATE = Template(r"""<!DOCTYPE html>
   <title>$meta_title</title>
   <meta name="description" content="$meta_desc" />
   <meta name="keywords" content="$keywords" />
-  <link rel="canonical" href="https://www.customcreationsunlimited.com/services/$slug.html" />
+  <link rel="canonical" href="https://www.ccucustom.com/services/$slug.html" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Custom Creations Unlimited" />
   <meta property="og:title" content="$meta_title" />
   <meta property="og:description" content="$meta_desc" />
-  <meta property="og:url" content="https://www.customcreationsunlimited.com/services/$slug.html" />
-  <meta property="og:image" content="https://www.customcreationsunlimited.com/assets/img/og-cover.jpg" />
+  <meta property="og:url" content="https://www.ccucustom.com/services/$slug.html" />
+  <meta property="og:image" content="https://www.ccucustom.com/assets/img/og-cover.jpg" />
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -449,9 +449,9 @@ TEMPLATE = Template(r"""<!DOCTYPE html>
   </script>
   <script type="application/ld+json">
   { "@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
-    {"@type":"ListItem","position":1,"name":"Home","item":"https://www.customcreationsunlimited.com/"},
-    {"@type":"ListItem","position":2,"name":"Services","item":"https://www.customcreationsunlimited.com/#services"},
-    {"@type":"ListItem","position":3,"name":"$label","item":"https://www.customcreationsunlimited.com/services/$slug.html"}
+    {"@type":"ListItem","position":1,"name":"Home","item":"https://www.ccucustom.com/"},
+    {"@type":"ListItem","position":2,"name":"Services","item":"https://www.ccucustom.com/#services"},
+    {"@type":"ListItem","position":3,"name":"$label","item":"https://www.ccucustom.com/services/$slug.html"}
   ]}
   </script>
 </head>
@@ -709,7 +709,7 @@ TEMPLATE = Template(r"""<!DOCTYPE html>
         <div class="footer-col">
           <h4>Get in touch</h4>
           <a href="tel:+16785550142">(678) 555-0142</a>
-          <a href="mailto:hello@customcreationsunlimited.com">hello@customcreationsunlimited.com</a>
+          <a href="mailto:hello@ccucustom.com">hello@ccucustom.com</a>
           <a href="../contact.html">1180 Industrial Park Blvd<br>Atlanta, GA 30318</a>
         </div>
       </div>
