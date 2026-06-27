@@ -465,7 +465,7 @@ TEMPLATE = Template(r"""<!DOCTYPE html>
           <rect width="40" height="40" rx="9" fill="currentColor" style="color:var(--ink-900)"/>
           <text x="20" y="26" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="13" font-weight="700" fill="var(--gold-400)" style="letter-spacing:.5px">CCU</text>
         </svg>
-        <span class="brand__name">Custom Creations Unlimited</span>
+        <span class="brand__name">Custom Creations</span>
       </a>
       <nav class="primary-nav" aria-label="Primary">
         <ul class="nav-list">
@@ -687,7 +687,7 @@ TEMPLATE = Template(r"""<!DOCTYPE html>
               <rect width="40" height="40" rx="9" fill="#16161f"/>
               <text x="20" y="26" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="13" font-weight="700" fill="var(--gold-400)" style="letter-spacing:.5px">CCU</text>
             </svg>
-            <span class="brand__name">Custom Creations Unlimited</span>
+            <span class="brand__name">Custom Creations</span>
           </a>
           <p>A premium custom branding house — embroidery, apparel, promotional products, awards, laser engraving and personalized gifts, all under one roof.</p>
           <div class="footer-social">
