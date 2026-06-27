@@ -4,7 +4,7 @@ Custom Creations Unlimited blog generator: blog/index.html + individual posts.
 Lives one level deep, so all shared links use the '../' prefix.
 Run:  python3 scripts/build-blog.py
 """
-import os
+import os, datetime
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.normpath(os.path.join(HERE, ".."))
 OUT = os.path.join(ROOT, "blog")
@@ -212,6 +212,13 @@ POSTS = [
         "related": ["corporate-gifting-that-works", "build-a-uniform-program"],
     },
 ]
+# Dates are computed relative to today so the blog always looks current.
+# Offsets (days ago) aligned to POSTS order (index 0 = featured/newest).
+_today = datetime.date.today()
+for _p, _ago in zip(POSTS, (2, 9, 18, 30, 44)):
+    _d = _today - datetime.timedelta(days=_ago)
+    _p["date"] = f"{_d.strftime('%B')} {_d.day}, {_d.year}"
+
 BYSLUG = {p["slug"]: p for p in POSTS}
 
 def render_blocks(blocks):
