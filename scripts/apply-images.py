@@ -38,6 +38,7 @@ NAMES = {"jordan": 0, "riley": 1, "sam": 2, "taylor": 3}  # team headshots
 # shows its own product.
 LABEL_MAP = {
     "Printing": "printing-1.webp",
+    "Branding": "uniform-1.webp",  # uniform-program blog post
     # Promotional Products
     "Tumblers & Mugs":  "prod-tumblers.webp",
     "Pens":             "prod-pens.webp",
