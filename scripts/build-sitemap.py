@@ -47,7 +47,7 @@ def main():
         f.write(sitemap)
 
     robots = ("User-agent: *\n"
-              "Allow: /\n\n"
+              "Allow: /\nDisallow: /tools/\n\n"
               "# Be polite to AI/marketing scrapers if desired by uncommenting:\n"
               "# User-agent: GPTBot\n# Disallow: /\n\n"
               f"Sitemap: {DOMAIN}/sitemap.xml\n")

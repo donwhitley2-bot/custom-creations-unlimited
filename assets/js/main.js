@@ -313,6 +313,24 @@
     });
   });
 
+  /* ---------- Tools menu password gate ------------------------------------ */
+  (function () {
+    var KEY = "ccuToolsAuth", PW = "JustLaserIt";
+    function authed() { try { return sessionStorage.getItem(KEY) === "1"; } catch (e) { return false; } }
+    document.querySelectorAll(".js-tools-link").forEach(function (a) {
+      a.addEventListener("click", function (e) {
+        if (authed()) return;
+        e.preventDefault();
+        var pw = window.prompt("This area is password protected.\nEnter the Tools password:");
+        if (pw === null) return;
+        if (pw === PW) {
+          try { sessionStorage.setItem(KEY, "1"); } catch (_) {}
+          window.location.href = a.getAttribute("href");
+        } else { window.alert("Incorrect password."); }
+      });
+    });
+  })();
+
   /* ---------- Footer year -------------------------------------------------- */
   var yearEl = document.getElementById("year");
   if (yearEl) yearEl.textContent = new Date().getFullYear();

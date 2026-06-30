@@ -318,6 +318,9 @@ h3 { font-size: var(--fs-h3); }
   display: flex; align-items: center; justify-content: space-between; gap: 1rem;
 }
 .mega-foot span { font-size: .9rem; color: var(--text-muted); }
+.mega--tools { width: min(340px, 92vw); }
+.mega--tools .mega-grid { grid-template-columns: 1fr; }
+.mega--tools .mega-foot { justify-content: flex-start; }
 
 /* Mobile nav */
 .nav-toggle { display: none; }

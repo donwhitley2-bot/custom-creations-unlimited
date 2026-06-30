@@ -1,5 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /tools/
 
 # Be polite to AI/marketing scrapers if desired by uncommenting:
 # User-agent: GPTBot
