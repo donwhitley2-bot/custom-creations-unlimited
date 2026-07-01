@@ -202,6 +202,7 @@ GAL_ITEMS = [
     ("awards","Awards","Crystal gala awards","span-4"),
     ("laser","Laser Engraving","Memorial slate sign","span-4"),
     ("drinkware","Drinkware","Branded mug program","span-4"),
+    ("drinkware","Drinkware","Personalized whiskey glasses","span-4"),
     ("promotional","Promotional","Trade-show giveaways","span-6 tall"),
     ("branding","Business Branding","Signage & banners","span-6"),
     ("gifts","Custom Gifts","Holiday client gifts","span-6"),

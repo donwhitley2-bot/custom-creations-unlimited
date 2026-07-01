@@ -138,6 +138,7 @@ LABEL_MAP = {
     # Gallery page / homepage extras
     "Full brand rollout":  "branding-1.webp",
     "Branded mug program": "drinkware-1.webp",
+    "Personalized whiskey glasses": "drinkware-3.webp",
     "Signage & banners":   "prod-signs.webp",
     "Memorial engraving":  "prod-memorial.webp",
 }
