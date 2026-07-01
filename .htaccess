@@ -1,0 +1,5 @@
+# Custom Creations Unlimited — hide source/build files from the public web
+RedirectMatch 404 ^/scripts(/|$)
+RedirectMatch 404 ^/\.git(/|$)
+RedirectMatch 404 \.(py|sh|md)$
+RedirectMatch 404 ^/CNAME$
