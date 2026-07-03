@@ -254,7 +254,7 @@ h3 { font-size: var(--fs-h3); }
 /* Note: no flex `gap` here — Safari mis-handles `gap` + `margin-left:auto`
    together, collapsing the nav toward the brand. Explicit margins instead. */
 .header-inner { display: flex; align-items: center; width: 100%; }
-.header-inner > .brand { margin-right: 2rem; }
+.header-inner > .brand { margin-right: 3.5rem; }
 
 .brand { display: inline-flex; align-items: center; gap: .65rem; font-family: var(--font-display); }
 .brand__mark { width: 38px; height: 38px; flex: none; }
