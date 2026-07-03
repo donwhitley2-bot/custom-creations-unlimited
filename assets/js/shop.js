@@ -13,7 +13,7 @@ const SHOP_CONFIG = {
      empty (""), that product falls back to the "email me a secure invoice"
      flow instead of instant card checkout. */
   stripeLinks: {
-    "whiskey-glasses": "",
+    "whiskey-glasses": "https://buy.stripe.com/4gM4gz3SB0h8fhZ3fHfrW00",
     "engraved-tumbler": "",
     "cutting-board": "",
     "coffee-mug": "",
