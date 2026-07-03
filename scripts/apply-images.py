@@ -163,6 +163,14 @@ def image_for(label):
             return pick(cat)
     return pick("branding")
 
+# Cache-busting: bump the version when a file's contents change but its name
+# stays the same, so browsers/CDNs fetch the fresh copy. Key = bare filename.
+IMG_VERSION = {"drinkware-3.webp": "2"}
+
+def versioned(f):
+    base = f.split("/")[-1]
+    return f + "?v=" + IMG_VERSION[base] if base in IMG_VERSION else f
+
 PH_RE = re.compile(r'<div class="ph"\s+data-label="([^"]*)"[^>]*>.*?</div>', re.DOTALL)
 
 def process(path, prefix):
@@ -173,7 +181,7 @@ def process(path, prefix):
         if not f:
             return m.group(0)
         alt = htmllib.unescape(label)
-        return (f'<img class="ph-img" src="{prefix}{f}" alt="{alt}" '
+        return (f'<img class="ph-img" src="{prefix}{versioned(f)}" alt="{alt}" '
                 f'loading="lazy" decoding="async" />')
     out, n = PH_RE.subn(repl, src)
     if n:
