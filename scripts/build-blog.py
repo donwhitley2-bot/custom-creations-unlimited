@@ -86,7 +86,7 @@ def page(slug, title, desc, keywords, active, body, schema=""):
   <meta property="og:url" content="https://www.ccucustom.com/blog/{slug}" />
   <meta property="og:image" content="https://www.ccucustom.com/assets/img/og-cover.jpg" /><meta name="twitter:card" content="summary_large_image" />
   {FONT}
-  <link rel="stylesheet" href="{P}assets/css/styles.css" /><link rel="icon" href="{FAVICON}" />
+  <link rel="stylesheet" href="{P}assets/css/styles.css?v=2" /><link rel="icon" href="{FAVICON}" />
   {schema}
 </head>
 <body>
