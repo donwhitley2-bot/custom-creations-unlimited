@@ -313,7 +313,7 @@ EQUIP = [
     ("In-house design studio","Digitizing, vectorizing and original artwork — proofs before production."),
 ]
 TEAM = [
-    ("Jordan Avery","Founder & CEO","Started Custom Creations Unlimited in a garage with one embroidery machine and a refusal to ship anything less than perfect."),
+    ("Don Whitley","Owner & CEO","Founded Custom Creations Unlimited on one rule — treat every logo like it's our own, and never ship anything less than perfect."),
     ("Riley Chen","Head of Production","Keeps every machine humming and every deadline met — the reason 98% of orders ship on time."),
     ("Sam Delgado","Design Director","Turns rough ideas and low-res logos into production-ready art that looks premium on anything."),
     ("Taylor Brooks","Client Success","Your single point of contact for quotes, proofs, reorders and the occasional last-minute rescue."),
@@ -325,8 +325,11 @@ def about_page():
     equip = "".join(
         f'''<div class="card" data-reveal data-delay="{i%3}" style="padding:1.5rem"><h3 style="font-size:1.12rem;margin-bottom:.4rem">{t}</h3><p class="muted" style="font-size:.92rem">{d}</p></div>'''
         for i,(t,d) in enumerate(EQUIP))
+    def initials(name):
+        parts = [p for p in name.split() if p]
+        return (parts[0][0] + (parts[1][0] if len(parts) > 1 else "")).upper()
     team = "".join(
-        f'''<article class="team-card" data-reveal data-delay="{i%4}"><div class="team-card__photo"><div class="ph" data-label="{n.split()[0]}"></div></div><h3>{n}</h3><div class="role">{r}</div><p>{b}</p></article>'''
+        f'''<article class="team-card" data-reveal data-delay="{i%4}"><div class="team-card__photo team-card__photo--mono" aria-hidden="true"><span class="team-mono">{initials(n)}</span></div><h3>{n}</h3><div class="role">{r}</div><p>{b}</p></article>'''
         for i,(n,r,b) in enumerate(TEAM))
     body = f'''    <section class="page-hero"><div class="page-hero__bg" aria-hidden="true"></div>
       <div class="container"><div class="page-hero__inner">

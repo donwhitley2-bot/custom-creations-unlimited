@@ -885,6 +885,9 @@ select.select {
 .team-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.3rem; }
 .team-card { text-align: left; }
 .team-card__photo { aspect-ratio: 1; border-radius: var(--radius-lg); overflow: hidden; margin-bottom: 1rem; background: var(--grad-ink); }
+.team-card__photo--mono { display: flex; align-items: center; justify-content: center; position: relative; }
+.team-card__photo--mono::after { content: ""; position: absolute; inset: 0; background: var(--grad-sheen); pointer-events: none; }
+.team-mono { font-family: var(--font-display); font-weight: 600; font-size: clamp(2.4rem, 1.6rem + 3vw, 3.4rem); letter-spacing: .04em; color: var(--gold-400); }
 .team-card h3 { font-size: 1.15rem; }
 .team-card .role { color: var(--accent); font-size: .88rem; font-weight: 600; }
 .team-card p { color: var(--text-muted); font-size: .9rem; margin-top: .5rem; }
