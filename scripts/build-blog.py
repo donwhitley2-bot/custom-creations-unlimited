@@ -16,9 +16,10 @@ SVC = [
     ("laser-engraving", "Laser Engraving"), ("personalized-gifts", "Personalized Gifts"),
 ]
 ARROW = '<svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>'
-NAV = [(P+"index.html","Home","home"),(P+"index.html#services","Services","services"),
+NAV = [(P+"index.html","Home","home"),(P+"about.html","About","about"),
+       (P+"index.html#services","Services","services"),
        (P+"gallery.html","Gallery","gallery"),(P+"industries.html","Industries","industries"),
-       (P+"about.html","About","about"),("index.html","Blog","blog"),
+       ("index.html","Blog","blog"),
        (P+"faq.html","FAQ","faq"),(P+"contact.html","Contact","contact")]
 
 def header(active):
@@ -42,11 +43,11 @@ def header(active):
       </div></div></header>
   <div class="mobile-nav" id="mobileNav" aria-hidden="true"><ul class="mobile-nav__list">
       <li><a class="mobile-nav__link" href="{P}index.html">Home</a></li>
+      <li><a class="mobile-nav__link" href="{P}about.html">About</a></li>
       <li><button class="mobile-nav__link" data-sub="m-services" aria-expanded="false">Services <svg viewBox="0 0 24 24" fill="none" width="20"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
         <div class="mobile-nav__sub" id="m-services">{"".join(f'<a href="{P}services/{s}.html">{n}</a>' for s,n in SVC)}</div></li>
       <li><a class="mobile-nav__link" href="{P}gallery.html">Gallery</a></li>
       <li><a class="mobile-nav__link" href="{P}industries.html">Industries</a></li>
-      <li><a class="mobile-nav__link" href="{P}about.html">About</a></li>
       <li><a class="mobile-nav__link" href="index.html">Blog</a></li>
       <li><a class="mobile-nav__link" href="{P}faq.html">FAQ</a></li>
       <li><a class="mobile-nav__link" href="{P}contact.html">Contact</a></li>

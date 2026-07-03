@@ -470,6 +470,7 @@ TEMPLATE = Template(r"""<!DOCTYPE html>
       <nav class="primary-nav" aria-label="Primary">
         <ul class="nav-list">
           <li class="nav-item"><a class="nav-link" href="../index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="../about.html">About</a></li>
           <li class="nav-item nav-item--has-mega">
             <a class="nav-link" href="../index.html#services" aria-haspopup="true">Services
               <svg class="chev" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -486,7 +487,6 @@ TEMPLATE = Template(r"""<!DOCTYPE html>
           </li>
           <li class="nav-item"><a class="nav-link" href="../gallery.html">Gallery</a></li>
           <li class="nav-item"><a class="nav-link" href="../industries.html">Industries</a></li>
-          <li class="nav-item"><a class="nav-link" href="../about.html">About</a></li>
           <li class="nav-item"><a class="nav-link" href="../blog/index.html">Blog</a></li>
           <li class="nav-item"><a class="nav-link" href="../faq.html">FAQ</a></li>
           <li class="nav-item"><a class="nav-link" href="../contact.html">Contact</a></li>
@@ -508,6 +508,7 @@ TEMPLATE = Template(r"""<!DOCTYPE html>
   <div class="mobile-nav" id="mobileNav" aria-hidden="true">
     <ul class="mobile-nav__list">
       <li><a class="mobile-nav__link" href="../index.html">Home</a></li>
+      <li><a class="mobile-nav__link" href="../about.html">About</a></li>
       <li>
         <button class="mobile-nav__link" data-sub="m-services" aria-expanded="false">Services
           <svg viewBox="0 0 24 24" fill="none" width="20"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -519,7 +520,6 @@ TEMPLATE = Template(r"""<!DOCTYPE html>
       </li>
       <li><a class="mobile-nav__link" href="../gallery.html">Gallery</a></li>
       <li><a class="mobile-nav__link" href="../industries.html">Industries</a></li>
-      <li><a class="mobile-nav__link" href="../about.html">About</a></li>
       <li><a class="mobile-nav__link" href="../blog/index.html">Blog</a></li>
       <li><a class="mobile-nav__link" href="../faq.html">FAQ</a></li>
       <li><a class="mobile-nav__link" href="../contact.html">Contact</a></li>

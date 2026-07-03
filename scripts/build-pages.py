@@ -24,9 +24,10 @@ STAR = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9.
 def svc_icon(p):
     return f'<svg viewBox="0 0 24 24" fill="none"><path d="{p}" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>'
 
-NAV = [("index.html", "Home", "home"), ("index.html#services", "Services", "services"),
+NAV = [("index.html", "Home", "home"), ("about.html", "About", "about"),
+       ("index.html#services", "Services", "services"),
        ("gallery.html", "Gallery", "gallery"), ("industries.html", "Industries", "industries"),
-       ("about.html", "About", "about"), ("blog/index.html", "Blog", "blog"),
+       ("blog/index.html", "Blog", "blog"),
        ("faq.html", "FAQ", "faq"), ("contact.html", "Contact", "contact")]
 
 def header(active):
@@ -76,6 +77,7 @@ def header(active):
   <div class="mobile-nav" id="mobileNav" aria-hidden="true">
     <ul class="mobile-nav__list">
       <li><a class="mobile-nav__link" href="index.html">Home</a></li>
+      <li><a class="mobile-nav__link" href="about.html">About</a></li>
       <li><button class="mobile-nav__link" data-sub="m-services" aria-expanded="false">Services
         <svg viewBox="0 0 24 24" fill="none" width="20"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
         <div class="mobile-nav__sub" id="m-services">
@@ -83,7 +85,6 @@ def header(active):
         </div></li>
       <li><a class="mobile-nav__link" href="gallery.html">Gallery</a></li>
       <li><a class="mobile-nav__link" href="industries.html">Industries</a></li>
-      <li><a class="mobile-nav__link" href="about.html">About</a></li>
       <li><a class="mobile-nav__link" href="blog/index.html">Blog</a></li>
       <li><a class="mobile-nav__link" href="faq.html">FAQ</a></li>
       <li><a class="mobile-nav__link" href="contact.html">Contact</a></li>
