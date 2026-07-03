@@ -36,7 +36,7 @@ const SHOP_CONFIG = {
    name/initial + artwork-upload fields on the order page.
    -------------------------------------------------------------------------- */
 const PRODUCTS = [
-  { id: "whiskey-glasses", name: "Personalized Whiskey Glasses", price: 34.99, unit: "set of 2",
+  { id: "whiskey-glasses", name: "Personalized Whiskey Glasses", price: 42.99, unit: "set of 2",
     img: "assets/img/drinkware-3.webp", cat: "Drinkware",
     blurb: "A pair of heavy-base rocks glasses, laser-etched with the name, initial or monogram of your choice.",
     personalize: true },
