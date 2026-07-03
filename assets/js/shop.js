@@ -235,20 +235,34 @@ function wireOrderForm(product, hasStripe) {
     submitBtn.disabled = true;
     submitBtn.classList.add("is-loading");
 
+    const stripeUrl = SHOP_CONFIG.stripeLinks[product.id];
+
+    // Best-effort: record the customization details before payment.
+    // Uses a timeout so a slow/blocked endpoint can never strand the customer.
     let sent = false;
     if (SHOP_CONFIG.formEndpoint) {
+      const ctrl = new AbortController();
+      const timer = setTimeout(() => ctrl.abort(), 7000);
       try {
         const fd = new FormData(form);
+        fd.append("_orderpage", window.location.href);
         const res = await fetch(SHOP_CONFIG.formEndpoint, {
-          method: "POST", body: fd, headers: { Accept: "application/json" }
+          method: "POST", body: fd, headers: { Accept: "application/json" }, signal: ctrl.signal
         });
         sent = res.ok;
       } catch (_) { sent = false; }
+      finally { clearTimeout(timer); }
     }
 
+    // If this product has a Stripe link, go straight to secure card checkout.
+    if (stripeUrl) {
+      window.location.href = stripeUrl;   // navigating away; leave button in loading state
+      return;
+    }
+
+    // No Stripe link yet → fall back to the "email me an invoice" flow.
     submitBtn.disabled = false;
     submitBtn.classList.remove("is-loading");
-
     if (sent) showSuccess();
     else mailtoFallback();
   });
