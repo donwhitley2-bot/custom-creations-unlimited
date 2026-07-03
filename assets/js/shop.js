@@ -144,7 +144,7 @@ function renderOrderPage() {
               <strong>Click to upload</strong> or drag &amp; drop<br><span style="font-size:.8rem">PNG, JPG, PDF, AI, EPS or SVG</span>
               <span class="upload__name" hidden></span>
             </label>
-            <span class="hint">If uploads aren't enabled yet, we'll request your artwork by email after you order.</span></div>
+            <span class="hint">Your artwork uploads securely with your order — we'll send a free proof before we produce anything.</span></div>
           ` : ""}
           <div class="field" style="margin-top:1.2rem"><label for="o-qty">Quantity <span class="req">*</span></label>
             <input class="input" type="number" min="1" value="1" id="o-qty" name="Quantity" required style="max-width:160px" /></div>

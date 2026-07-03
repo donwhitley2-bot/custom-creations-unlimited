@@ -506,7 +506,7 @@ def quote_page():
                   <strong>Click to upload</strong> or drag &amp; drop<br><span style="font-size:.8rem">PNG, JPG, PDF, AI, EPS or SVG</span>
                   <span class="upload__name" hidden></span>
                 </label>
-                <span class="hint">Heads up: file attachments are added in your email app after you submit.</span></div>
+                <span class="hint">Your file uploads securely with your request — no need to email it separately.</span></div>
             </div>
 
             <div class="fieldset">
