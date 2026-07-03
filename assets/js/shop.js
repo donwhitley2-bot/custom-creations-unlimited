@@ -159,7 +159,24 @@ function renderOrderPage() {
             <div class="field"><label for="o-ship">Delivery</label>
               <select class="select" id="o-ship" name="Delivery"><option>Ship to me</option><option>Local pickup (Atlanta)</option></select></div>
           </div>
-          <div class="field"><label for="o-notes">Notes / special instructions</label>
+
+          <div id="shipFields">
+            <h2 class="order-form__step">3 · Shipping address</h2>
+            <div class="field"><label for="o-addr1">Street address <span class="req">*</span></label>
+              <input class="input" id="o-addr1" name="Address" placeholder="123 Main St" autocomplete="address-line1" required /></div>
+            <div class="field" style="margin-top:1rem"><label for="o-addr2">Apt / suite <span class="muted">(optional)</span></label>
+              <input class="input" id="o-addr2" name="Address line 2" placeholder="Apartment, suite, unit" autocomplete="address-line2" /></div>
+            <div class="form-row" style="margin-top:1rem">
+              <div class="field"><label for="o-city">City <span class="req">*</span></label><input class="input" id="o-city" name="City" autocomplete="address-level2" required /></div>
+              <div class="field"><label for="o-state">State <span class="req">*</span></label><input class="input" id="o-state" name="State" autocomplete="address-level1" required /></div>
+            </div>
+            <div class="form-row" style="margin-top:1rem">
+              <div class="field"><label for="o-zip">ZIP code <span class="req">*</span></label><input class="input" id="o-zip" name="ZIP" inputmode="numeric" autocomplete="postal-code" required /></div>
+              <div class="field"><label for="o-country">Country</label><input class="input" id="o-country" name="Country" value="United States" autocomplete="country-name" /></div>
+            </div>
+          </div>
+
+          <div class="field" style="margin-top:1.4rem"><label for="o-notes">Notes / special instructions</label>
             <textarea class="textarea" id="o-notes" name="Notes" placeholder="Font preference, colors, spelling, event date…"></textarea></div>
 
           <button class="btn btn--gold btn--lg" type="submit" id="orderSubmit">
@@ -186,6 +203,19 @@ function wireOrderForm(product, hasStripe) {
   const successPanel = document.querySelector(".order-success");
   const submitBtn = document.getElementById("orderSubmit");
   if (!form) return;
+
+  // Show/hide the shipping address based on the Delivery choice. Required must be
+  // toggled off when hidden, or the browser blocks submit on an unfocusable field.
+  const deliverySel = document.getElementById("o-ship");
+  const shipFields = document.getElementById("shipFields");
+  const shipReq = shipFields ? shipFields.querySelectorAll("#o-addr1, #o-city, #o-state, #o-zip") : [];
+  const syncShipping = () => {
+    if (!deliverySel || !shipFields) return;
+    const pickup = /pickup/i.test(deliverySel.value);
+    shipFields.hidden = pickup;
+    shipReq.forEach((el) => { el.required = !pickup; el.disabled = pickup; });
+  };
+  if (deliverySel) { deliverySel.addEventListener("change", syncShipping); syncShipping(); }
 
   const showSuccess = () => {
     form.hidden = true;
