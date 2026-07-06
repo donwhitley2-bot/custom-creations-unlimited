@@ -1,0 +1,121 @@
+/* ==========================================================================
+   Custom Creations Unlimited — Immersive hero ("The Seal")
+   Self-contained navy world layered over the existing site. Scoped to .hero-x
+   so it does not alter the global design system (incremental / rollback-safe).
+   ========================================================================== */
+.hero-x{
+  --navy-900:#070c1a; --navy-800:#0c1430; --navy-700:#152046;
+  --gold:#d0aa5a; --gold-hi:#f0d696; --ivory:#f5f2ea;
+  position:relative;
+  min-height:100svh;
+  display:flex; align-items:center;
+  overflow:hidden;
+  isolation:isolate;
+  background:
+    radial-gradient(120% 90% at 78% 30%, rgba(30,44,92,.75), rgba(7,12,26,0) 60%),
+    radial-gradient(90% 70% at 12% 90%, rgba(120,86,36,.28), rgba(7,12,26,0) 55%),
+    linear-gradient(160deg, var(--navy-800), var(--navy-900));
+  color:var(--ivory);
+}
+/* WebGL canvas + static poster occupy the same right-side stage */
+.hero-x__canvas,.hero-x__poster{
+  position:absolute; inset:0; width:100%; height:100%;
+  z-index:1; pointer-events:none;
+}
+.hero-x__poster{
+  object-fit:contain; object-position:82% 50%;
+  transform:translateX(4%) scale(.92);
+  filter:drop-shadow(0 40px 80px rgba(0,0,0,.55));
+  opacity:1; transition:opacity .6s ease;
+}
+.hero-x.is-webgl .hero-x__poster{ opacity:0; }        /* hidden once 3D runs */
+.hero-x__canvas{ opacity:0; transition:opacity .9s ease; }
+.hero-x.is-webgl .hero-x__canvas{ opacity:1; }
+
+/* grain + vignette overlays */
+.hero-x__grain{
+  position:absolute; inset:0; z-index:4; pointer-events:none;
+  background-image:url("../img/grain.png"); background-size:320px;
+  opacity:.05; mix-blend-mode:overlay;
+}
+.hero-x::after{ /* soft vignette */
+  content:""; position:absolute; inset:0; z-index:3; pointer-events:none;
+  box-shadow:inset 0 0 240px 40px rgba(4,7,16,.7);
+}
+
+.hero-x__inner{ position:relative; z-index:5; width:100%; padding-block:6.5rem 4.5rem; }
+.hero-x__copy{ max-width:640px; }
+
+.hero-x__eyebrow{
+  display:inline-flex; align-items:center; gap:.7rem;
+  font-family:var(--font-sans,Inter,sans-serif);
+  font-size:.8rem; letter-spacing:.18em; text-transform:uppercase;
+  color:var(--gold-hi);
+  padding:.5rem .95rem; border:1px solid rgba(208,170,90,.35); border-radius:999px;
+  background:rgba(208,170,90,.06); -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px);
+}
+.hero-x__eyebrow .dot{ width:6px; height:6px; border-radius:50%; background:var(--gold); box-shadow:0 0 12px var(--gold); }
+
+.hero-x__title{
+  font-family:var(--font-display,Fraunces,serif);
+  font-weight:600; letter-spacing:-.015em; line-height:.98;
+  font-size:clamp(2.8rem,1.9rem + 4.8vw,5.4rem);
+  margin:1.3rem 0 0; color:var(--ivory);
+  text-wrap:balance;
+}
+.hero-x__title em{
+  font-style:italic;
+  background:linear-gradient(100deg,var(--gold-hi),var(--gold) 55%,#b98a37);
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+.hero-x__sub{
+  margin:1.6rem 0 0; max-width:33ch;
+  font-size:clamp(1.02rem,.95rem + .3vw,1.2rem); line-height:1.6;
+  color:rgba(245,242,234,.72);
+}
+.hero-x__cta{ display:flex; flex-wrap:wrap; gap:1rem; margin-top:1.7rem; }
+.hero-x .btn--ghost{
+  color:var(--ivory); border-color:rgba(245,242,234,.28); background:transparent;
+}
+.hero-x .btn--ghost:hover{ border-color:var(--gold); color:var(--gold-hi); }
+
+.hero-x__trust{ display:flex; flex-wrap:wrap; gap:1rem 1.8rem; margin-top:1.8rem; }
+.hero-x__trust span{
+  display:inline-flex; align-items:center; gap:.5rem;
+  font-size:.9rem; color:rgba(245,242,234,.62);
+}
+.hero-x__trust svg{ width:17px; height:17px; color:var(--gold); flex:none; }
+
+.hero-x__scrollcue{
+  position:absolute; left:50%; bottom:1.6rem; transform:translateX(-50%);
+  z-index:5; display:flex; flex-direction:column; align-items:center; gap:.5rem;
+  font-size:.7rem; letter-spacing:.25em; text-transform:uppercase;
+  color:rgba(245,242,234,.5);
+}
+.hero-x__scrollcue::after{
+  content:""; width:1px; height:38px;
+  background:linear-gradient(var(--gold),transparent);
+  animation:heroCue 2.4s var(--ease,cubic-bezier(.16,1,.3,1)) infinite;
+}
+@keyframes heroCue{ 0%{transform:scaleY(0);transform-origin:top;opacity:0}
+  40%{transform:scaleY(1);opacity:1} 100%{transform:scaleY(1);transform-origin:bottom;opacity:0} }
+
+/* ---- responsive ---- */
+@media (max-width:900px){
+  .hero-x{ min-height:auto; padding-top:2rem; }
+  .hero-x__inner{ padding-block:5rem 4rem; }
+  .hero-x__canvas,.hero-x__poster{
+    position:relative; height:clamp(260px,52vw,420px); margin:0 auto 1.5rem;
+    transform:none; object-position:center;
+  }
+  .hero-x__poster{ transform:scale(.9); }
+  .hero-x__copy{ max-width:none; text-align:center; margin-inline:auto; }
+  .hero-x__eyebrow{ margin-inline:auto; }
+  .hero-x__cta,.hero-x__trust{ justify-content:center; }
+  .hero-x__sub{ margin-inline:auto; }
+  .hero-x__scrollcue{ display:none; }
+}
+@media (prefers-reduced-motion:reduce){
+  .hero-x__scrollcue::after{ animation:none; }
+  .hero-x__canvas{ transition:none; }
+}
