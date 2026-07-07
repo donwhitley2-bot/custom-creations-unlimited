@@ -433,8 +433,8 @@ def contact_page():
           </form>
         </div>
         <div class="form-success"><div class="form-success__icon"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-          <h3 style="font-size:1.5rem">Thanks — your message is ready to send!</h3>
-          <p class="muted" style="margin-top:.6rem">Your email app should have opened with the details filled in. Hit send and we'll reply within one business day.</p>
+          <h3 style="font-size:1.5rem">Thanks — your message has been sent!</h3>
+          <p class="muted" style="margin-top:.6rem">We've received your message and will reply within one business day.</p>
         </div>
       </div>'''
     body = f'''    <section class="page-hero page-hero--center"><div class="page-hero__bg" aria-hidden="true"></div>
@@ -557,8 +557,8 @@ def quote_page():
       </div>
       <div class="form-success" style="max-width:640px;margin:2rem auto 0">
         <div class="form-success__icon"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <h2>Your quote request is ready to send!</h2>
-        <p class="muted" style="margin-top:.7rem">Your email app should have opened with everything filled in — just attach your logo and hit send. We'll get back to you within one business day with a free proof and exact pricing.</p>
+        <h2>Thanks — your quote request has been sent!</h2>
+        <p class="muted" style="margin-top:.7rem">We've received your details and will get back to you within one business day with a free proof and exact pricing.</p>
         <div style="margin-top:1.4rem"><a class="btn btn--ghost" href="index.html">Back to home</a></div>
       </div>
     </div></section>'''
