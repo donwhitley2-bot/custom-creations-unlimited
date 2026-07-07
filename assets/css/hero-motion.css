@@ -1,0 +1,52 @@
+/* ==========================================================================
+   Hero motion pack — animates the EXISTING hero (no layout/design change).
+   1. Ken Burns drift inside each photo card
+   2. Crossfade support for the main card's rotating showcase (JS-driven)
+   3. Gold shimmer sweep on the headline's gradient text
+   All motion is disabled under prefers-reduced-motion.
+   ========================================================================== */
+
+/* --- 1 · Ken Burns: photos slowly live inside their frames --------------- */
+.hero-card { overflow: hidden; }
+.hero-card img {
+  animation: hero-kenburns 22s ease-in-out infinite alternate;
+  will-change: transform;
+}
+.hero-card--top img    { animation-duration: 26s; animation-delay: -8s; }
+.hero-card--bottom img { animation-duration: 30s; animation-delay: -15s; }
+@keyframes hero-kenburns {
+  0%   { transform: scale(1)    translate(0, 0); }
+  100% { transform: scale(1.09) translate(-1.6%, 1.2%); }
+}
+
+/* --- 2 · Main-card showcase crossfade (layers injected by JS) ------------ */
+.hero-card--main { position: absolute; }              /* (already absolute; explicit for safety) */
+.hero-card--main .hero-swap {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; opacity: 0;
+  transition: opacity 1.6s var(--ease);
+}
+.hero-card--main .hero-swap.is-on { opacity: 1; }
+
+/* --- 3 · Gold shimmer sweep across "stand out." --------------------------- */
+.hero h1 .text-gradient {
+  background: linear-gradient(100deg,
+    var(--gold-300), var(--gold-500) 38%, #fff2cf 50%, var(--gold-500) 62%, var(--rose));
+  background-size: 220% 100%;
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  animation: hero-shimmer 7s var(--ease) infinite;
+}
+@keyframes hero-shimmer {
+  0%, 55%, 100% { background-position: 110% 0; }
+  75%           { background-position: -10% 0; }
+}
+
+/* --- 4 · Parallax smoothing (transform set by JS on the cluster) ---------- */
+.hero__visual { transition: transform .25s cubic-bezier(.22,.61,.36,1); transform-style: preserve-3d; }
+
+/* --- Accessibility --------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .hero-card img { animation: none; }
+  .hero h1 .text-gradient { animation: none; background-position: 0 0; }
+  .hero__visual { transition: none; }
+}
