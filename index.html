@@ -29,6 +29,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="assets/css/styles.css?v=2" />
+  <link rel="stylesheet" href="assets/css/hero.css?v=1" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230a0a0f'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-family='Georgia,serif' font-size='11' font-weight='700' fill='%23c8a24a'%3ECCU%3C/text%3E%3C/svg%3E" />
 
   <!-- Schema.org structured data -->
@@ -180,7 +181,7 @@
     <span id="top"></span>
 
     <!-- ===================== HERO ===================== -->
-    <section class="hero section--tight" aria-labelledby="hero-h">
+    <section class="hero section--tight hero--x" aria-labelledby="hero-h">
       <div class="hero__bg"></div>
       <div class="hero__grid-lines" aria-hidden="true"></div>
       <div class="container hero__inner">
@@ -214,20 +215,13 @@
           </div>
         </div>
 
-        <div class="hero__visual" aria-hidden="true">
-          <div class="hero-card hero-card--main">
-            <img class="ph-img" src="assets/img/embroidery-1.webp" alt="Embroidery" loading="lazy" decoding="async" />
-          </div>
-          <div class="hero-card hero-card--top float">
-            <img class="ph-img" src="assets/img/awards-1.webp" alt="Awards" loading="lazy" decoding="async" />
-          </div>
-          <div class="hero-card hero-card--bottom float float--slow">
-            <img class="ph-img" src="assets/img/drinkware-1.webp" alt="Drinkware" loading="lazy" decoding="async" />
-          </div>
-          <div class="hero-badge float">
-            <span class="hero-badge__icon"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2l2.4 7.4H22l-6 4.6 2.3 7.4-6.3-4.6L5.7 21.4 8 14 2 9.4h7.6z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
-            <div><strong>15,000+</strong><span>brands served</span></div>
-          </div>
+        <div class="hero__visual hero-peel" aria-hidden="true">
+          <img class="hero-peel__fallback" src="assets/img/hero-fallback.webp" alt="" fetchpriority="high" decoding="async" />
+          <div class="hero-peel__stage"></div>
+          <span class="hero-peel__tag">DTF Transfer &mdash; <strong>pressed &amp; peeled in-house</strong></span>
+          <span class="hero-peel__hint">Scroll to peel
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 5v14M6 13l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
         </div>
       </div>
     </section>
@@ -645,5 +639,6 @@
   </button>
 
   <script src="assets/js/main.js?v=2" defer></script>
+  <script src="assets/js/hero-peel.js?v=1" defer></script>
 </body>
 </html>
