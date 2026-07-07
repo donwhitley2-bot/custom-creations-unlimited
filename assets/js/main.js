@@ -264,12 +264,18 @@
   // Until then (or if the request fails) it falls back to composing an email.
   document.querySelectorAll("[data-mailto-form]").forEach(function (form) {
     function showSuccess() {
-      var success = form.parentNode.querySelector(".form-success");
+      // The success panel is usually a sibling of the form's card, not a child,
+      // so search the nearest section (then the document) — not just the parent.
+      var scope = form.closest("section") || document;
+      var success = form.parentNode.querySelector(".form-success")
+        || scope.querySelector(".form-success")
+        || document.querySelector(".form-success");
       if (success) {
         form.style.display = "none";
         success.classList.add("is-shown");
         success.scrollIntoView({ behavior: prefersReduced ? "auto" : "smooth", block: "center" });
       }
+      try { form.reset(); } catch (e) {}
     }
     function composeMailto() {
       var to = form.getAttribute("data-mailto") || "hello@marquebranding.com";
