@@ -18,7 +18,8 @@ const SHOP_CONFIG = {
     "cutting-board": "",
     "coffee-mug": "",
     "crystal-award": "",
-    "slate-coasters": ""
+    "slate-coasters": "",
+    "tequila-tumbler": "https://buy.stripe.com/6oUbJ188Rd3U3zh4jLfrW01"
   },
 
   /* Where the customization details + uploaded artwork are sent when a
@@ -275,10 +276,16 @@ function renderShopGrid() {
   grid.innerHTML = PRODUCTS.map((p, i) => {
     const v = VARIANTS[p.id];
     const price = v ? variantMinPrice(v) : p.price;
-    const showFrom = v ? variantIsFrom(v) : p.from;
+    const showFrom = v ? variantIsFrom(v) : false;   // non-variant items are single-price
+    // "Set" item with a Stripe link (no variants/options/personalization) → buy now,
+    // straight to Stripe checkout, skipping the order form entirely.
+    const stripeUrl = SHOP_CONFIG.stripeLinks[p.id];
+    const directBuy = !!stripeUrl && !v && !p.personalize && !p.options;
+    const href = directBuy ? stripeUrl : `order.html?item=${encodeURIComponent(p.id)}`;
+    const btnLabel = directBuy ? "Buy now" : ((showFrom || v || p.from) ? "Order" : "Customize &amp; Order");
     return `
     <article class="product-card" data-cat="${esc(p.cat)}" data-reveal data-delay="${i % 3}">
-      <a class="product-card__media" href="order.html?item=${encodeURIComponent(p.id)}" aria-label="Customize ${esc(p.name)}">
+      <a class="product-card__media" href="${href}" aria-label="${directBuy ? "Buy" : "Customize"} ${esc(p.name)}">
         <img src="${p.img}" alt="${esc(p.name)}" loading="lazy" decoding="async" />
         <span class="product-card__tag">${esc(p.cat)}</span>
       </a>
@@ -287,7 +294,7 @@ function renderShopGrid() {
         <p class="product-card__blurb">${esc(p.blurb)}</p>
         <div class="product-card__foot">
           <span class="price">${showFrom ? '<small class="price__from">from</small> ' : ''}${money(price)}${p.unit ? `<small>/ ${esc(p.unit)}</small>` : ''}</span>
-          <a class="btn btn--gold" href="order.html?item=${encodeURIComponent(p.id)}">${(showFrom || v || p.from) ? "Order" : "Customize &amp; Order"}</a>
+          <a class="btn btn--gold" href="${href}">${btnLabel}</a>
         </div>
       </div>
     </article>`;
