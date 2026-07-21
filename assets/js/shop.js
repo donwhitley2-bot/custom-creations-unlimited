@@ -169,6 +169,98 @@ const PRODUCTS = [
     blurb: "The H.A.E.C line sized for youth and toddlers." }
 ];
 
+/* ==========================================================================
+   APPAREL VARIANTS + FLAT PRICING
+   Flat price by garment type × age (Youth/Adult). Color, Size and PTO are
+   options that do NOT change the price. Values pulled from the Shopify store.
+   ========================================================================== */
+const PRICE_TABLE = {
+  "T-Shirt":               { Youth: 14.95, Adult: 18.95 },
+  "Sweatshirt":            { Youth: 16.95, Adult: 22.95 },
+  "Hoodie":                { Youth: 18.95, Adult: 24.95 },
+  "Embroidered Sweatshirt":{ Youth: 20.95, Adult: 28.95 },
+  "Embroidered Hoodie":    { Youth: 22.95, Adult: 32.95 }
+};
+
+const SZ_ADULT_XS = ["XS", "S", "M", "L", "XL", "2XL", "3XL"];
+const SZ_ADULT    = ["S", "M", "L", "XL", "2XL", "3XL"];
+const SZ_TODDLER  = ["2T", "3T", "4T", "5T"];
+const SZ_YOUTH    = ["2T", "3T", "4T", "5T", "S", "M", "L", "XL"];
+
+/* Per-product option sets. `garments` = pickable (affects price); `garment` =
+   fixed. `ages`/`age` drive Youth vs Adult pricing (default Adult). `flat` =
+   single price (tote/beanie/bag). `pto` shows a PTO / Non-PTO selector. */
+const VARIANTS = {
+  "god-fidence":       { colors: ["Black","Brown","Natural","Blue","Gray","White"], sizes: SZ_ADULT_XS, garments: ["Hoodie","Sweatshirt"] },
+  "nope-not-today":    { colors: ["Black","Natural","Blue","Gray","White"], sizes: SZ_ADULT_XS, garments: ["Hoodie","Sweatshirt","T-Shirt"] },
+  "mom-life":          { colors: ["White","Tan"], sizes: SZ_ADULT_XS, garments: ["Hoodie","Sweatshirt","Short Sleeve"] },
+  "pray-on-it-hoodie": { colors: ["Brown","Gray","White"], sizes: SZ_ADULT_XS, garments: ["Hoodie","Sweatshirt"] },
+  "pray-on-it-tee":    { colors: ["Black","White"], sizes: SZ_ADULT_XS, garments: ["Short Sleeve","Long Sleeve"] },
+  "pray-pray-pray":    { colors: ["Black","Brown","Natural","Blue","Gray","White"], sizes: SZ_ADULT_XS, garments: ["Hoodie","Sweatshirt"] },
+  "waymaker":          { colors: ["Black","Brown","Natural","Blue","Gray","White"], sizes: SZ_ADULT_XS, garments: ["Hoodie","Sweatshirt"] },
+  "know-your-worth":   { colors: ["White","Pink","Natural"], sizes: SZ_ADULT_XS, garment: "T-Shirt" },
+  "jesus-forgives":    { colors: ["White"], sizes: SZ_ADULT_XS, garment: "T-Shirt" },
+  "his-timing":        { colors: ["White","Blue","Black"], sizes: SZ_ADULT_XS, garment: "T-Shirt" },
+  "classy-hoodrat":    { colors: ["White"], sizes: SZ_ADULT_XS, garment: "T-Shirt" },
+  "trusting-god":      { colors: ["Black","Gray","White","Orange"], sizes: SZ_ADULT_XS, garments: ["Hoodie","Sweatshirt"] },
+  "nurse-life":        { colors: ["Black","Gray","White"], sizes: SZ_ADULT_XS, garments: ["Hoodie","Sweatshirt","T-Shirt"] },
+  "stay-humble":       { colors: ["White","Black","Blue","Red"], sizes: SZ_ADULT, garments: ["T-Shirt","Sweatshirt","Hoodie"] },
+  "haec-tshirt":       { colors: ["White","Natural","Black"], sizes: SZ_ADULT, garment: "T-Shirt", ages: ["Adult","Youth"], pto: true },
+  "haec-toddler-tee":  { colors: ["White","Natural","Black"], sizes: SZ_TODDLER, garment: "T-Shirt", age: "Youth" },
+  "haec-adult-hoodie": { colors: ["Black","White","Natural"], sizes: SZ_ADULT, garments: ["Sweatshirt","Hoodie","Embroidered Sweatshirt","Embroidered Hoodie"], pto: true },
+  "haec-youth-hoodie": { colors: ["Black","White","Natural"], sizes: SZ_YOUTH, garments: ["Sweatshirt","Hoodie","Embroidered Sweatshirt","Embroidered Hoodie"], age: "Youth" },
+  "haec-beanie":       { colors: ["Brown","Black"], flat: 12.95, pto: true },
+  "haec-tote":         { colors: ["Natural","Black"], flat: 15, pto: true },
+  "drawstring-bag":    { colors: ["White","Black","Natural","Blue"], flat: 15 }
+};
+
+function garmentKey(label) {
+  const s = String(label).toLowerCase();
+  if (s.includes("embroider") && s.includes("hood")) return "Embroidered Hoodie";
+  if (s.includes("embroider") && s.includes("sweat")) return "Embroidered Sweatshirt";
+  if (s.includes("hood")) return "Hoodie";
+  if (s.includes("sweat")) return "Sweatshirt";
+  return "T-Shirt"; // tee, short/long sleeve, etc.
+}
+function variantPrice(v, sel) {
+  sel = sel || {};
+  if (v.flat != null) return v.flat;
+  const gLabel = sel.garment || (v.garments ? v.garments[0] : v.garment) || "T-Shirt";
+  const age = sel.age || v.age || (v.ages ? v.ages[0] : "Adult");
+  const row = PRICE_TABLE[garmentKey(gLabel)] || PRICE_TABLE["T-Shirt"];
+  return row[age] != null ? row[age] : row.Adult;
+}
+function variantMinPrice(v) {
+  if (v.flat != null) return v.flat;
+  const gLabels = v.garments || [v.garment || "T-Shirt"];
+  const ages = v.ages || [v.age || "Adult"];
+  let min = Infinity;
+  gLabels.forEach((gl) => ages.forEach((a) => {
+    const p = (PRICE_TABLE[garmentKey(gl)] || {})[a];
+    if (p != null) min = Math.min(min, p);
+  }));
+  return min === Infinity ? 0 : min;
+}
+/* true when the price varies (garment or age choice) → show "from" */
+function variantIsFrom(v) { return v.flat == null && !!(v.garments || v.ages); }
+
+/* Build the Style/Age/Color/Size/PTO <select> fields for an apparel product. */
+function variantSelectsHTML(v) {
+  const field = (label, name, values, req, first) =>
+    `<div class="field"${first ? "" : ' style="margin-top:1.2rem"'}>` +
+      `<label for="o-${name.toLowerCase()}">${label}${req ? ' <span class="req">*</span>' : ""}</label>` +
+      `<select class="select" id="o-${name.toLowerCase()}" name="${name}"${req ? " required" : ""}>` +
+      values.map((x) => `<option>${esc(x)}</option>`).join("") +
+      `</select></div>`;
+  const out = [];
+  if (v.garments) out.push(field("Style", "Garment", v.garments, true, out.length === 0));
+  if (v.ages)     out.push(field("Age", "Age", v.ages, true, out.length === 0));
+  if (v.colors)   out.push(field("Color", "Color", v.colors, true, out.length === 0));
+  if (v.sizes)    out.push(field("Size", "Size", v.sizes, true, out.length === 0));
+  if (v.pto)      out.push(field("Membership", "PTO", ["PTO", "Non-PTO"], false, out.length === 0));
+  return out.join("");
+}
+
 /* ========================================================================== */
 
 const money = (n) => SHOP_CONFIG.currency + Number(n).toFixed(2);
@@ -180,7 +272,11 @@ const esc = (s) => String(s).replace(/[&<>"']/g, (c) =>
 function renderShopGrid() {
   const grid = document.getElementById("shopGrid");
   if (!grid) return;
-  grid.innerHTML = PRODUCTS.map((p, i) => `
+  grid.innerHTML = PRODUCTS.map((p, i) => {
+    const v = VARIANTS[p.id];
+    const price = v ? variantMinPrice(v) : p.price;
+    const showFrom = v ? variantIsFrom(v) : p.from;
+    return `
     <article class="product-card" data-cat="${esc(p.cat)}" data-reveal data-delay="${i % 3}">
       <a class="product-card__media" href="order.html?item=${encodeURIComponent(p.id)}" aria-label="Customize ${esc(p.name)}">
         <img src="${p.img}" alt="${esc(p.name)}" loading="lazy" decoding="async" />
@@ -190,11 +286,12 @@ function renderShopGrid() {
         <h3 class="product-card__name">${esc(p.name)}</h3>
         <p class="product-card__blurb">${esc(p.blurb)}</p>
         <div class="product-card__foot">
-          <span class="price">${p.from ? '<small class="price__from">from</small> ' : ''}${money(p.price)}${p.unit ? `<small>/ ${esc(p.unit)}</small>` : ''}</span>
-          <a class="btn btn--gold" href="order.html?item=${encodeURIComponent(p.id)}">${p.from ? "Order" : "Customize &amp; Order"}</a>
+          <span class="price">${showFrom ? '<small class="price__from">from</small> ' : ''}${money(price)}${p.unit ? `<small>/ ${esc(p.unit)}</small>` : ''}</span>
+          <a class="btn btn--gold" href="order.html?item=${encodeURIComponent(p.id)}">${(showFrom || v || p.from) ? "Order" : "Customize &amp; Order"}</a>
         </div>
       </div>
-    </article>`).join("");
+    </article>`;
+  }).join("");
   renderShopFilters(grid);
 }
 
@@ -243,6 +340,8 @@ function renderOrderPage() {
     return;
   }
 
+  const v = VARIANTS[product.id];
+  const initPrice = v ? variantPrice(v, {}) : product.price;
   const hasStripe = !!SHOP_CONFIG.stripeLinks[product.id];
   const payLabel = hasStripe
     ? `Continue to secure payment — ${money(product.price)}`
@@ -255,7 +354,7 @@ function renderOrderPage() {
         <span class="product-card__tag order-summary__tag">${esc(product.cat)}</span>
         <h1 class="order-summary__name">${esc(product.name)}</h1>
         <p class="order-summary__blurb">${esc(product.blurb)}</p>
-        <div class="order-summary__price">${product.from ? '<small style="font-size:.55em;color:var(--text-faint);font-weight:500">from</small> ' : ''}${money(product.price)}${product.unit ? ` <small>/ ${esc(product.unit)}</small>` : ''}</div>
+        <div class="order-summary__price">${v ? `<span class="js-vprice">${money(initPrice)}</span>` : `${product.from ? '<small style="font-size:.55em;color:var(--text-faint);font-weight:500">from</small> ' : ''}${money(product.price)}${product.unit ? ` <small>/ ${esc(product.unit)}</small>` : ''}`}</div>
         <ul class="order-summary__trust">
           <li>Free design proof before we produce</li>
           <li>Made in-house in Atlanta, GA</li>
@@ -266,15 +365,15 @@ function renderOrderPage() {
       <div class="order-form-wrap" data-reveal data-delay="1">
         <form class="form order-form" id="orderForm" novalidate>
           <input type="hidden" name="Product" value="${esc(product.name)}" />
-          <input type="hidden" name="Price" value="${money(product.price)}" />
+          <input type="hidden" name="Price" value="${money(initPrice)}" />
           <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true" />
 
-          <h2 class="order-form__step">1 · ${product.options ? "Your options" : (product.personalize ? "Personalize it" : "Order details")}</h2>
-          ${product.options ? `
+          <h2 class="order-form__step">1 · ${(v || product.options) ? "Your options" : (product.personalize ? "Personalize it" : "Order details")}</h2>
+          ${v ? variantSelectsHTML(v) : (product.options ? `
           <div class="field"><label for="o-opts">Size, color &amp; style <span class="req">*</span></label>
             <input class="input" id="o-opts" name="Options" placeholder="${esc(product.options)}" required />
             <span class="hint">Available: ${esc(product.options)}</span></div>
-          ` : ""}
+          ` : "")}
           ${product.personalize ? `
           <div class="field"${product.options ? ' style="margin-top:1.2rem"' : ''}><label for="o-perz">Name / text to personalize <span class="req">*</span></label>
             <input class="input" id="o-perz" name="Personalization" placeholder="e.g. “MORRIS”, “A”, or “The Smith Family”" required /></div>
@@ -343,6 +442,22 @@ function wireOrderForm(product, hasStripe) {
   const successPanel = document.querySelector(".order-success");
   const submitBtn = document.getElementById("orderSubmit");
   if (!form) return;
+
+  // Live flat-pricing: recompute when the Style (garment) or Age select changes.
+  const v = VARIANTS[product.id];
+  if (v && v.flat == null) {
+    const priceEl = document.querySelector(".order-summary__price .js-vprice");
+    const priceInput = form.elements["Price"];
+    const gSel = form.elements["Garment"];
+    const aSel = form.elements["Age"];
+    const updatePrice = () => {
+      const p = variantPrice(v, { garment: gSel && gSel.value, age: aSel && aSel.value });
+      if (priceEl) priceEl.textContent = money(p);
+      if (priceInput) priceInput.value = money(p);
+    };
+    [gSel, aSel].forEach((s) => s && s.addEventListener("change", updatePrice));
+    updatePrice();
+  }
 
   // Show/hide the shipping address based on the Delivery choice. Required must be
   // toggled off when hidden, or the browser blocks submit on an unfocusable field.
