@@ -400,17 +400,17 @@ function renderOrderPage() {
           </div>
 
           <div id="shipFields">
-            <h2 class="order-form__step">3 · Shipping address</h2>
-            <div class="field"><label for="o-addr1">Street address <span class="req">*</span></label>
-              <input class="input" id="o-addr1" name="Address" placeholder="123 Main St" autocomplete="address-line1" required /></div>
-            <div class="field" style="margin-top:1rem"><label for="o-addr2">Apt / suite <span class="muted">(optional)</span></label>
+            <h2 class="order-form__step">3 · Shipping address <span class="muted" style="font-size:.72rem;font-weight:400;letter-spacing:0;text-transform:none">— optional, we'll confirm it on your invoice</span></h2>
+            <div class="field"><label for="o-addr1">Street address</label>
+              <input class="input" id="o-addr1" name="Address" placeholder="123 Main St" autocomplete="address-line1" /></div>
+            <div class="field" style="margin-top:1rem"><label for="o-addr2">Apt / suite</label>
               <input class="input" id="o-addr2" name="Address line 2" placeholder="Apartment, suite, unit" autocomplete="address-line2" /></div>
             <div class="form-row" style="margin-top:1rem">
-              <div class="field"><label for="o-city">City <span class="req">*</span></label><input class="input" id="o-city" name="City" autocomplete="address-level2" required /></div>
-              <div class="field"><label for="o-state">State <span class="req">*</span></label><input class="input" id="o-state" name="State" autocomplete="address-level1" required /></div>
+              <div class="field"><label for="o-city">City</label><input class="input" id="o-city" name="City" autocomplete="address-level2" /></div>
+              <div class="field"><label for="o-state">State</label><input class="input" id="o-state" name="State" autocomplete="address-level1" /></div>
             </div>
             <div class="form-row" style="margin-top:1rem">
-              <div class="field"><label for="o-zip">ZIP code <span class="req">*</span></label><input class="input" id="o-zip" name="ZIP" inputmode="numeric" autocomplete="postal-code" required /></div>
+              <div class="field"><label for="o-zip">ZIP code</label><input class="input" id="o-zip" name="ZIP" inputmode="numeric" autocomplete="postal-code" /></div>
               <div class="field"><label for="o-country">Country</label><input class="input" id="o-country" name="Country" value="United States" autocomplete="country-name" /></div>
             </div>
           </div>
@@ -468,7 +468,7 @@ function wireOrderForm(product, hasStripe) {
     if (!deliverySel || !shipFields) return;
     const pickup = /pickup/i.test(deliverySel.value);
     shipFields.hidden = pickup;
-    shipReq.forEach((el) => { el.required = !pickup; el.disabled = pickup; });
+    shipReq.forEach((el) => { el.disabled = pickup; });  // optional fields; just exclude on pickup
   };
   if (deliverySel) { deliverySel.addEventListener("change", syncShipping); syncShipping(); }
 
