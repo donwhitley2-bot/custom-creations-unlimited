@@ -25,7 +25,7 @@ def svc_icon(p):
     return f'<svg viewBox="0 0 24 24" fill="none"><path d="{p}" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>'
 
 NAV = [("index.html", "Home", "home"), ("about.html", "About", "about"),
-       ("index.html#services", "Services", "services"),
+       ("index.html#services", "Services", "services"), ("shop.html", "Shop", "shop"),
        ("gallery.html", "Gallery", "gallery"), ("industries.html", "Industries", "industries"),
        ("blog/index.html", "Blog", "blog"),
        ("faq.html", "FAQ", "faq"), ("contact.html", "Contact", "contact")]
@@ -83,6 +83,7 @@ def header(active):
         <div class="mobile-nav__sub" id="m-services">
           {"".join(f'<a href="services/{s}.html">{n}</a>' for s,n,_ in SVC)}
         </div></li>
+      <li><a class="mobile-nav__link" href="shop.html">Shop</a></li>
       <li><a class="mobile-nav__link" href="gallery.html">Gallery</a></li>
       <li><a class="mobile-nav__link" href="industries.html">Industries</a></li>
       <li><a class="mobile-nav__link" href="blog/index.html">Blog</a></li>
@@ -114,7 +115,7 @@ FOOTER = f'''<footer class="site-footer">
           {"".join(f'<a href="services/{s}.html">{n}</a>' for s,n,_ in SVC)}
         </div>
         <div class="footer-col"><h4>Company</h4>
-          <a href="about.html">About Us</a><a href="gallery.html">Gallery</a><a href="industries.html">Industries</a>
+          <a href="about.html">About Us</a><a href="shop.html">Shop</a><a href="gallery.html">Gallery</a><a href="industries.html">Industries</a>
           <a href="index.html#reviews">Reviews</a><a href="index.html#faq">FAQ</a><a href="contact.html">Contact</a>
         </div>
         <div class="footer-col"><h4>Get in touch</h4>

@@ -17,7 +17,7 @@ SVC = [
 ]
 ARROW = '<svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>'
 NAV = [(P+"index.html","Home","home"),(P+"about.html","About","about"),
-       (P+"index.html#services","Services","services"),
+       (P+"index.html#services","Services","services"),(P+"shop.html","Shop","shop"),
        (P+"gallery.html","Gallery","gallery"),(P+"industries.html","Industries","industries"),
        ("index.html","Blog","blog"),
        (P+"faq.html","FAQ","faq"),(P+"contact.html","Contact","contact")]
@@ -46,6 +46,7 @@ def header(active):
       <li><a class="mobile-nav__link" href="{P}about.html">About</a></li>
       <li><button class="mobile-nav__link" data-sub="m-services" aria-expanded="false">Services <svg viewBox="0 0 24 24" fill="none" width="20"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
         <div class="mobile-nav__sub" id="m-services">{"".join(f'<a href="{P}services/{s}.html">{n}</a>' for s,n in SVC)}</div></li>
+      <li><a class="mobile-nav__link" href="{P}shop.html">Shop</a></li>
       <li><a class="mobile-nav__link" href="{P}gallery.html">Gallery</a></li>
       <li><a class="mobile-nav__link" href="{P}industries.html">Industries</a></li>
       <li><a class="mobile-nav__link" href="index.html">Blog</a></li>
@@ -61,7 +62,7 @@ FOOTER = f'''<footer class="site-footer"><div class="container"><div class="foot
         <div class="footer-social"><a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 9h3V6h-3c-2 0-3 1.3-3 3.2V11H8v3h3v7h3v-7h2.5l.5-3H14V9.5c0-.3.2-.5.6-.5z"/></svg></a><a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"/><circle cx="17" cy="7" r="1.2" fill="currentColor"/></svg></a><a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.5 8A1.5 1.5 0 106.5 5 1.5 1.5 0 006.5 8zM5 10h3v9H5zM10 10h3v1.3c.5-.8 1.5-1.5 3-1.5 2.2 0 3 1.4 3 3.8V19h-3v-4.6c0-1.1-.4-1.8-1.4-1.8s-1.6.7-1.6 1.8V19h-3z"/></svg></a></div>
       </div>
       <div class="footer-col"><h4>Services</h4>{"".join(f'<a href="{P}services/{s}.html">{n}</a>' for s,n in SVC)}</div>
-      <div class="footer-col"><h4>Company</h4><a href="{P}about.html">About Us</a><a href="{P}gallery.html">Gallery</a><a href="{P}industries.html">Industries</a><a href="index.html">Blog</a><a href="{P}faq.html">FAQ</a><a href="{P}contact.html">Contact</a></div>
+      <div class="footer-col"><h4>Company</h4><a href="{P}about.html">About Us</a><a href="{P}shop.html">Shop</a><a href="{P}gallery.html">Gallery</a><a href="{P}industries.html">Industries</a><a href="index.html">Blog</a><a href="{P}faq.html">FAQ</a><a href="{P}contact.html">Contact</a></div>
       <div class="footer-col"><h4>Get in touch</h4><a href="tel:+14049678028">(404) 967-8028</a><a href="mailto:info@ccucustom.com">info@ccucustom.com</a><a href="{P}contact.html">1180 Industrial Park Blvd<br>Atlanta, GA 30318</a></div>
     </div>
     <div class="footer-bottom"><span>© <span id="year"></span> Custom Creations Unlimited All rights reserved. · Atlanta, GA</span><nav aria-label="Legal"><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Accessibility</a></nav></div>

@@ -485,6 +485,7 @@ TEMPLATE = Template(r"""<!DOCTYPE html>
               </div>
             </div>
           </li>
+          <li class="nav-item"><a class="nav-link" href="../shop.html">Shop</a></li>
           <li class="nav-item"><a class="nav-link" href="../gallery.html">Gallery</a></li>
           <li class="nav-item"><a class="nav-link" href="../industries.html">Industries</a></li>
           <li class="nav-item"><a class="nav-link" href="../blog/index.html">Blog</a></li>
@@ -518,6 +519,7 @@ TEMPLATE = Template(r"""<!DOCTYPE html>
           <a href="awards.html">Awards &amp; Recognition</a><a href="laser-engraving.html">Laser Engraving</a><a href="personalized-gifts.html">Personalized Gifts</a>
         </div>
       </li>
+      <li><a class="mobile-nav__link" href="../shop.html">Shop</a></li>
       <li><a class="mobile-nav__link" href="../gallery.html">Gallery</a></li>
       <li><a class="mobile-nav__link" href="../industries.html">Industries</a></li>
       <li><a class="mobile-nav__link" href="../blog/index.html">Blog</a></li>
@@ -703,7 +705,7 @@ TEMPLATE = Template(r"""<!DOCTYPE html>
         </div>
         <div class="footer-col">
           <h4>Company</h4>
-          <a href="../about.html">About Us</a><a href="../gallery.html">Gallery</a><a href="../industries.html">Industries</a>
+          <a href="../about.html">About Us</a><a href="../shop.html">Shop</a><a href="../gallery.html">Gallery</a><a href="../industries.html">Industries</a>
           <a href="../index.html#reviews">Reviews</a><a href="../index.html#faq">FAQ</a><a href="../contact.html">Contact</a>
         </div>
         <div class="footer-col">

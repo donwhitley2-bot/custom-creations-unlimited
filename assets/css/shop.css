@@ -3,6 +3,12 @@
    Layered on top of styles.css; uses the same design tokens.
    ========================================================================== */
 
+/* ---------- Category filter pills ---------------------------------------- */
+.shop-filters {
+  display: flex; flex-wrap: wrap; justify-content: center; gap: .6rem;
+  margin: 0 auto;
+}
+
 /* ---------- Shop product grid -------------------------------------------- */
 .product-grid {
   display: grid;

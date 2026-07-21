@@ -181,7 +181,7 @@ function renderShopGrid() {
   const grid = document.getElementById("shopGrid");
   if (!grid) return;
   grid.innerHTML = PRODUCTS.map((p, i) => `
-    <article class="product-card" data-reveal data-delay="${i % 3}">
+    <article class="product-card" data-cat="${esc(p.cat)}" data-reveal data-delay="${i % 3}">
       <a class="product-card__media" href="order.html?item=${encodeURIComponent(p.id)}" aria-label="Customize ${esc(p.name)}">
         <img src="${p.img}" alt="${esc(p.name)}" loading="lazy" decoding="async" />
         <span class="product-card__tag">${esc(p.cat)}</span>
@@ -195,6 +195,34 @@ function renderShopGrid() {
         </div>
       </div>
     </article>`).join("");
+  renderShopFilters(grid);
+}
+
+/* ---------- Category filter pills (injected above the grid) --------------- */
+function renderShopFilters(grid) {
+  if (document.getElementById("shopFilters")) return;   // don't double-insert
+  const ORDER = ["Apparel", "Drinkware", "Wood Art", "Awards", "Kitchen", "Home", "Custom"];
+  const cats = [...new Set(PRODUCTS.map((p) => p.cat))]
+    .sort((a, b) => ((ORDER.indexOf(a) + 1) || 99) - ((ORDER.indexOf(b) + 1) || 99));
+  const bar = document.createElement("div");
+  bar.className = "shop-filters";
+  bar.id = "shopFilters";
+  bar.setAttribute("role", "tablist");
+  bar.setAttribute("aria-label", "Filter products by category");
+  bar.innerHTML =
+    `<button class="filter-btn is-active" data-filter="all">All</button>` +
+    cats.map((c) => `<button class="filter-btn" data-filter="${esc(c)}">${esc(c)}</button>`).join("");
+  grid.parentNode.insertBefore(bar, grid);
+
+  bar.addEventListener("click", (e) => {
+    const btn = e.target.closest(".filter-btn");
+    if (!btn) return;
+    bar.querySelectorAll(".filter-btn").forEach((b) => b.classList.toggle("is-active", b === btn));
+    const f = btn.dataset.filter;
+    grid.querySelectorAll(".product-card").forEach((card) => {
+      card.style.display = (f === "all" || card.dataset.cat === f) ? "" : "none";
+    });
+  });
 }
 
 /* ---------- ORDER PAGE (order.html) -------------------------------------- */
