@@ -474,8 +474,9 @@ function wireOrderForm(product, hasStripe) {
   if (deliverySel) { deliverySel.addEventListener("change", syncShipping); syncShipping(); }
 
   const showSuccess = () => {
-    form.hidden = true;
+    form.style.display = "none";
     successPanel.hidden = false;
+    successPanel.classList.add("is-shown");   // .form-success is display:none until this
     const msg = successPanel.querySelector(".order-success__msg");
     const actions = successPanel.querySelector(".order-success__actions");
     const stripeUrl = SHOP_CONFIG.stripeLinks[product.id];
