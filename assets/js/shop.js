@@ -59,7 +59,114 @@ const PRODUCTS = [
   { id: "slate-coasters", name: "Engraved Slate Coaster Set", price: 24.99, unit: "set of 4",
     img: "assets/img/prod-slate.webp", cat: "Home",
     blurb: "Natural slate coasters with cork backing, engraved with a monogram, logo or short message.",
-    personalize: true }
+    personalize: true },
+
+  /* ---- Imported from the Crafty Creations Shopify catalog (made-to-order) ---- */
+  { id: "god-fidence", name: "“God Fidence” Hoodie / Sweatshirt", price: 30, from: true, cat: "Apparel",
+    img: "assets/img/shop-god-fidence.webp", options: "Hoodie / Sweatshirt · S–2XL · color",
+    blurb: "Embroidered “God Fidence” faith design on a cozy hoodie or sweatshirt." },
+  { id: "nope-not-today", name: "“NOPE Not Today” Hoodie / Sweatshirt / Tee", price: 20, from: true, cat: "Apparel",
+    img: "assets/img/shop-nope-not-today.webp", options: "Hoodie / Sweatshirt / T-Shirt · S–2XL · color",
+    blurb: "Embroidered “NOPE not today” design — pick your garment and size." },
+  { id: "mom-life", name: "Mom Life Appliqué Hoodie / Sweatshirt", price: 25, from: true, cat: "Apparel",
+    img: "assets/img/shop-mom-life.webp", options: "Hoodie / Sweatshirt / Short Sleeve · S–2XL", personalize: true,
+    blurb: "Appliqué “Mom Life” embroidery — add up to 4 kids’ names on the sleeve." },
+  { id: "pray-on-it-hoodie", name: "“Pray On It, Pray Over It, Pray Through It” Hoodie", price: 25, from: true, cat: "Apparel",
+    img: "assets/img/shop-pray-on-it-hoodie.webp", options: "Hoodie / Sweatshirt · S–2XL · color",
+    blurb: "Embroidered prayer design on a warm hoodie or sweatshirt." },
+  { id: "pray-on-it-tee", name: "“Pray On It, Pray Over It, Pray Through It” T-Shirt", price: 15, from: true, cat: "Apparel",
+    img: "assets/img/shop-pray-on-it-tee.webp", options: "Short / Long Sleeve · S–2XL",
+    blurb: "Sublimation-printed prayer tee, made for everyday wear." },
+  { id: "pray-pray-pray", name: "“Pray, Pray, Pray” Embroidered Hoodie / Sweatshirt", price: 25, from: true, cat: "Apparel",
+    img: "assets/img/shop-pray-pray-pray.webp", options: "Hoodie / Sweatshirt · S–2XL · color",
+    blurb: "Beautifully embroidered “Pray, Pray, Pray” design." },
+  { id: "waymaker", name: "“Waymaker, My God” Embroidered Hoodie / Sweatshirt", price: 25, from: true, cat: "Apparel",
+    img: "assets/img/shop-waymaker.webp", options: "Hoodie / Sweatshirt · S–2XL · color",
+    blurb: "Professionally embroidered “Waymaker, My God” faith design." },
+  { id: "tequila-tumbler", name: "“Save Water, Drink Tequila” 20oz Tumbler", price: 20, from: true, cat: "Drinkware",
+    img: "assets/img/shop-tequila-tumbler.webp",
+    blurb: "A durable 20oz tumbler wrap for the tequila lover." },
+  { id: "drink-straight-tumbler", name: "Funny “Drink Straight” 20oz Tumbler", price: 20, from: true, cat: "Drinkware",
+    img: "assets/img/shop-drink-straight-tumbler.webp",
+    blurb: "A playful 20oz tumbler design for any beverage lover." },
+  { id: "know-your-worth", name: "“Know Your Worth, Then Add Tax” T-Shirt", price: 20, from: true, cat: "Apparel",
+    img: "assets/img/shop-know-your-worth.webp", options: "S–2XL",
+    blurb: "A bold reminder to know your value — printed on a comfortable tee." },
+  { id: "afro-woman", name: "Afro Woman Laser-Cut Wall Art", price: 40, from: true, cat: "Wood Art",
+    img: "assets/img/shop-afro-woman.webp", options: "MDF or Original Wood Finish",
+    blurb: "Intricately laser-cut wall art — a striking statement piece." },
+  { id: "tree-woman", name: "Tree Woman Laser-Cut Wall Art", price: 40, from: true, cat: "Wood Art",
+    img: "assets/img/shop-tree-woman.webp", options: "MDF or Original Wood Finish",
+    blurb: "Precision laser-cut décor with beautiful, delicate detail." },
+  { id: "in-love-couple", name: "In-Love Couple Laser-Cut Wall Art", price: 40, from: true, cat: "Wood Art",
+    img: "assets/img/shop-in-love-couple.webp", options: "MDF or Original Wood Finish",
+    blurb: "A romantic laser-cut piece — perfect for the home or as a gift." },
+  { id: "kitchen-wall-art", name: "Kitchen Laser-Cut Wall Art", price: 60, from: true, cat: "Wood Art",
+    img: "assets/img/shop-kitchen-wall-art.webp", options: "Original / Stained Oak / Stained Walnut",
+    blurb: "Laser-cut from birch plywood and stained — durable, stylish kitchen décor." },
+  { id: "jesus-forgives", name: "“Jesus Forgives” T-Shirt", price: 15, from: true, cat: "Apparel",
+    img: "assets/img/shop-jesus-forgives.webp", options: "S–2XL",
+    blurb: "A simple, powerful message on a comfortable everyday tee." },
+  { id: "his-timing", name: "“His Timing, His Will, His Way” T-Shirt", price: 15, from: true, cat: "Apparel",
+    img: "assets/img/shop-his-timing.webp", options: "S–2XL",
+    blurb: "A reminder to trust the journey — soft, high-quality tee." },
+  { id: "classy-hoodrat", name: "“Classy But Sometimes…” T-Shirt", price: 15, from: true, cat: "Apparel",
+    img: "assets/img/shop-classy-hoodrat.webp", options: "S–2XL",
+    blurb: "A fun, versatile statement tee with a wink of personality." },
+  { id: "trusting-god", name: "“I’m Out Here Just Trusting God” Hoodie / Sweatshirt", price: 25, from: true, cat: "Apparel",
+    img: "assets/img/shop-trusting-god.webp", options: "Hoodie / Sweatshirt · S–2XL · color",
+    blurb: "Warm, stylish and expertly embroidered with a message of faith." },
+  { id: "nurse-life", name: "“Nurse Life” Embroidered Hoodie / Sweatshirt / Tee", price: 25, from: true, cat: "Apparel",
+    img: "assets/img/shop-nurse-life.webp", options: "Hoodie / Sweatshirt / Tee · S–2XL",
+    blurb: "Show your passion for nursing with this embroidered design." },
+  { id: "haec-tshirt", name: "H.A.E.C T-Shirt", price: 12.95, from: true, cat: "Apparel",
+    img: "assets/img/shop-haec-tshirt.webp", options: "Youth / Adult / PTO · S–2XL",
+    blurb: "The High Achievers (H.A.E.C) tee — professional style and comfort." },
+  { id: "haec-tote", name: "H.A.E.C Tote Bag", price: 12, from: true, cat: "Apparel",
+    img: "assets/img/shop-haec-tote.webp", options: "Natural / Black · PTO or Non-PTO",
+    blurb: "A durable, spacious H.A.E.C tote for everyday carry." },
+  { id: "haec-mug", name: "H.A.E.C 15oz Coffee Mug", price: 15, from: true, cat: "Drinkware",
+    img: "assets/img/shop-haec-mug.webp",
+    blurb: "A generous 15oz H.A.E.C mug to elevate your mornings." },
+  { id: "haec-beanie", name: "H.A.E.C Embroidered Beanie", price: 15, from: true, cat: "Apparel",
+    img: "assets/img/shop-haec-beanie.webp", options: "Brown / Black · PTO or Student/Parent",
+    blurb: "Stay warm in a soft, embroidered H.A.E.C beanie." },
+  { id: "haec-toddler-tee", name: "H.A.E.C Toddler T-Shirt", price: 12.95, from: true, cat: "Apparel",
+    img: "assets/img/shop-haec-toddler-tee.webp", options: "White / Natural · 2T–5T",
+    blurb: "The H.A.E.C design sized for the littlest high achievers." },
+  { id: "custom-door-mat", name: "Custom Welcome Door Mat", price: 25, from: true, cat: "Home",
+    img: "assets/img/shop-custom-door-mat.webp", personalize: true,
+    blurb: "A 24\"×36\" doormat customized with your name, greeting or artwork." },
+  { id: "welcome-mats", name: "Pre-Designed Welcome Mats", price: 20, from: true, cat: "Home",
+    img: "assets/img/shop-welcome-mats.webp", options: "Choose from several sayings",
+    blurb: "Ready-to-ship welcome mats with fun, characterful sayings." },
+  { id: "custom-beanie", name: "Design Your Custom Embroidered Beanie", price: 20, from: true, cat: "Custom",
+    img: "assets/img/shop-custom-beanie.webp", options: "Color: Red / White / Brown / Blue / Gray", personalize: true,
+    blurb: "Your custom text embroidered on a beanie — choose color, font and thread." },
+  { id: "custom-trucker-cap", name: "Design Your Custom “Flex Fit” Trucker Cap", price: 20, from: true, cat: "Custom",
+    img: "assets/img/shop-custom-trucker-cap.webp", options: "Color: Green / White / Brown / Blue / Gray", personalize: true,
+    blurb: "Design a personalized trucker cap that stands out at any event." },
+  { id: "stay-humble", name: "“Stay Humble, Hustle Hard” Embroidered Tee / Hoodie", price: 25, from: true, cat: "Apparel",
+    img: "assets/img/shop-stay-humble.webp", options: "Tee / Sweatshirt / Hoodie · S–2XL",
+    blurb: "A powerful embroidered message to inspire the grind." },
+  { id: "haec-adult-hoodie", name: "H.A.E.C Adult Sweatshirts & Hoodies", price: 22, from: true, cat: "Apparel",
+    img: "assets/img/shop-haec-adult-hoodie.webp", options: "Sweatshirt / Hoodie / Embroidered · PTO or Non-PTO · S–2XL",
+    blurb: "Premium H.A.E.C sweatshirts and hoodies built for comfort." },
+  { id: "haec-tumbler", name: "H.A.E.C 20oz Skinny Tumbler", price: 20, from: true, cat: "Drinkware",
+    img: "assets/img/shop-haec-tumbler.webp",
+    blurb: "A stainless 20oz skinny tumbler that keeps drinks at temperature." },
+  { id: "drawstring-bag", name: "Sport Pack Drawstring Bag", price: 15, from: true, cat: "Apparel",
+    img: "assets/img/shop-drawstring-bag.webp", options: "White / Black / Natural / Blue",
+    blurb: "A lightweight, durable drawstring bag for athletes on the go." },
+  { id: "embroidery-9pack", name: "9-Shirt Embroidered Team Pack (with Name)", price: 300, from: true, cat: "Custom",
+    img: "assets/img/shop-embroidery-9pack.webp", personalize: true,
+    blurb: "Nine short-sleeve shirts embroidered with your design and names — ideal for teams and staff." },
+  { id: "uv-dtf-gang-sheet", name: "UV-DTF Gang Sheet (Custom Decals)", price: 10, from: true, cat: "Custom",
+    img: "assets/img/shop-uv-dtf-gang-sheet.webp", options: "Sheet size: 11×16", personalize: true,
+    blurb: "Build a custom UV-DTF adhesive decal gang sheet — upload your artwork." },
+  { id: "haec-youth-hoodie", name: "H.A.E.C Youth / Toddler Sweatshirts & Hoodies", price: 16, from: true, cat: "Apparel",
+    img: "assets/img/shop-haec-youth-hoodie.webp", options: "Sweatshirt / Hoodie / Embroidered · S–…",
+    blurb: "The H.A.E.C line sized for youth and toddlers." }
 ];
 
 /* ========================================================================== */
@@ -83,8 +190,8 @@ function renderShopGrid() {
         <h3 class="product-card__name">${esc(p.name)}</h3>
         <p class="product-card__blurb">${esc(p.blurb)}</p>
         <div class="product-card__foot">
-          <span class="price">${money(p.price)}<small>/ ${esc(p.unit)}</small></span>
-          <a class="btn btn--gold" href="order.html?item=${encodeURIComponent(p.id)}">Customize &amp; Order</a>
+          <span class="price">${p.from ? '<small class="price__from">from</small> ' : ''}${money(p.price)}${p.unit ? `<small>/ ${esc(p.unit)}</small>` : ''}</span>
+          <a class="btn btn--gold" href="order.html?item=${encodeURIComponent(p.id)}">${p.from ? "Order" : "Customize &amp; Order"}</a>
         </div>
       </div>
     </article>`).join("");
@@ -120,7 +227,7 @@ function renderOrderPage() {
         <span class="product-card__tag order-summary__tag">${esc(product.cat)}</span>
         <h1 class="order-summary__name">${esc(product.name)}</h1>
         <p class="order-summary__blurb">${esc(product.blurb)}</p>
-        <div class="order-summary__price">${money(product.price)} <small>/ ${esc(product.unit)}</small></div>
+        <div class="order-summary__price">${product.from ? '<small style="font-size:.55em;color:var(--text-faint);font-weight:500">from</small> ' : ''}${money(product.price)}${product.unit ? ` <small>/ ${esc(product.unit)}</small>` : ''}</div>
         <ul class="order-summary__trust">
           <li>Free design proof before we produce</li>
           <li>Made in-house in Atlanta, GA</li>
@@ -134,9 +241,14 @@ function renderOrderPage() {
           <input type="hidden" name="Price" value="${money(product.price)}" />
           <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true" />
 
-          <h2 class="order-form__step">1 · Personalize it</h2>
+          <h2 class="order-form__step">1 · ${product.options ? "Your options" : (product.personalize ? "Personalize it" : "Order details")}</h2>
+          ${product.options ? `
+          <div class="field"><label for="o-opts">Size, color &amp; style <span class="req">*</span></label>
+            <input class="input" id="o-opts" name="Options" placeholder="${esc(product.options)}" required />
+            <span class="hint">Available: ${esc(product.options)}</span></div>
+          ` : ""}
           ${product.personalize ? `
-          <div class="field"><label for="o-perz">Name / initial / monogram to engrave <span class="req">*</span></label>
+          <div class="field"${product.options ? ' style="margin-top:1.2rem"' : ''}><label for="o-perz">Name / text to personalize <span class="req">*</span></label>
             <input class="input" id="o-perz" name="Personalization" placeholder="e.g. “MORRIS”, “A”, or “The Smith Family”" required /></div>
           <div class="field" style="margin-top:1.2rem"><span class="field-label">Reference photo or logo (optional)</span>
             <label class="upload"><input type="file" name="Artwork" accept="image/*,.pdf,.ai,.eps,.svg">

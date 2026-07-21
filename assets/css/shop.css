@@ -67,6 +67,7 @@
   white-space: nowrap;
 }
 .price small { font-size: .78rem; font-weight: 500; color: var(--text-faint); margin-left: .25rem; }
+.price .price__from { font-size: .6rem; text-transform: uppercase; letter-spacing: .08em; margin-left: 0; margin-right: .1rem; }
 
 /* ---------- Order page --------------------------------------------------- */
 .order-layout {
