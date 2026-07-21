@@ -26,7 +26,7 @@ const SHOP_CONFIG = {
      NOTE: file uploads require Formspree's paid tier (or another endpoint
      that accepts multipart/form-data). If the POST fails for any reason,
      the form automatically falls back to opening the customer's email app. */
-  formEndpoint: "https://formspree.io/f/xykqkqao",
+  formEndpoint: "https://formspree.io/f/mdaqdpao",   // dedicated "Shop" Formspree form (orders only)
   notifyEmail: "info@ccucustom.com"
 };
 
@@ -364,6 +364,7 @@ function renderOrderPage() {
 
       <div class="order-form-wrap" data-reveal data-delay="1">
         <form class="form order-form" id="orderForm" novalidate>
+          <input type="hidden" name="_subject" value="🛒 New online order: ${esc(product.name)}" />
           <input type="hidden" name="Product" value="${esc(product.name)}" />
           <input type="hidden" name="Price" value="${money(initPrice)}" />
           <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true" />
