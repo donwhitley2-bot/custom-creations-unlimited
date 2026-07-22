@@ -195,7 +195,7 @@ const SZ_YOUTH    = ["2T", "3T", "4T", "5T", "S", "M", "L", "XL"];
    fixed. `ages`/`age` drive Youth vs Adult pricing (default Adult). `flat` =
    single price (tote/beanie/bag). `pto` shows a PTO / Non-PTO selector. */
 const VARIANTS = {
-  "god-fidence":       { colors: ["Black","Brown","Natural","Blue","Gray","White"], sizes: SZ_ADULT_XS, garments: ["Hoodie","Sweatshirt"], flat: 29.95 },
+  "god-fidence":       { colors: ["Black","Brown","Natural","Blue","Gray","White"], sizes: SZ_ADULT_XS, garments: ["Hoodie","Sweatshirt"] },
   "nope-not-today":    { colors: ["Black","Natural","Blue","Gray","White"], sizes: SZ_ADULT_XS, garments: ["Hoodie","Sweatshirt","T-Shirt"] },
   "mom-life":          { colors: ["White","Tan"], sizes: SZ_ADULT_XS, garments: ["Hoodie","Sweatshirt","Short Sleeve"] },
   "pray-on-it-hoodie": { colors: ["Brown","Gray","White"], sizes: SZ_ADULT_XS, garments: ["Hoodie","Sweatshirt"] },
