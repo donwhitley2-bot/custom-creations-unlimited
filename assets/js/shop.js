@@ -171,7 +171,7 @@ const PRODUCTS = [
   { id: "haec-youth-hoodie", name: "H.A.E.C Youth / Toddler Sweatshirts & Hoodies", price: 16, from: true, cat: "Apparel",
     img: "assets/img/shop-haec-youth-hoodie.webp", options: "Sweatshirt / Hoodie / Embroidered · S–…",
     blurb: "The H.A.E.C line sized for youth and toddlers." },
-  { id: "snakes-hiss", name: "“Snakes Don’t Hiss Anymore” Tee / Hoodie", cat: "Apparel",
+  { id: "snakes-hiss", name: "“Snakes Don’t Hiss Anymore” T-Shirt", cat: "Apparel",
     img: "assets/img/shop-snakes-hiss.webp",
     blurb: "Bold cobra graphic — “Snakes don’t hiss anymore, they call you babe, bro or friend.”" }
 ];
@@ -219,7 +219,7 @@ const VARIANTS = {
   "haec-beanie":       { colors: ["Brown","Black"], flat: 12.95, pto: true },
   "haec-tote":         { colors: ["Natural","Black"], flat: 15, pto: true },
   "drawstring-bag":    { colors: ["White","Black","Natural","Blue"], flat: 15 },
-  "snakes-hiss":       { colors: ["Black"], sizes: SZ_ADULT, garments: ["T-Shirt","Hoodie"], prices: { "T-Shirt": 20.95, "Hoodie": 26.95 } }
+  "snakes-hiss":       { colors: ["Black"], sizes: SZ_ADULT, garment: "T-Shirt", flat: 20.95 }
 };
 
 function garmentKey(label) {
@@ -365,7 +365,7 @@ function renderOrderPage() {
   const initPrice = v ? variantPrice(v, {}) : product.price;
   const hasStripe = !!SHOP_CONFIG.stripeLinks[product.id];
   const payLabel = hasStripe
-    ? `Continue to secure payment — ${money(product.price)}`
+    ? `Continue to secure payment — ${money(initPrice)}`
     : `Submit order — we'll email your invoice`;
 
   root.innerHTML = `
