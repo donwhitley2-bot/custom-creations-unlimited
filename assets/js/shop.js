@@ -140,7 +140,7 @@ const PRODUCTS = [
   { id: "haec-toddler-tee", name: "H.A.E.C Toddler T-Shirt", price: 12.95, from: true, cat: "Apparel",
     img: "assets/img/shop-haec-toddler-tee.webp", options: "White / Natural · 2T–5T",
     blurb: "The H.A.E.C design sized for the littlest high achievers." },
-  { id: "custom-door-mat", name: "Custom Welcome Door Mat", price: 25, from: true, cat: "Home",
+  { id: "custom-door-mat", name: "Custom Welcome Door Mat", price: 29.95, cat: "Home",
     img: "assets/img/shop-custom-door-mat.webp", personalize: true,
     blurb: "A 24\"×36\" doormat customized with your name, greeting or artwork." },
   { id: "custom-beanie", name: "Design Your Custom Embroidered Beanie", price: 20, from: true, cat: "Custom",
