@@ -44,7 +44,7 @@ const SHOP_CONFIG = {
 const PRODUCTS = [
   { id: "whiskey-glasses", name: "Engraved Whiskey Glasses Cigar Holder", price: 42.99, unit: "set of 2",
     img: "assets/img/drinkware-3.webp?v=2", cat: "Drinkware",
-    blurb: "A pair of heavy-base rocks glasses, laser-etched with the name, initial or monogram of your choice.",
+    blurb: "A pair of heavy-base rocks glasses with a built-in cigar rest, laser-etched with the name, initial or monogram of your choice.",
     personalize: true },
   { id: "engraved-tumbler", name: "Engraved Stainless Tumbler", price: 27.99, unit: "each",
     img: "assets/img/prod-engravedtumblers.webp", cat: "Drinkware",
