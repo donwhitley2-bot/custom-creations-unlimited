@@ -28,7 +28,8 @@ const SHOP_CONFIG = {
     "pray-on-it-hoodie": "https://buy.stripe.com/3cIcN59cV4xo2vdaI9frW07",
     "pray-on-it-tee": "https://buy.stripe.com/aFa9ATfBj7JA2vd3fHfrW08",
     "pray-pray-pray": "https://buy.stripe.com/aFa14n9cV4xoc5N17zfrW09",
-    "waymaker": "https://buy.stripe.com/eVq9AT0Gp1lc7PxcQhfrW0a"
+    "waymaker": "https://buy.stripe.com/eVq9AT0Gp1lc7PxcQhfrW0a",
+    "nope-not-today": "https://buy.stripe.com/cNibJ174NbZQedV03vfrW0b"
   },
 
   /* Where the customization details + uploaded artwork are sent when a
@@ -75,7 +76,7 @@ const PRODUCTS = [
   { id: "god-fidence", name: "“God Fidence” Hoodie / Sweatshirt", price: 30, from: true, cat: "Apparel",
     img: "assets/img/shop-god-fidence.webp", options: "Hoodie / Sweatshirt · S–2XL · color",
     blurb: "Embroidered “God Fidence” faith design on a cozy hoodie or sweatshirt." },
-  { id: "nope-not-today", name: "“NOPE Not Today” Hoodie / Sweatshirt / Tee", price: 20, from: true, cat: "Apparel",
+  { id: "nope-not-today", name: "“NOPE Not Today” Hoodie / Sweatshirt", price: 20, from: true, cat: "Apparel",
     img: "assets/img/shop-nope-not-today.webp", options: "Hoodie / Sweatshirt / T-Shirt · S–2XL · color",
     blurb: "Embroidered “NOPE not today” design — pick your garment and size." },
   { id: "mom-life", name: "Mom Life Appliqué Hoodie / Sweatshirt", price: 25, from: true, cat: "Apparel",
@@ -199,7 +200,7 @@ const SZ_YOUTH    = ["2T", "3T", "4T", "5T", "S", "M", "L", "XL"];
    single price (tote/beanie/bag). `pto` shows a PTO / Non-PTO selector. */
 const VARIANTS = {
   "god-fidence":       { colors: ["Black","Brown","Natural","Blue","Gray","White"], sizes: SZ_ADULT_XS, garments: ["Hoodie","Sweatshirt"] },
-  "nope-not-today":    { colors: ["Black","Natural","Blue","Gray","White"], sizes: SZ_ADULT_XS, garments: ["Hoodie","Sweatshirt","T-Shirt"] },
+  "nope-not-today":    { colors: ["Black","Natural","Blue","Gray","White"], sizes: SZ_ADULT_XS, garments: ["Hoodie","Sweatshirt"], flat: 28.95 },
   "mom-life":          { colors: ["White","Tan"], sizes: SZ_ADULT_XS, garments: ["Hoodie","Sweatshirt","Short Sleeve"] },
   "pray-on-it-hoodie": { colors: ["Brown","Gray","White"], sizes: SZ_ADULT_XS, garments: ["Hoodie","Sweatshirt"], flat: 28.95 },
   "pray-on-it-tee":    { colors: ["Black","White"], sizes: SZ_ADULT_XS, garments: ["Short Sleeve","Long Sleeve"], flat: 19.95 },
