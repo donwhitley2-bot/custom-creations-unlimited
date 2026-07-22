@@ -19,7 +19,8 @@ const SHOP_CONFIG = {
     "coffee-mug": "",
     "crystal-award": "",
     "slate-coasters": "",
-    "tequila-tumbler": "https://buy.stripe.com/6oUbJ188Rd3U3zh4jLfrW01"
+    "tequila-tumbler": "https://buy.stripe.com/6oUbJ188Rd3U3zh4jLfrW01",
+    "drink-straight-tumbler": "https://buy.stripe.com/3cI28r60J7JAgm3dUlfrW02"
   },
 
   /* Where the customization details + uploaded artwork are sent when a
