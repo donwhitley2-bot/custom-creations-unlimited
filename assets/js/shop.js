@@ -170,7 +170,10 @@ const PRODUCTS = [
     blurb: "Build a custom UV-DTF adhesive decal gang sheet — upload your artwork." },
   { id: "haec-youth-hoodie", name: "H.A.E.C Youth / Toddler Sweatshirts & Hoodies", price: 16, from: true, cat: "Apparel",
     img: "assets/img/shop-haec-youth-hoodie.webp", options: "Sweatshirt / Hoodie / Embroidered · S–…",
-    blurb: "The H.A.E.C line sized for youth and toddlers." }
+    blurb: "The H.A.E.C line sized for youth and toddlers." },
+  { id: "snakes-hiss", name: "“Snakes Don’t Hiss Anymore” Tee / Hoodie", cat: "Apparel",
+    img: "assets/img/shop-snakes-hiss.webp",
+    blurb: "Bold cobra graphic — “Snakes don’t hiss anymore, they call you babe, bro or friend.”" }
 ];
 
 /* ==========================================================================
@@ -215,7 +218,8 @@ const VARIANTS = {
   "haec-youth-hoodie": { colors: ["Black","White","Natural"], sizes: SZ_YOUTH, garments: ["Sweatshirt","Hoodie","Embroidered Sweatshirt","Embroidered Hoodie"], age: "Youth" },
   "haec-beanie":       { colors: ["Brown","Black"], flat: 12.95, pto: true },
   "haec-tote":         { colors: ["Natural","Black"], flat: 15, pto: true },
-  "drawstring-bag":    { colors: ["White","Black","Natural","Blue"], flat: 15 }
+  "drawstring-bag":    { colors: ["White","Black","Natural","Blue"], flat: 15 },
+  "snakes-hiss":       { colors: ["Black"], sizes: SZ_ADULT, garments: ["T-Shirt","Hoodie"], prices: { "T-Shirt": 20.95, "Hoodie": 26.95 } }
 };
 
 function garmentKey(label) {
@@ -230,12 +234,15 @@ function variantPrice(v, sel) {
   sel = sel || {};
   if (v.flat != null) return v.flat;
   const gLabel = sel.garment || (v.garments ? v.garments[0] : v.garment) || "T-Shirt";
+  const gk = garmentKey(gLabel);
+  if (v.prices) return v.prices[gk] != null ? v.prices[gk] : Object.values(v.prices)[0];
   const age = sel.age || v.age || (v.ages ? v.ages[0] : "Adult");
-  const row = PRICE_TABLE[garmentKey(gLabel)] || PRICE_TABLE["T-Shirt"];
+  const row = PRICE_TABLE[gk] || PRICE_TABLE["T-Shirt"];
   return row[age] != null ? row[age] : row.Adult;
 }
 function variantMinPrice(v) {
   if (v.flat != null) return v.flat;
+  if (v.prices) return Math.min.apply(null, Object.values(v.prices));
   const gLabels = v.garments || [v.garment || "T-Shirt"];
   const ages = v.ages || [v.age || "Adult"];
   let min = Infinity;
@@ -245,8 +252,12 @@ function variantMinPrice(v) {
   }));
   return min === Infinity ? 0 : min;
 }
-/* true when the price varies (garment or age choice) → show "from" */
-function variantIsFrom(v) { return v.flat == null && !!(v.garments || v.ages); }
+/* true when the price varies (garment/age choice, or differing custom prices) → show "from" */
+function variantIsFrom(v) {
+  if (v.flat != null) return false;
+  if (v.prices) return new Set(Object.values(v.prices)).size > 1;
+  return !!(v.garments || v.ages);
+}
 
 /* Build the Style/Age/Color/Size/PTO <select> fields for an apparel product. */
 function variantSelectsHTML(v) {
