@@ -22,7 +22,8 @@ const SHOP_CONFIG = {
     "tequila-tumbler": "https://buy.stripe.com/6oUbJ188Rd3U3zh4jLfrW01",
     "drink-straight-tumbler": "https://buy.stripe.com/3cI28r60J7JAgm3dUlfrW02",
     "haec-tumbler": "https://buy.stripe.com/fZu28r2Ox8NE9XF17zfrW03",
-    "haec-mug": "https://buy.stripe.com/6oU28rgFn8NE1r93fHfrW04"
+    "haec-mug": "https://buy.stripe.com/6oU28rgFn8NE1r93fHfrW04",
+    "snakes-hiss": "https://buy.stripe.com/eVqaEXdtbd3UfhZaI9frW05"
   },
 
   /* Where the customization details + uploaded artwork are sent when a
