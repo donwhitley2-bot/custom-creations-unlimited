@@ -23,7 +23,8 @@ const SHOP_CONFIG = {
     "drink-straight-tumbler": "https://buy.stripe.com/3cI28r60J7JAgm3dUlfrW02",
     "haec-tumbler": "https://buy.stripe.com/fZu28r2Ox8NE9XF17zfrW03",
     "haec-mug": "https://buy.stripe.com/6oU28rgFn8NE1r93fHfrW04",
-    "snakes-hiss": "https://buy.stripe.com/eVqaEXdtbd3UfhZaI9frW05"
+    "snakes-hiss": "https://buy.stripe.com/eVqaEXdtbd3UfhZaI9frW05",
+    "drawstring-bag": "https://buy.stripe.com/4gMcN59cV9RIfhZ9E5frW06"
   },
 
   /* Where the customization details + uploaded artwork are sent when a
@@ -160,8 +161,8 @@ const PRODUCTS = [
   { id: "haec-tumbler", name: "H.A.E.C 20oz Skinny Tumbler", price: 20, from: true, cat: "Drinkware",
     img: "assets/img/shop-haec-tumbler.webp",
     blurb: "A stainless 20oz skinny tumbler that keeps drinks at temperature." },
-  { id: "drawstring-bag", name: "Sport Pack Drawstring Bag", price: 15, from: true, cat: "Apparel",
-    img: "assets/img/shop-drawstring-bag.webp", options: "White / Black / Natural / Blue",
+  { id: "drawstring-bag", name: "Sport Pack Drawstring Bag", price: 15, cat: "Apparel",
+    img: "assets/img/shop-drawstring-bag.webp",
     blurb: "A lightweight, durable drawstring bag for athletes on the go." },
   { id: "uv-dtf-gang-sheet", name: "UV-DTF Gang Sheet (Custom Decals)", price: 10, from: true, cat: "Custom",
     img: "assets/img/shop-uv-dtf-gang-sheet.webp", options: "Sheet size: 11×16", personalize: true,
@@ -216,7 +217,6 @@ const VARIANTS = {
   "haec-youth-hoodie": { colors: ["Black","White","Natural"], sizes: SZ_YOUTH, garments: ["Sweatshirt","Hoodie","Embroidered Sweatshirt","Embroidered Hoodie"], age: "Youth" },
   "haec-beanie":       { colors: ["Brown","Black"], flat: 12.95, pto: true },
   "haec-tote":         { colors: ["Natural","Black"], flat: 15, pto: true },
-  "drawstring-bag":    { colors: ["White","Black","Natural","Blue"], flat: 15 },
   "snakes-hiss":       { colors: ["Black"], sizes: SZ_ADULT, garment: "T-Shirt", flat: 20.95 }
 };
 
