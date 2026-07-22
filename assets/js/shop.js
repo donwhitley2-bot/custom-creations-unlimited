@@ -24,7 +24,10 @@ const SHOP_CONFIG = {
     "haec-tumbler": "https://buy.stripe.com/fZu28r2Ox8NE9XF17zfrW03",
     "haec-mug": "https://buy.stripe.com/6oU28rgFn8NE1r93fHfrW04",
     "snakes-hiss": "https://buy.stripe.com/eVqaEXdtbd3UfhZaI9frW05",
-    "drawstring-bag": "https://buy.stripe.com/4gMcN59cV9RIfhZ9E5frW06"
+    "drawstring-bag": "https://buy.stripe.com/4gMcN59cV9RIfhZ9E5frW06",
+    "pray-on-it-hoodie": "https://buy.stripe.com/3cIcN59cV4xo2vdaI9frW07",
+    "pray-on-it-tee": "https://buy.stripe.com/aFa9ATfBj7JA2vd3fHfrW08",
+    "pray-pray-pray": "https://buy.stripe.com/aFa14n9cV4xoc5N17zfrW09"
   },
 
   /* Where the customization details + uploaded artwork are sent when a
