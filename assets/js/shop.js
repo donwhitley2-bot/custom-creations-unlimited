@@ -27,7 +27,8 @@ const SHOP_CONFIG = {
     "drawstring-bag": "https://buy.stripe.com/4gMcN59cV9RIfhZ9E5frW06",
     "pray-on-it-hoodie": "https://buy.stripe.com/3cIcN59cV4xo2vdaI9frW07",
     "pray-on-it-tee": "https://buy.stripe.com/aFa9ATfBj7JA2vd3fHfrW08",
-    "pray-pray-pray": "https://buy.stripe.com/aFa14n9cV4xoc5N17zfrW09"
+    "pray-pray-pray": "https://buy.stripe.com/aFa14n9cV4xoc5N17zfrW09",
+    "waymaker": "https://buy.stripe.com/eVq9AT0Gp1lc7PxcQhfrW0a"
   },
 
   /* Where the customization details + uploaded artwork are sent when a
@@ -203,7 +204,7 @@ const VARIANTS = {
   "pray-on-it-hoodie": { colors: ["Brown","Gray","White"], sizes: SZ_ADULT_XS, garments: ["Hoodie","Sweatshirt"], flat: 28.95 },
   "pray-on-it-tee":    { colors: ["Black","White"], sizes: SZ_ADULT_XS, garments: ["Short Sleeve","Long Sleeve"], flat: 19.95 },
   "pray-pray-pray":    { colors: ["Black","Brown","Natural","Blue","Gray","White"], sizes: SZ_ADULT_XS, garments: ["Hoodie","Sweatshirt"], flat: 28.95 },
-  "waymaker":          { colors: ["Black","Brown","Natural","Blue","Gray","White"], sizes: SZ_ADULT_XS, garments: ["Hoodie","Sweatshirt"] },
+  "waymaker":          { colors: ["Black","Brown","Natural","Blue","Gray","White"], sizes: SZ_ADULT_XS, garments: ["Hoodie","Sweatshirt"], flat: 28.95 },
   "know-your-worth":   { colors: ["White","Pink","Natural"], sizes: SZ_ADULT_XS, garment: "T-Shirt" },
   "jesus-forgives":    { colors: ["White"], sizes: SZ_ADULT_XS, garment: "T-Shirt" },
   "his-timing":        { colors: ["White","Blue","Black"], sizes: SZ_ADULT_XS, garment: "T-Shirt" },
