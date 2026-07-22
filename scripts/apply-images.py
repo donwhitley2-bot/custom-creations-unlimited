@@ -165,7 +165,7 @@ def image_for(label):
 
 # Cache-busting: bump the version when a file's contents change but its name
 # stays the same, so browsers/CDNs fetch the fresh copy. Key = bare filename.
-IMG_VERSION = {"drinkware-3.webp": "2"}
+IMG_VERSION = {"drinkware-3.webp": "3"}
 
 def versioned(f):
     base = f.split("/")[-1]
