@@ -207,7 +207,7 @@ const VARIANTS = {
   "pray-on-it-tee":    { colors: ["Black","White"], sizes: SZ_ADULT_XS, garments: ["Short Sleeve","Long Sleeve"], flat: 19.95 },
   "pray-pray-pray":    { colors: ["Black","Brown","Natural","Blue","Gray","White"], sizes: SZ_ADULT_XS, garments: ["Hoodie","Sweatshirt"], flat: 28.95 },
   "waymaker":          { colors: ["Black","Brown","Natural","Blue","Gray","White"], sizes: SZ_ADULT_XS, garments: ["Hoodie","Sweatshirt"], flat: 28.95 },
-  "know-your-worth":   { colors: ["White","Pink","Natural"], sizes: SZ_ADULT_XS, garment: "T-Shirt" },
+  "know-your-worth":   { colors: ["White","Pink","Natural"], sizes: SZ_ADULT_XS, garment: "T-Shirt", flat: 19.95 },
   "jesus-forgives":    { colors: ["White"], sizes: SZ_ADULT_XS, garment: "T-Shirt" },
   "his-timing":        { colors: ["White","Blue","Black"], sizes: SZ_ADULT_XS, garment: "T-Shirt" },
   "classy-hoodrat":    { colors: ["White"], sizes: SZ_ADULT_XS, garment: "T-Shirt" },
