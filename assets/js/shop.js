@@ -35,7 +35,8 @@ const SHOP_CONFIG = {
     "trusting-god": "https://buy.stripe.com/3cI28r88R1lcb1J7vXfrW0e",
     "nurse-life": "https://buy.stripe.com/3cIeVd2Ox9RI1r96rTfrW0f",
     "his-timing": "https://buy.stripe.com/28E4gz1KtaVM2vdaI9frW0g",
-    "classy-hoodrat": "https://buy.stripe.com/fZu5kDfBjgg67Px6rTfrW0h"
+    "classy-hoodrat": "https://buy.stripe.com/fZu5kDfBjgg67Px6rTfrW0h",
+    "stay-humble": "https://buy.stripe.com/7sYbJ1dtbfc2fhZ4jLfrW0i"
   },
 
   /* Where the customization details + uploaded artwork are sent when a
@@ -160,8 +161,8 @@ const PRODUCTS = [
   { id: "custom-trucker-cap", name: "Design Your Custom “Flex Fit” Trucker Cap", price: 20, from: true, cat: "Custom",
     img: "assets/img/shop-custom-trucker-cap.webp", options: "Color: Green / White / Brown / Blue / Gray", personalize: true,
     blurb: "Design a personalized trucker cap that stands out at any event." },
-  { id: "stay-humble", name: "“Stay Humble, Hustle Hard” Embroidered Tee / Hoodie", price: 25, from: true, cat: "Apparel",
-    img: "assets/img/shop-stay-humble.webp", options: "Tee / Sweatshirt / Hoodie · S–2XL",
+  { id: "stay-humble", name: "“Stay Humble, Hustle Hard” Embroidered Hoodie / Sweatshirt", price: 25, from: true, cat: "Apparel",
+    img: "assets/img/shop-stay-humble.webp", options: "Hoodie / Sweatshirt · S–2XL",
     blurb: "A powerful embroidered message to inspire the grind." },
   { id: "haec-adult-hoodie", name: "H.A.E.C Adult Sweatshirts & Hoodies", price: 22, from: true, cat: "Apparel",
     img: "assets/img/shop-haec-adult-hoodie.webp", options: "Sweatshirt / Hoodie / Embroidered · PTO or Non-PTO · S–2XL",
@@ -218,7 +219,7 @@ const VARIANTS = {
   "classy-hoodrat":    { colors: ["White"], sizes: SZ_ADULT_XS, garment: "T-Shirt", flat: 19.95 },
   "trusting-god":      { colors: ["Black","Gray","White","Orange"], sizes: SZ_ADULT_XS, garments: ["Hoodie","Sweatshirt"], flat: 28.95 },
   "nurse-life":        { colors: ["Black","Gray","White"], sizes: SZ_ADULT_XS, garments: ["Hoodie","Sweatshirt"], flat: 28.95 },
-  "stay-humble":       { colors: ["White","Black","Blue","Red"], sizes: SZ_ADULT, garments: ["T-Shirt","Sweatshirt","Hoodie"] },
+  "stay-humble":       { colors: ["White","Black","Blue","Red"], sizes: SZ_ADULT, garments: ["Hoodie","Sweatshirt"], flat: 28.95 },
   "haec-tshirt":       { colors: ["White","Natural","Black"], sizes: SZ_ADULT, garment: "T-Shirt", ages: ["Adult","Youth"], pto: true },
   "haec-toddler-tee":  { colors: ["White","Natural","Black"], sizes: SZ_TODDLER, garment: "T-Shirt", age: "Youth" },
   "haec-adult-hoodie": { colors: ["Black","White","Natural"], sizes: SZ_ADULT, garments: ["Sweatshirt","Hoodie","Embroidered Sweatshirt","Embroidered Hoodie"], pto: true },
