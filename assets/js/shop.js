@@ -162,7 +162,7 @@ const PRODUCTS = [
     img: "assets/img/shop-custom-trucker-cap.webp", options: "Color: Green / White / Brown / Blue / Gray", personalize: true,
     blurb: "Design a personalized trucker cap that stands out at any event." },
   { id: "stay-humble", name: "“Stay Humble, Hustle Hard” Embroidered Hoodie / Sweatshirt", price: 25, from: true, cat: "Apparel",
-    img: "assets/img/shop-stay-humble.webp", options: "Hoodie / Sweatshirt · S–2XL",
+    img: "assets/img/shop-stay-humble.webp?v=2", options: "Hoodie / Sweatshirt · S–2XL",
     blurb: "A powerful embroidered message to inspire the grind." },
   { id: "haec-adult-hoodie", name: "H.A.E.C Adult Sweatshirts & Hoodies", price: 22, from: true, cat: "Apparel",
     img: "assets/img/shop-haec-adult-hoodie.webp", options: "Sweatshirt / Hoodie / Embroidered · PTO or Non-PTO · S–2XL",
