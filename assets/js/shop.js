@@ -105,7 +105,7 @@ const PRODUCTS = [
   { id: "know-your-worth", name: "“Know Your Worth, Then Add Tax” T-Shirt", price: 20, from: true, cat: "Apparel",
     img: "assets/img/shop-know-your-worth.webp", options: "S–2XL",
     blurb: "A bold reminder to know your value — printed on a comfortable tee." },
-  { id: "afro-woman", name: "Afro Woman Laser-Cut Wall Art", price: 40, from: true, cat: "Wood Art",
+  { id: "afro-woman", name: "Afro Woman Laser-Cut Wall Art", price: 45, cat: "Wood Art",
     img: "assets/img/shop-afro-woman.webp", options: "MDF or Original Wood Finish",
     blurb: "Intricately laser-cut wall art — a striking statement piece." },
   { id: "tree-woman", name: "Tree Woman Laser-Cut Wall Art", price: 40, from: true, cat: "Wood Art",
