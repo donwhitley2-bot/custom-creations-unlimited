@@ -34,7 +34,8 @@ const SHOP_CONFIG = {
     "know-your-worth": "https://buy.stripe.com/7sYcN574Ngg67Px5nPfrW0d",
     "trusting-god": "https://buy.stripe.com/3cI28r88R1lcb1J7vXfrW0e",
     "nurse-life": "https://buy.stripe.com/3cIeVd2Ox9RI1r96rTfrW0f",
-    "his-timing": "https://buy.stripe.com/28E4gz1KtaVM2vdaI9frW0g"
+    "his-timing": "https://buy.stripe.com/28E4gz1KtaVM2vdaI9frW0g",
+    "classy-hoodrat": "https://buy.stripe.com/fZu5kDfBjgg67Px6rTfrW0h"
   },
 
   /* Where the customization details + uploaded artwork are sent when a
@@ -214,7 +215,7 @@ const VARIANTS = {
   "know-your-worth":   { colors: ["White","Pink","Natural"], sizes: SZ_ADULT_XS, garment: "T-Shirt", flat: 19.95 },
   "jesus-forgives":    { colors: ["White"], sizes: SZ_ADULT_XS, garment: "T-Shirt" },
   "his-timing":        { colors: ["White","Blue","Black"], sizes: SZ_ADULT_XS, garment: "T-Shirt", flat: 19.95 },
-  "classy-hoodrat":    { colors: ["White"], sizes: SZ_ADULT_XS, garment: "T-Shirt" },
+  "classy-hoodrat":    { colors: ["White"], sizes: SZ_ADULT_XS, garment: "T-Shirt", flat: 19.95 },
   "trusting-god":      { colors: ["Black","Gray","White","Orange"], sizes: SZ_ADULT_XS, garments: ["Hoodie","Sweatshirt"], flat: 28.95 },
   "nurse-life":        { colors: ["Black","Gray","White"], sizes: SZ_ADULT_XS, garments: ["Hoodie","Sweatshirt"], flat: 28.95 },
   "stay-humble":       { colors: ["White","Black","Blue","Red"], sizes: SZ_ADULT, garments: ["T-Shirt","Sweatshirt","Hoodie"] },
