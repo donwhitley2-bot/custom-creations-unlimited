@@ -146,6 +146,47 @@
 }
 .order-form__step:first-of-type { margin-top: 0; padding-top: 0; border-top: 0; }
 
+/* ---------- "Both buttons" order-type toggle + bulk size grid ------------ */
+.order-mode {
+  display: flex; gap: .4rem;
+  background: var(--bg-soft);
+  padding: .35rem; border-radius: var(--pill);
+  margin-bottom: 1.4rem;
+}
+.order-mode__btn {
+  flex: 1; padding: .62rem 1rem;
+  border: 0; background: transparent; border-radius: var(--pill);
+  font: inherit; font-weight: 600; font-size: .9rem;
+  color: var(--text-muted); cursor: pointer;
+  transition: background var(--dur) var(--ease), color var(--dur) var(--ease);
+}
+.order-mode__btn.is-active {
+  background: var(--bg-elevated); color: var(--text);
+  box-shadow: var(--shadow-sm);
+}
+@media (max-width: 420px) { .order-mode__btn { font-size: .82rem; padding: .55rem .6rem; } }
+
+.qty-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(118px, 1fr));
+  gap: .7rem; margin-top: .6rem;
+}
+.qty-grid__row { display: flex; align-items: center; gap: .55rem; }
+.qty-grid__size {
+  min-width: 2.4rem; font-weight: 600; font-size: .9rem; color: var(--text-muted);
+}
+.qty-grid__input { max-width: 5rem; text-align: center; }
+
+.bulk-total {
+  margin-top: 1.1rem; padding: .7rem 1rem;
+  background: rgba(212, 176, 102, 0.10);
+  border: 1px solid rgba(212, 176, 102, 0.32);
+  border-radius: var(--radius);
+  font-size: .95rem;
+}
+.bulk-total__count { font-family: var(--font-display); }
+.bulk-total__est { color: var(--text-muted); }
+
 #orderSubmit { margin-top: 1.6rem; width: 100%; justify-content: center; }
 #orderSubmit.is-loading { opacity: .7; pointer-events: none; }
 

@@ -219,7 +219,7 @@ const VARIANTS = {
   "classy-hoodrat":    { colors: ["White"], sizes: SZ_ADULT_XS, garment: "T-Shirt", flat: 19.95 },
   "trusting-god":      { colors: ["Black","Gray","White","Orange"], sizes: SZ_ADULT_XS, garments: ["Hoodie","Sweatshirt"], flat: 28.95 },
   "nurse-life":        { colors: ["Black","Gray","White"], sizes: SZ_ADULT_XS, garments: ["Hoodie","Sweatshirt"], flat: 28.95 },
-  "stay-humble":       { colors: ["White","Black","Blue","Red"], sizes: SZ_ADULT, garments: ["Hoodie","Sweatshirt"], flat: 28.95 },
+  "stay-humble":       { colors: ["White","Black","Blue","Red"], sizes: SZ_ADULT, garments: ["Hoodie","Sweatshirt"], flat: 28.95, bulk: true },
   "haec-tshirt":       { colors: ["White","Natural","Black"], sizes: SZ_ADULT, garment: "T-Shirt", ages: ["Adult","Youth"], pto: true },
   "haec-toddler-tee":  { colors: ["White","Natural","Black"], sizes: SZ_TODDLER, garment: "T-Shirt", age: "Youth" },
   "haec-adult-hoodie": { colors: ["Black","White","Natural"], sizes: SZ_ADULT, garments: ["Sweatshirt","Hoodie","Embroidered Sweatshirt","Embroidered Hoodie"], pto: true },
@@ -281,6 +281,35 @@ function variantSelectsHTML(v) {
   if (v.sizes)    out.push(field("Size", "Size", v.sizes, true, out.length === 0));
   if (v.pto)      out.push(field("Membership", "PTO", ["PTO", "Non-PTO"], false, out.length === 0));
   return out.join("");
+}
+
+/* Build the "order several / mixed sizes" grid: single Style + Color, then a
+   quantity box per size. Emails the full breakdown so you invoice manually. */
+function bulkGridHTML(v) {
+  const sel = (label, name, values) =>
+    `<div class="field"><label for="b-${name.toLowerCase()}">${label} <span class="req">*</span></label>` +
+    `<select class="select" id="b-${name.toLowerCase()}" name="${name}">` +
+    values.map((x) => `<option>${esc(x)}</option>`).join("") + `</select></div>`;
+  const head = [];
+  if (v.garments) head.push(sel("Style", "Garment", v.garments));
+  if (v.colors)   head.push(sel("Color", "Color", v.colors));
+  const sizes = v.sizes || ["One size"];
+  const rows = sizes.map((s) =>
+    `<div class="qty-grid__row">
+       <span class="qty-grid__size">${esc(s)}</span>
+       <input class="input qty-grid__input" type="number" inputmode="numeric" min="0" step="1" value="0"
+              name="Qty · ${esc(s)}" data-size="${esc(s)}" aria-label="Quantity for size ${esc(s)}" />
+     </div>`).join("");
+  return `
+    ${head.length ? `<div class="form-row">${head.join("")}</div>` : ""}
+    <div class="field" style="margin-top:1.2rem">
+      <span class="field-label">Quantities by size <span class="req">*</span></span>
+      <div class="qty-grid">${rows}</div>
+      <span class="hint">Enter how many of each size you need — leave the rest at 0. Mixed sizes, one invoice.</span>
+    </div>
+    <div class="bulk-total" aria-live="polite">
+      <strong class="bulk-total__count">0 items</strong><span class="bulk-total__est"></span>
+    </div>`;
 }
 
 /* ========================================================================== */
@@ -371,9 +400,41 @@ function renderOrderPage() {
   const v = VARIANTS[product.id];
   const initPrice = v ? variantPrice(v, {}) : product.price;
   const hasStripe = !!SHOP_CONFIG.stripeLinks[product.id];
+  const isBulk = !!(v && v.bulk && !product.personalize);
   const payLabel = hasStripe
     ? `Continue to secure payment — ${money(initPrice)}`
     : `Submit order — we'll email your invoice`;
+
+  // Step-1 building blocks (shared between the normal and "both buttons" layouts).
+  const singleOptions = v ? variantSelectsHTML(v) : (product.options ? `
+          <div class="field"><label for="o-opts">Size, color &amp; style <span class="req">*</span></label>
+            <input class="input" id="o-opts" name="Options" placeholder="${esc(product.options)}" required />
+            <span class="hint">Available: ${esc(product.options)}</span></div>` : "");
+  const personalizeBlock = product.personalize ? `
+          <div class="field"${product.options ? ' style="margin-top:1.2rem"' : ''}><label for="o-perz">Name / text to personalize <span class="req">*</span></label>
+            <input class="input" id="o-perz" name="Personalization" placeholder="e.g. “MORRIS”, “A”, or “The Smith Family”" required /></div>
+          <div class="field" style="margin-top:1.2rem"><span class="field-label">Reference photo or logo (optional)</span>
+            <label class="upload"><input type="file" name="Artwork" accept="image/*,.pdf,.ai,.eps,.svg">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M12 16V4M7 9l5-5 5 5M5 20h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <strong>Click to upload</strong> or drag &amp; drop<br><span style="font-size:.8rem">PNG, JPG, PDF, AI, EPS or SVG</span>
+              <span class="upload__name" hidden></span>
+            </label>
+            <span class="hint">Your artwork uploads securely with your order — we'll send a free proof before we produce anything.</span></div>` : "";
+  const qtyField = `
+          <div class="field" style="margin-top:1.2rem"><label for="o-qty">Quantity <span class="req">*</span></label>
+            <input class="input" type="number" min="1" value="1" id="o-qty" name="Quantity" required style="max-width:160px" /></div>`;
+  const step1 = isBulk ? `
+          <h2 class="order-form__step">1 · How would you like to order?</h2>
+          <div class="order-mode" role="tablist" aria-label="Order type">
+            <button type="button" class="order-mode__btn is-active" data-mode="single" role="tab" aria-selected="true">Buy just one</button>
+            <button type="button" class="order-mode__btn" data-mode="bulk" role="tab" aria-selected="false">Order several — mixed sizes</button>
+          </div>
+          <input type="hidden" name="Order type" value="Single item" />
+          <div class="order-pane" data-pane="single">${singleOptions}${qtyField}</div>
+          <div class="order-pane" data-pane="bulk" hidden>${bulkGridHTML(v)}</div>`
+    : `
+          <h2 class="order-form__step">1 · ${(v || product.options) ? "Your options" : (product.personalize ? "Personalize it" : "Order details")}</h2>
+          ${singleOptions}${personalizeBlock}${qtyField}`;
 
   root.innerHTML = `
     <div class="order-layout">
@@ -397,25 +458,7 @@ function renderOrderPage() {
           <input type="hidden" name="Price" value="${money(initPrice)}" />
           <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true" />
 
-          <h2 class="order-form__step">1 · ${(v || product.options) ? "Your options" : (product.personalize ? "Personalize it" : "Order details")}</h2>
-          ${v ? variantSelectsHTML(v) : (product.options ? `
-          <div class="field"><label for="o-opts">Size, color &amp; style <span class="req">*</span></label>
-            <input class="input" id="o-opts" name="Options" placeholder="${esc(product.options)}" required />
-            <span class="hint">Available: ${esc(product.options)}</span></div>
-          ` : "")}
-          ${product.personalize ? `
-          <div class="field"${product.options ? ' style="margin-top:1.2rem"' : ''}><label for="o-perz">Name / text to personalize <span class="req">*</span></label>
-            <input class="input" id="o-perz" name="Personalization" placeholder="e.g. “MORRIS”, “A”, or “The Smith Family”" required /></div>
-          <div class="field" style="margin-top:1.2rem"><span class="field-label">Reference photo or logo (optional)</span>
-            <label class="upload"><input type="file" name="Artwork" accept="image/*,.pdf,.ai,.eps,.svg">
-              <svg viewBox="0 0 24 24" fill="none"><path d="M12 16V4M7 9l5-5 5 5M5 20h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              <strong>Click to upload</strong> or drag &amp; drop<br><span style="font-size:.8rem">PNG, JPG, PDF, AI, EPS or SVG</span>
-              <span class="upload__name" hidden></span>
-            </label>
-            <span class="hint">Your artwork uploads securely with your order — we'll send a free proof before we produce anything.</span></div>
-          ` : ""}
-          <div class="field" style="margin-top:1.2rem"><label for="o-qty">Quantity <span class="req">*</span></label>
-            <input class="input" type="number" min="1" value="1" id="o-qty" name="Quantity" required style="max-width:160px" /></div>
+          ${step1}
 
           <h2 class="order-form__step">2 · Your details</h2>
           <div class="form-row">
@@ -448,7 +491,7 @@ function renderOrderPage() {
             <textarea class="textarea" id="o-notes" name="Notes" placeholder="Font preference, colors, spelling, event date…"></textarea></div>
 
           <button class="btn btn--gold btn--lg" type="submit" id="orderSubmit">
-            ${payLabel}
+            <span class="btn-label">${payLabel}</span>
             <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </button>
           <p class="muted" style="font-size:.82rem">Secure checkout via Stripe. We send a free proof before anything is produced.</p>
@@ -472,8 +515,64 @@ function wireOrderForm(product, hasStripe) {
   const submitBtn = document.getElementById("orderSubmit");
   if (!form) return;
 
-  // Live flat-pricing: recompute when the Style (garment) or Age select changes.
   const v = VARIANTS[product.id];
+
+  // ----- "Both buttons" bulk ordering (size × quantity grid → invoice) -------
+  const isBulkItem = !!(v && v.bulk && !product.personalize);
+  let mode = "single";
+  const unit = v ? variantPrice(v, {}) : product.price;   // per-item price for the estimate
+  const bulkPane = form.querySelector('.order-pane[data-pane="bulk"]');
+  const bulkInputs = () => (bulkPane ? Array.from(bulkPane.querySelectorAll("input[data-size]")) : []);
+  const bulkTotal = () => bulkInputs().reduce((n, i) => n + Math.max(0, parseInt(i.value, 10) || 0), 0);
+  const labelEl = submitBtn.querySelector(".btn-label");
+  const updateSubmitLabel = () => {
+    if (!labelEl) return;
+    if (mode === "bulk") {
+      const n = bulkTotal();
+      labelEl.textContent = n ? `Submit order (${n}) — we'll email your invoice`
+                              : "Submit order — we'll email your invoice";
+    } else {
+      labelEl.textContent = hasStripe ? `Continue to secure payment — ${money(unit)}`
+                                      : "Submit order — we'll email your invoice";
+    }
+  };
+  if (isBulkItem) {
+    const modeBtns = Array.from(form.querySelectorAll(".order-mode__btn"));
+    const panes = {
+      single: form.querySelector('.order-pane[data-pane="single"]'),
+      bulk: bulkPane,
+    };
+    const orderType = form.elements["Order type"];
+    const updateEst = () => {
+      const n = bulkTotal();
+      const countEl = bulkPane.querySelector(".bulk-total__count");
+      const estEl = bulkPane.querySelector(".bulk-total__est");
+      if (countEl) countEl.textContent = n + (n === 1 ? " item" : " items");
+      if (estEl) estEl.textContent = n ? ` · est. ${money(unit * n)} (confirmed on your invoice)` : "";
+    };
+    const setMode = (m) => {
+      mode = m;
+      modeBtns.forEach((b) => {
+        const on = b.dataset.mode === m;
+        b.classList.toggle("is-active", on);
+        b.setAttribute("aria-selected", on ? "true" : "false");
+      });
+      Object.entries(panes).forEach(([k, pane]) => {
+        if (!pane) return;
+        const on = k === m;
+        pane.hidden = !on;
+        pane.querySelectorAll("input, select, textarea").forEach((el) => { el.disabled = !on; });
+      });
+      if (orderType) orderType.value = (m === "bulk") ? "Multiple / mixed sizes" : "Single item";
+      updateEst();
+      updateSubmitLabel();
+    };
+    modeBtns.forEach((b) => b.addEventListener("click", () => setMode(b.dataset.mode)));
+    bulkInputs().forEach((i) => i.addEventListener("input", () => { updateEst(); updateSubmitLabel(); }));
+    setMode("single");   // start on the single-item pane (bulk pane disabled)
+  }
+
+  // Live flat-pricing: recompute when the Style (garment) or Age select changes.
   if (v && v.flat == null) {
     const priceEl = document.querySelector(".order-summary__price .js-vprice");
     const priceInput = form.elements["Price"];
@@ -508,13 +607,15 @@ function wireOrderForm(product, hasStripe) {
     const msg = successPanel.querySelector(".order-success__msg");
     const actions = successPanel.querySelector(".order-success__actions");
     const stripeUrl = SHOP_CONFIG.stripeLinks[product.id];
-    if (stripeUrl) {
+    if (stripeUrl && mode !== "bulk") {
       msg.textContent = "Your customization is saved. Click below to pay securely by card — we'll email a free proof before we produce anything.";
       actions.innerHTML =
-        `<a class="btn btn--gold btn--lg" href="${stripeUrl}">Pay ${money(product.price)} securely</a>
+        `<a class="btn btn--gold btn--lg" href="${stripeUrl}">Pay ${money(unit)} securely</a>
          <a class="btn btn--ghost btn--lg" href="shop.html">Keep shopping</a>`;
     } else {
-      msg.textContent = "Thanks! We've got your details and will email you a secure payment invoice (usually within one business day), along with a free proof to approve.";
+      msg.textContent = (mode === "bulk")
+        ? "Thanks! We've got your full size breakdown and will email a secure payment invoice (usually within one business day), plus a free proof to approve."
+        : "Thanks! We've got your details and will email you a secure payment invoice (usually within one business day), along with a free proof to approve.";
       actions.innerHTML = `<a class="btn btn--gold btn--lg" href="shop.html">Keep shopping</a>`;
     }
     successPanel.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -522,19 +623,27 @@ function wireOrderForm(product, hasStripe) {
 
   const mailtoFallback = () => {
     const get = (n) => { const el = form.elements[n]; return el ? el.value : ""; };
-    const lines = [
-      "New online order", "",
-      "Product: " + product.name,
-      "Price: " + money(product.price),
-      "Quantity: " + get("Quantity"),
-      product.personalize ? "Personalization: " + get("Personalization") : "",
+    let lines;
+    if (mode === "bulk") {
+      lines = ["New online order (multiple / mixed sizes)", "",
+        "Product: " + product.name,
+        "Style: " + get("Garment"), "Color: " + get("Color"), "Sizes:"];
+      bulkInputs().forEach((i) => { const q = parseInt(i.value, 10) || 0; if (q > 0) lines.push("  " + i.dataset.size + " × " + q); });
+      lines.push("Total items: " + bulkTotal(), "Est. total: " + money(unit * bulkTotal()));
+    } else {
+      lines = ["New online order", "",
+        "Product: " + product.name,
+        "Price: " + money(unit),
+        "Quantity: " + get("Quantity"),
+        product.personalize ? "Personalization: " + get("Personalization") : ""];
+    }
+    lines = lines.concat([
       "Delivery: " + get("Delivery"),
       "Notes: " + get("Notes"), "",
       "Name: " + get("Name"),
       "Email: " + get("Email"),
-      "Phone: " + get("Phone"),
-      "", "(Please attach your reference artwork to this email.)"
-    ].filter(Boolean);
+      "Phone: " + get("Phone")
+    ]).filter(Boolean);
     const href = "mailto:" + SHOP_CONFIG.notifyEmail +
       "?subject=" + encodeURIComponent("Online order: " + product.name) +
       "&body=" + encodeURIComponent(lines.join("\n"));
@@ -547,10 +656,22 @@ function wireOrderForm(product, hasStripe) {
     if (!form.reportValidity()) return;
     if (form.elements["_gotcha"] && form.elements["_gotcha"].value) return; // honeypot
 
+    // Bulk mode: require a quantity on at least one size.
+    if (isBulkItem && mode === "bulk" && bulkTotal() < 1) {
+      const first = bulkInputs()[0];
+      if (first) {
+        first.setCustomValidity("Enter a quantity for at least one size.");
+        first.reportValidity();
+        setTimeout(() => first.setCustomValidity(""), 10);
+      }
+      return;
+    }
+
     submitBtn.disabled = true;
     submitBtn.classList.add("is-loading");
 
-    const stripeUrl = SHOP_CONFIG.stripeLinks[product.id];
+    // Bulk orders always go the invoice route, never the single-item Stripe link.
+    const stripeUrl = (mode === "bulk") ? null : SHOP_CONFIG.stripeLinks[product.id];
 
     // Best-effort: record the customization details before payment.
     // Uses a timeout so a slow/blocked endpoint can never strand the customer.
