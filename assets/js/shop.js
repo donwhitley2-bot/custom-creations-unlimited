@@ -30,7 +30,8 @@ const SHOP_CONFIG = {
     "pray-pray-pray": "https://buy.stripe.com/aFa14n9cV4xoc5N17zfrW09",
     "waymaker": "https://buy.stripe.com/eVq9AT0Gp1lc7PxcQhfrW0a",
     "nope-not-today": "https://buy.stripe.com/cNibJ174NbZQedV03vfrW0b",
-    "god-fidence": "https://buy.stripe.com/fZufZhfBjbZQ0n5g2tfrW0c"
+    "god-fidence": "https://buy.stripe.com/fZufZhfBjbZQ0n5g2tfrW0c",
+    "know-your-worth": "https://buy.stripe.com/7sYcN574Ngg67Px5nPfrW0d"
   },
 
   /* Where the customization details + uploaded artwork are sent when a
