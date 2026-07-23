@@ -32,7 +32,8 @@ const SHOP_CONFIG = {
     "nope-not-today": "https://buy.stripe.com/cNibJ174NbZQedV03vfrW0b",
     "god-fidence": "https://buy.stripe.com/fZufZhfBjbZQ0n5g2tfrW0c",
     "know-your-worth": "https://buy.stripe.com/7sYcN574Ngg67Px5nPfrW0d",
-    "trusting-god": "https://buy.stripe.com/3cI28r88R1lcb1J7vXfrW0e"
+    "trusting-god": "https://buy.stripe.com/3cI28r88R1lcb1J7vXfrW0e",
+    "nurse-life": "https://buy.stripe.com/3cIeVd2Ox9RI1r96rTfrW0f"
   },
 
   /* Where the customization details + uploaded artwork are sent when a
@@ -130,8 +131,8 @@ const PRODUCTS = [
   { id: "trusting-god", name: "“I’m Out Here Just Trusting God” Hoodie / Sweatshirt", price: 25, from: true, cat: "Apparel",
     img: "assets/img/shop-trusting-god.webp", options: "Hoodie / Sweatshirt · S–2XL · color",
     blurb: "Warm, stylish and expertly embroidered with a message of faith." },
-  { id: "nurse-life", name: "“Nurse Life” Embroidered Hoodie / Sweatshirt / Tee", price: 25, from: true, cat: "Apparel",
-    img: "assets/img/shop-nurse-life.webp", options: "Hoodie / Sweatshirt / Tee · S–2XL",
+  { id: "nurse-life", name: "“Nurse Life” Embroidered Hoodie / Sweatshirt", price: 25, from: true, cat: "Apparel",
+    img: "assets/img/shop-nurse-life.webp", options: "Hoodie / Sweatshirt · S–2XL",
     blurb: "Show your passion for nursing with this embroidered design." },
   { id: "haec-tshirt", name: "H.A.E.C T-Shirt", price: 12.95, from: true, cat: "Apparel",
     img: "assets/img/shop-haec-tshirt.webp", options: "Youth / Adult / PTO · S–2XL",
@@ -214,7 +215,7 @@ const VARIANTS = {
   "his-timing":        { colors: ["White","Blue","Black"], sizes: SZ_ADULT_XS, garment: "T-Shirt" },
   "classy-hoodrat":    { colors: ["White"], sizes: SZ_ADULT_XS, garment: "T-Shirt" },
   "trusting-god":      { colors: ["Black","Gray","White","Orange"], sizes: SZ_ADULT_XS, garments: ["Hoodie","Sweatshirt"], flat: 28.95 },
-  "nurse-life":        { colors: ["Black","Gray","White"], sizes: SZ_ADULT_XS, garments: ["Hoodie","Sweatshirt","T-Shirt"] },
+  "nurse-life":        { colors: ["Black","Gray","White"], sizes: SZ_ADULT_XS, garments: ["Hoodie","Sweatshirt"], flat: 28.95 },
   "stay-humble":       { colors: ["White","Black","Blue","Red"], sizes: SZ_ADULT, garments: ["T-Shirt","Sweatshirt","Hoodie"] },
   "haec-tshirt":       { colors: ["White","Natural","Black"], sizes: SZ_ADULT, garment: "T-Shirt", ages: ["Adult","Youth"], pto: true },
   "haec-toddler-tee":  { colors: ["White","Natural","Black"], sizes: SZ_TODDLER, garment: "T-Shirt", age: "Youth" },
