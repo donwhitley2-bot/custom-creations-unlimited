@@ -221,10 +221,10 @@ const VARIANTS = {
   "trusting-god":      { colors: ["Black","Gray","White","Orange"], sizes: SZ_ADULT_XS, garments: ["Hoodie","Sweatshirt"], flat: 28.95, bulk: true },
   "nurse-life":        { colors: ["Black","Gray","White"], sizes: SZ_ADULT_XS, garments: ["Hoodie","Sweatshirt"], flat: 28.95, bulk: true },
   "stay-humble":       { colors: ["White","Black","Blue","Red"], sizes: SZ_ADULT, garments: ["Hoodie","Sweatshirt"], flat: 28.95, bulk: true },
-  "haec-tshirt":       { colors: ["White","Natural","Black"], sizes: SZ_ADULT, garment: "T-Shirt", ages: ["Adult","Youth"], pto: true },
+  "haec-tshirt":       { colors: ["White","Natural","Black"], sizes: SZ_ADULT, garment: "T-Shirt", ages: ["Adult","Youth"], pto: true, bulk: true },
   "haec-toddler-tee":  { colors: ["White","Natural","Black"], sizes: SZ_TODDLER, garment: "T-Shirt", age: "Youth" },
-  "haec-adult-hoodie": { colors: ["Black","White","Natural"], sizes: SZ_ADULT, garments: ["Sweatshirt","Hoodie","Embroidered Sweatshirt","Embroidered Hoodie"], pto: true },
-  "haec-youth-hoodie": { colors: ["Black","White","Natural"], sizes: SZ_YOUTH, garments: ["Sweatshirt","Hoodie","Embroidered Sweatshirt","Embroidered Hoodie"], age: "Youth" },
+  "haec-adult-hoodie": { colors: ["Black","White","Natural"], sizes: SZ_ADULT, garments: ["Sweatshirt","Hoodie","Embroidered Sweatshirt","Embroidered Hoodie"], pto: true, bulk: true },
+  "haec-youth-hoodie": { colors: ["Black","White","Natural"], sizes: SZ_YOUTH, garments: ["Sweatshirt","Hoodie","Embroidered Sweatshirt","Embroidered Hoodie"], age: "Youth", bulk: true },
   "haec-beanie":       { colors: ["Brown","Black"], flat: 12.95, pto: true },
   "haec-tote":         { colors: ["Natural","Black"], flat: 15, pto: true },
   "snakes-hiss":       { colors: ["Black"], sizes: SZ_ADULT, garment: "T-Shirt", flat: 20.95, bulk: true }
@@ -292,11 +292,13 @@ function bulkGridHTML(v) {
   const sizes = v.sizes || ["One size"];
   const styleSel = v.garments ? `<select class="select bulk-line__style" aria-label="Style">${opts(v.garments)}</select>` : "";
   const colorSel = v.colors ? `<select class="select bulk-line__color" aria-label="Color">${opts(v.colors)}</select>` : "";
+  const ageSel = v.ages ? `<select class="select bulk-line__age" aria-label="Age">${opts(v.ages)}</select>` : "";
+  const ptoSel = v.pto ? `<select class="select bulk-line__pto" aria-label="Membership">${opts(["PTO", "Non-PTO"])}</select>` : "";
   const sizeBoxes = sizes.map((s) =>
     `<label class="bulk-line__qty"><span>${esc(s)}</span>
        <input class="input" type="number" inputmode="numeric" min="0" step="1" value="0" data-size="${esc(s)}" aria-label="${esc(s)} quantity" /></label>`).join("");
   const line = `<div class="bulk-line">
-      <div class="bulk-line__opts">${styleSel}${colorSel}
+      <div class="bulk-line__opts">${styleSel}${colorSel}${ageSel}${ptoSel}
         <button type="button" class="bulk-line__remove" aria-label="Remove this line" title="Remove">✕</button></div>
       <div class="bulk-line__sizes">${sizeBoxes}</div>
     </div>`;
@@ -553,19 +555,23 @@ function wireOrderForm(product, hasStripe) {
     const lineData = (line) => {
       const style = (line.querySelector(".bulk-line__style") || {}).value || "";
       const color = (line.querySelector(".bulk-line__color") || {}).value || "";
+      const age = (line.querySelector(".bulk-line__age") || {}).value || "";
+      const membership = (line.querySelector(".bulk-line__pto") || {}).value || "";
       const sizes = Array.from(line.querySelectorAll("input[data-size]"))
         .map((i) => ({ sz: i.dataset.size, q: Math.max(0, parseInt(i.value, 10) || 0) }))
         .filter((o) => o.q > 0);
-      return { style, color, sizes, count: sizes.reduce((n, o) => n + o.q, 0) };
+      const count = sizes.reduce((n, o) => n + o.q, 0);
+      const price = v ? variantPrice(v, { garment: style, age: age }) : unit;
+      return { style, color, age, membership, sizes, count, price };
     };
     const recompute = () => {
       const lines = Array.from(linesWrap.querySelectorAll(".bulk-line"));
-      let total = 0; const parts = [];
+      let total = 0, est = 0; const parts = [];
       lines.forEach((l) => {
         const d = lineData(l);
-        total += d.count;
+        total += d.count; est += d.price * d.count;
         if (d.count) {
-          const label = [d.style, d.color].filter(Boolean).join(" / ");
+          const label = [d.style, d.color, d.age, d.membership].filter(Boolean).join(" / ");
           parts.push(`${label} — ${d.sizes.map((o) => o.sz + "×" + o.q).join(", ")}`);
         }
       });
@@ -574,7 +580,7 @@ function wireOrderForm(product, hasStripe) {
       const countEl = bulkPane.querySelector(".bulk-total__count");
       const estEl = bulkPane.querySelector(".bulk-total__est");
       if (countEl) countEl.textContent = total + (total === 1 ? " item" : " items");
-      if (estEl) estEl.textContent = total ? ` · est. ${money(unit * total)} (confirmed on your invoice)` : "";
+      if (estEl) estEl.textContent = total ? ` · est. ${money(est)} (confirmed on your invoice)` : "";
       lines.forEach((l) => { const rm = l.querySelector(".bulk-line__remove"); if (rm) rm.style.visibility = lines.length > 1 ? "visible" : "hidden"; });
       updateSubmitLabel();
     };
