@@ -206,19 +206,19 @@ const SZ_YOUTH    = ["2T", "3T", "4T", "5T", "S", "M", "L", "XL"];
    fixed. `ages`/`age` drive Youth vs Adult pricing (default Adult). `flat` =
    single price (tote/beanie/bag). `pto` shows a PTO / Non-PTO selector. */
 const VARIANTS = {
-  "god-fidence":       { colors: ["Black","Brown","Natural","Blue","Gray","White"], sizes: SZ_ADULT_XS, garments: ["Hoodie","Sweatshirt"], flat: 28.95 },
-  "nope-not-today":    { colors: ["Black","Natural","Blue","Gray","White"], sizes: SZ_ADULT_XS, garments: ["Hoodie","Sweatshirt"], flat: 28.95 },
-  "mom-life":          { colors: ["White","Tan"], sizes: SZ_ADULT_XS, garments: ["Hoodie","Sweatshirt"], flat: 28.95 },
-  "pray-on-it-hoodie": { colors: ["Brown","Gray","White"], sizes: SZ_ADULT_XS, garments: ["Hoodie","Sweatshirt"], flat: 28.95 },
-  "pray-on-it-tee":    { colors: ["Black","White"], sizes: SZ_ADULT_XS, garments: ["Short Sleeve","Long Sleeve"], flat: 19.95 },
-  "pray-pray-pray":    { colors: ["Black","Brown","Natural","Blue","Gray","White"], sizes: SZ_ADULT_XS, garments: ["Hoodie","Sweatshirt"], flat: 28.95 },
-  "waymaker":          { colors: ["Black","Brown","Natural","Blue","Gray","White"], sizes: SZ_ADULT_XS, garments: ["Hoodie","Sweatshirt"], flat: 28.95 },
-  "know-your-worth":   { colors: ["White","Pink","Natural"], sizes: SZ_ADULT_XS, garment: "T-Shirt", flat: 19.95 },
-  "jesus-forgives":    { colors: ["White"], sizes: SZ_ADULT_XS, garment: "T-Shirt" },
-  "his-timing":        { colors: ["White","Blue","Black"], sizes: SZ_ADULT_XS, garment: "T-Shirt", flat: 19.95 },
-  "classy-hoodrat":    { colors: ["White"], sizes: SZ_ADULT_XS, garment: "T-Shirt", flat: 19.95 },
-  "trusting-god":      { colors: ["Black","Gray","White","Orange"], sizes: SZ_ADULT_XS, garments: ["Hoodie","Sweatshirt"], flat: 28.95 },
-  "nurse-life":        { colors: ["Black","Gray","White"], sizes: SZ_ADULT_XS, garments: ["Hoodie","Sweatshirt"], flat: 28.95 },
+  "god-fidence":       { colors: ["Black","Brown","Natural","Blue","Gray","White"], sizes: SZ_ADULT_XS, garments: ["Hoodie","Sweatshirt"], flat: 28.95, bulk: true },
+  "nope-not-today":    { colors: ["Black","Natural","Blue","Gray","White"], sizes: SZ_ADULT_XS, garments: ["Hoodie","Sweatshirt"], flat: 28.95, bulk: true },
+  "mom-life":          { colors: ["White","Tan"], sizes: SZ_ADULT_XS, garments: ["Hoodie","Sweatshirt"], flat: 28.95, bulk: true },
+  "pray-on-it-hoodie": { colors: ["Brown","Gray","White"], sizes: SZ_ADULT_XS, garments: ["Hoodie","Sweatshirt"], flat: 28.95, bulk: true },
+  "pray-on-it-tee":    { colors: ["Black","White"], sizes: SZ_ADULT_XS, garments: ["Short Sleeve","Long Sleeve"], flat: 19.95, bulk: true },
+  "pray-pray-pray":    { colors: ["Black","Brown","Natural","Blue","Gray","White"], sizes: SZ_ADULT_XS, garments: ["Hoodie","Sweatshirt"], flat: 28.95, bulk: true },
+  "waymaker":          { colors: ["Black","Brown","Natural","Blue","Gray","White"], sizes: SZ_ADULT_XS, garments: ["Hoodie","Sweatshirt"], flat: 28.95, bulk: true },
+  "know-your-worth":   { colors: ["White","Pink","Natural"], sizes: SZ_ADULT_XS, garment: "T-Shirt", flat: 19.95, bulk: true },
+  "jesus-forgives":    { colors: ["White"], sizes: SZ_ADULT_XS, garment: "T-Shirt", bulk: true },
+  "his-timing":        { colors: ["White","Blue","Black"], sizes: SZ_ADULT_XS, garment: "T-Shirt", flat: 19.95, bulk: true },
+  "classy-hoodrat":    { colors: ["White"], sizes: SZ_ADULT_XS, garment: "T-Shirt", flat: 19.95, bulk: true },
+  "trusting-god":      { colors: ["Black","Gray","White","Orange"], sizes: SZ_ADULT_XS, garments: ["Hoodie","Sweatshirt"], flat: 28.95, bulk: true },
+  "nurse-life":        { colors: ["Black","Gray","White"], sizes: SZ_ADULT_XS, garments: ["Hoodie","Sweatshirt"], flat: 28.95, bulk: true },
   "stay-humble":       { colors: ["White","Black","Blue","Red"], sizes: SZ_ADULT, garments: ["Hoodie","Sweatshirt"], flat: 28.95, bulk: true },
   "haec-tshirt":       { colors: ["White","Natural","Black"], sizes: SZ_ADULT, garment: "T-Shirt", ages: ["Adult","Youth"], pto: true },
   "haec-toddler-tee":  { colors: ["White","Natural","Black"], sizes: SZ_TODDLER, garment: "T-Shirt", age: "Youth" },
@@ -226,7 +226,7 @@ const VARIANTS = {
   "haec-youth-hoodie": { colors: ["Black","White","Natural"], sizes: SZ_YOUTH, garments: ["Sweatshirt","Hoodie","Embroidered Sweatshirt","Embroidered Hoodie"], age: "Youth" },
   "haec-beanie":       { colors: ["Brown","Black"], flat: 12.95, pto: true },
   "haec-tote":         { colors: ["Natural","Black"], flat: 15, pto: true },
-  "snakes-hiss":       { colors: ["Black"], sizes: SZ_ADULT, garment: "T-Shirt", flat: 20.95 }
+  "snakes-hiss":       { colors: ["Black"], sizes: SZ_ADULT, garment: "T-Shirt", flat: 20.95, bulk: true }
 };
 
 function garmentKey(label) {
