@@ -31,7 +31,8 @@ const SHOP_CONFIG = {
     "waymaker": "https://buy.stripe.com/eVq9AT0Gp1lc7PxcQhfrW0a",
     "nope-not-today": "https://buy.stripe.com/cNibJ174NbZQedV03vfrW0b",
     "god-fidence": "https://buy.stripe.com/fZufZhfBjbZQ0n5g2tfrW0c",
-    "know-your-worth": "https://buy.stripe.com/7sYcN574Ngg67Px5nPfrW0d"
+    "know-your-worth": "https://buy.stripe.com/7sYcN574Ngg67Px5nPfrW0d",
+    "trusting-god": "https://buy.stripe.com/3cI28r88R1lcb1J7vXfrW0e"
   },
 
   /* Where the customization details + uploaded artwork are sent when a
@@ -212,7 +213,7 @@ const VARIANTS = {
   "jesus-forgives":    { colors: ["White"], sizes: SZ_ADULT_XS, garment: "T-Shirt" },
   "his-timing":        { colors: ["White","Blue","Black"], sizes: SZ_ADULT_XS, garment: "T-Shirt" },
   "classy-hoodrat":    { colors: ["White"], sizes: SZ_ADULT_XS, garment: "T-Shirt" },
-  "trusting-god":      { colors: ["Black","Gray","White","Orange"], sizes: SZ_ADULT_XS, garments: ["Hoodie","Sweatshirt"] },
+  "trusting-god":      { colors: ["Black","Gray","White","Orange"], sizes: SZ_ADULT_XS, garments: ["Hoodie","Sweatshirt"], flat: 28.95 },
   "nurse-life":        { colors: ["Black","Gray","White"], sizes: SZ_ADULT_XS, garments: ["Hoodie","Sweatshirt","T-Shirt"] },
   "stay-humble":       { colors: ["White","Black","Blue","Red"], sizes: SZ_ADULT, garments: ["T-Shirt","Sweatshirt","Hoodie"] },
   "haec-tshirt":       { colors: ["White","Natural","Black"], sizes: SZ_ADULT, garment: "T-Shirt", ages: ["Adult","Youth"], pto: true },
