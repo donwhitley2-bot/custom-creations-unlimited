@@ -138,19 +138,19 @@ const PRODUCTS = [
   { id: "nurse-life", name: "“Nurse Life” Embroidered Hoodie / Sweatshirt", price: 25, from: true, cat: "Apparel",
     img: "assets/img/shop-nurse-life.webp", options: "Hoodie / Sweatshirt · S–2XL",
     blurb: "Show your passion for nursing with this embroidered design." },
-  { id: "haec-tshirt", name: "H.A.E.C T-Shirt", price: 12.95, from: true, cat: "Apparel",
+  { id: "haec-tshirt", name: "H.A.E.C T-Shirt", price: 12.95, from: true, cat: "Education",
     img: "assets/img/shop-haec-tshirt.webp", options: "Youth / Adult / PTO · S–2XL",
     blurb: "The High Achievers (H.A.E.C) tee — professional style and comfort." },
-  { id: "haec-tote", name: "H.A.E.C Tote Bag", price: 12, from: true, cat: "Apparel",
+  { id: "haec-tote", name: "H.A.E.C Tote Bag", price: 12, from: true, cat: "Education",
     img: "assets/img/shop-haec-tote.webp", options: "Natural / Black · PTO or Non-PTO",
     blurb: "A durable, spacious H.A.E.C tote for everyday carry." },
-  { id: "haec-mug", name: "H.A.E.C 15oz Coffee Mug", price: 15, from: true, cat: "Drinkware",
+  { id: "haec-mug", name: "H.A.E.C 15oz Coffee Mug", price: 15, from: true, cat: "Education",
     img: "assets/img/shop-haec-mug.webp",
     blurb: "A generous 15oz H.A.E.C mug to elevate your mornings." },
-  { id: "haec-beanie", name: "H.A.E.C Embroidered Beanie", price: 15, from: true, cat: "Apparel",
+  { id: "haec-beanie", name: "H.A.E.C Embroidered Beanie", price: 15, from: true, cat: "Education",
     img: "assets/img/shop-haec-beanie.webp", options: "Brown / Black · PTO or Student/Parent",
     blurb: "Stay warm in a soft, embroidered H.A.E.C beanie." },
-  { id: "haec-toddler-tee", name: "H.A.E.C Toddler T-Shirt", price: 12.95, from: true, cat: "Apparel",
+  { id: "haec-toddler-tee", name: "H.A.E.C Toddler T-Shirt", price: 12.95, from: true, cat: "Education",
     img: "assets/img/shop-haec-toddler-tee.webp", options: "White / Natural · 2T–5T",
     blurb: "The H.A.E.C design sized for the littlest high achievers." },
   { id: "custom-door-mat", name: "Custom Welcome Door Mat", price: 29.95, cat: "Home",
@@ -165,10 +165,10 @@ const PRODUCTS = [
   { id: "stay-humble", name: "“Stay Humble, Hustle Hard” Embroidered Hoodie / Sweatshirt", price: 25, from: true, cat: "Apparel",
     img: "assets/img/shop-stay-humble.webp?v=2", options: "Hoodie / Sweatshirt · S–2XL",
     blurb: "A powerful embroidered message to inspire the grind." },
-  { id: "haec-adult-hoodie", name: "H.A.E.C Adult Sweatshirts & Hoodies", price: 22, from: true, cat: "Apparel",
+  { id: "haec-adult-hoodie", name: "H.A.E.C Adult Sweatshirts & Hoodies", price: 22, from: true, cat: "Education",
     img: "assets/img/shop-haec-adult-hoodie.webp", options: "Sweatshirt / Hoodie / Embroidered · PTO or Non-PTO · S–2XL",
     blurb: "Premium H.A.E.C sweatshirts and hoodies built for comfort." },
-  { id: "haec-tumbler", name: "H.A.E.C 20oz Skinny Tumbler", price: 20, from: true, cat: "Drinkware",
+  { id: "haec-tumbler", name: "H.A.E.C 20oz Skinny Tumbler", price: 20, from: true, cat: "Education",
     img: "assets/img/shop-haec-tumbler.webp",
     blurb: "A stainless 20oz skinny tumbler that keeps drinks at temperature." },
   { id: "drawstring-bag", name: "Sport Pack Drawstring Bag", price: 15, cat: "Apparel",
@@ -177,7 +177,7 @@ const PRODUCTS = [
   { id: "uv-dtf-gang-sheet", name: "UV-DTF Gang Sheet (Custom Decals)", price: 10, from: true, cat: "Custom",
     img: "assets/img/shop-uv-dtf-gang-sheet.webp", options: "Sheet size: 11×16", personalize: true,
     blurb: "Build a custom UV-DTF adhesive decal gang sheet — upload your artwork." },
-  { id: "haec-youth-hoodie", name: "H.A.E.C Youth / Toddler Sweatshirts & Hoodies", price: 16, from: true, cat: "Apparel",
+  { id: "haec-youth-hoodie", name: "H.A.E.C Youth / Toddler Sweatshirts & Hoodies", price: 16, from: true, cat: "Education",
     img: "assets/img/shop-haec-youth-hoodie.webp", options: "Sweatshirt / Hoodie / Embroidered · S–…",
     blurb: "The H.A.E.C line sized for youth and toddlers." },
   { id: "snakes-hiss", name: "“Snakes Don’t Hiss Anymore” T-Shirt", cat: "Apparel",
@@ -356,7 +356,7 @@ function renderShopGrid() {
 /* ---------- Category filter pills (injected above the grid) --------------- */
 function renderShopFilters(grid) {
   if (document.getElementById("shopFilters")) return;   // don't double-insert
-  const ORDER = ["Apparel", "Drinkware", "Wood Art", "Awards", "Kitchen", "Home", "Custom"];
+  const ORDER = ["Apparel", "Education", "Drinkware", "Wood Art", "Awards", "Kitchen", "Home", "Custom"];
   const cats = [...new Set(PRODUCTS.map((p) => p.cat))]
     .sort((a, b) => ((ORDER.indexOf(a) + 1) || 99) - ((ORDER.indexOf(b) + 1) || 99));
   const bar = document.createElement("div");
