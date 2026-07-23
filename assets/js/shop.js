@@ -283,32 +283,32 @@ function variantSelectsHTML(v) {
   return out.join("");
 }
 
-/* Build the "order several / mixed sizes" grid: single Style + Color, then a
-   quantity box per size. Emails the full breakdown so you invoice manually. */
+/* Build the "order several" grid: one repeatable line per Style + Color, each
+   with a quantity box per size. JS composes an "Order breakdown" field on submit
+   so you get one readable email and invoice manually. */
 function bulkGridHTML(v) {
-  const sel = (label, name, values) =>
-    `<div class="field"><label for="b-${name.toLowerCase()}">${label} <span class="req">*</span></label>` +
-    `<select class="select" id="b-${name.toLowerCase()}" name="${name}">` +
-    values.map((x) => `<option>${esc(x)}</option>`).join("") + `</select></div>`;
-  const head = [];
-  if (v.garments) head.push(sel("Style", "Garment", v.garments));
-  if (v.colors)   head.push(sel("Color", "Color", v.colors));
+  const opts = (arr) => arr.map((x) => `<option>${esc(x)}</option>`).join("");
   const sizes = v.sizes || ["One size"];
-  const rows = sizes.map((s) =>
-    `<div class="qty-grid__row">
-       <span class="qty-grid__size">${esc(s)}</span>
-       <input class="input qty-grid__input" type="number" inputmode="numeric" min="0" step="1" value="0"
-              name="Qty · ${esc(s)}" data-size="${esc(s)}" aria-label="Quantity for size ${esc(s)}" />
-     </div>`).join("");
+  const styleSel = v.garments ? `<select class="select bulk-line__style" aria-label="Style">${opts(v.garments)}</select>` : "";
+  const colorSel = v.colors ? `<select class="select bulk-line__color" aria-label="Color">${opts(v.colors)}</select>` : "";
+  const sizeBoxes = sizes.map((s) =>
+    `<label class="bulk-line__qty"><span>${esc(s)}</span>
+       <input class="input" type="number" inputmode="numeric" min="0" step="1" value="0" data-size="${esc(s)}" aria-label="${esc(s)} quantity" /></label>`).join("");
+  const line = `<div class="bulk-line">
+      <div class="bulk-line__opts">${styleSel}${colorSel}
+        <button type="button" class="bulk-line__remove" aria-label="Remove this line" title="Remove">✕</button></div>
+      <div class="bulk-line__sizes">${sizeBoxes}</div>
+    </div>`;
   return `
-    ${head.length ? `<div class="form-row">${head.join("")}</div>` : ""}
-    <div class="field" style="margin-top:1.2rem">
-      <span class="field-label">Quantities by size <span class="req">*</span></span>
-      <div class="qty-grid">${rows}</div>
-      <span class="hint">Enter how many of each size you need — leave the rest at 0. Mixed sizes, one invoice.</span>
-    </div>
-    <div class="bulk-total" aria-live="polite">
-      <strong class="bulk-total__count">0 items</strong><span class="bulk-total__est"></span>
+    <div class="bulk-order">
+      <span class="field-label">Styles, colors &amp; sizes <span class="req">*</span></span>
+      <template class="bulk-line-tpl">${line}</template>
+      <div class="bulk-lines"></div>
+      <button type="button" class="bulk-add">+ Add another style / color</button>
+      <span class="hint">Add a line for each style + color, then set quantities by size. Everything ships on one invoice.</span>
+      <div class="bulk-total" aria-live="polite"><strong class="bulk-total__count">0 items</strong><span class="bulk-total__est"></span></div>
+      <input type="hidden" name="Order breakdown" />
+      <input type="hidden" name="Total items" value="0" />
     </div>`;
 }
 
@@ -427,7 +427,7 @@ function renderOrderPage() {
           <h2 class="order-form__step">1 · How would you like to order?</h2>
           <div class="order-mode" role="tablist" aria-label="Order type">
             <button type="button" class="order-mode__btn is-active" data-mode="single" role="tab" aria-selected="true">Buy just one</button>
-            <button type="button" class="order-mode__btn" data-mode="bulk" role="tab" aria-selected="false">Order several — mixed sizes</button>
+            <button type="button" class="order-mode__btn" data-mode="bulk" role="tab" aria-selected="false">Order several (bulk)</button>
           </div>
           <input type="hidden" name="Order type" value="Single item" />
           <div class="order-pane" data-pane="single">${singleOptions}${qtyField}</div>
@@ -517,13 +517,13 @@ function wireOrderForm(product, hasStripe) {
 
   const v = VARIANTS[product.id];
 
-  // ----- "Both buttons" bulk ordering (size × quantity grid → invoice) -------
+  // ----- "Both buttons" bulk ordering (repeatable style/color/size → invoice) -
   const isBulkItem = !!(v && v.bulk && !product.personalize);
   let mode = "single";
   const unit = v ? variantPrice(v, {}) : product.price;   // per-item price for the estimate
   const bulkPane = form.querySelector('.order-pane[data-pane="bulk"]');
-  const bulkInputs = () => (bulkPane ? Array.from(bulkPane.querySelectorAll("input[data-size]")) : []);
-  const bulkTotal = () => bulkInputs().reduce((n, i) => n + Math.max(0, parseInt(i.value, 10) || 0), 0);
+  const bulkTotal = () => { const t = form.elements["Total items"]; return t ? (parseInt(t.value, 10) || 0) : 0; };
+  const firstBulkInput = () => bulkPane && bulkPane.querySelector("input[data-size]");
   const labelEl = submitBtn.querySelector(".btn-label");
   const updateSubmitLabel = () => {
     if (!labelEl) return;
@@ -543,13 +543,55 @@ function wireOrderForm(product, hasStripe) {
       bulk: bulkPane,
     };
     const orderType = form.elements["Order type"];
-    const updateEst = () => {
-      const n = bulkTotal();
+    const linesWrap = bulkPane.querySelector(".bulk-lines");
+    const tpl = bulkPane.querySelector(".bulk-line-tpl");
+    const addBtn = bulkPane.querySelector(".bulk-add");
+    const breakdownField = form.elements["Order breakdown"];
+    const totalField = form.elements["Total items"];
+
+    const lineData = (line) => {
+      const style = (line.querySelector(".bulk-line__style") || {}).value || "";
+      const color = (line.querySelector(".bulk-line__color") || {}).value || "";
+      const sizes = Array.from(line.querySelectorAll("input[data-size]"))
+        .map((i) => ({ sz: i.dataset.size, q: Math.max(0, parseInt(i.value, 10) || 0) }))
+        .filter((o) => o.q > 0);
+      return { style, color, sizes, count: sizes.reduce((n, o) => n + o.q, 0) };
+    };
+    const recompute = () => {
+      const lines = Array.from(linesWrap.querySelectorAll(".bulk-line"));
+      let total = 0; const parts = [];
+      lines.forEach((l) => {
+        const d = lineData(l);
+        total += d.count;
+        if (d.count) {
+          const label = [d.style, d.color].filter(Boolean).join(" / ");
+          parts.push(`${label} — ${d.sizes.map((o) => o.sz + "×" + o.q).join(", ")}`);
+        }
+      });
+      if (breakdownField) breakdownField.value = parts.join("\n");
+      if (totalField) totalField.value = total;
       const countEl = bulkPane.querySelector(".bulk-total__count");
       const estEl = bulkPane.querySelector(".bulk-total__est");
-      if (countEl) countEl.textContent = n + (n === 1 ? " item" : " items");
-      if (estEl) estEl.textContent = n ? ` · est. ${money(unit * n)} (confirmed on your invoice)` : "";
+      if (countEl) countEl.textContent = total + (total === 1 ? " item" : " items");
+      if (estEl) estEl.textContent = total ? ` · est. ${money(unit * total)} (confirmed on your invoice)` : "";
+      lines.forEach((l) => { const rm = l.querySelector(".bulk-line__remove"); if (rm) rm.style.visibility = lines.length > 1 ? "visible" : "hidden"; });
+      updateSubmitLabel();
     };
+    const wireLine = (line) => {
+      line.querySelectorAll("input[data-size], select").forEach((el) => el.addEventListener("input", recompute));
+      const rm = line.querySelector(".bulk-line__remove");
+      if (rm) rm.addEventListener("click", () => {
+        if (linesWrap.querySelectorAll(".bulk-line").length > 1) { line.remove(); recompute(); }
+      });
+    };
+    const addLine = () => {
+      const node = tpl.content.firstElementChild.cloneNode(true);
+      linesWrap.appendChild(node);
+      wireLine(node);
+      if (mode !== "bulk") node.querySelectorAll("input, select").forEach((el) => { el.disabled = true; });
+      recompute();
+    };
+
     const setMode = (m) => {
       mode = m;
       modeBtns.forEach((b) => {
@@ -563,13 +605,14 @@ function wireOrderForm(product, hasStripe) {
         pane.hidden = !on;
         pane.querySelectorAll("input, select, textarea").forEach((el) => { el.disabled = !on; });
       });
-      if (orderType) orderType.value = (m === "bulk") ? "Multiple / mixed sizes" : "Single item";
-      updateEst();
+      if (orderType) orderType.value = (m === "bulk") ? "Multiple — mixed styles/colors" : "Single item";
+      recompute();
       updateSubmitLabel();
     };
     modeBtns.forEach((b) => b.addEventListener("click", () => setMode(b.dataset.mode)));
-    bulkInputs().forEach((i) => i.addEventListener("input", () => { updateEst(); updateSubmitLabel(); }));
-    setMode("single");   // start on the single-item pane (bulk pane disabled)
+    addBtn.addEventListener("click", addLine);
+    addLine();            // seed the first line
+    setMode("single");    // start on the single-item pane (bulk pane disabled)
   }
 
   // Live flat-pricing: recompute when the Style (garment) or Age select changes.
@@ -625,10 +668,9 @@ function wireOrderForm(product, hasStripe) {
     const get = (n) => { const el = form.elements[n]; return el ? el.value : ""; };
     let lines;
     if (mode === "bulk") {
-      lines = ["New online order (multiple / mixed sizes)", "",
-        "Product: " + product.name,
-        "Style: " + get("Garment"), "Color: " + get("Color"), "Sizes:"];
-      bulkInputs().forEach((i) => { const q = parseInt(i.value, 10) || 0; if (q > 0) lines.push("  " + i.dataset.size + " × " + q); });
+      lines = ["New online order (multiple — mixed styles/colors)", "",
+        "Product: " + product.name, "Order breakdown:"];
+      (get("Order breakdown") || "(none)").split("\n").forEach((l) => { if (l) lines.push("  " + l); });
       lines.push("Total items: " + bulkTotal(), "Est. total: " + money(unit * bulkTotal()));
     } else {
       lines = ["New online order", "",
@@ -658,7 +700,7 @@ function wireOrderForm(product, hasStripe) {
 
     // Bulk mode: require a quantity on at least one size.
     if (isBulkItem && mode === "bulk" && bulkTotal() < 1) {
-      const first = bulkInputs()[0];
+      const first = firstBulkInput();
       if (first) {
         first.setCustomValidity("Enter a quantity for at least one size.");
         first.reportValidity();
