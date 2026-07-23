@@ -29,7 +29,8 @@ const SHOP_CONFIG = {
     "pray-on-it-tee": "https://buy.stripe.com/aFa9ATfBj7JA2vd3fHfrW08",
     "pray-pray-pray": "https://buy.stripe.com/aFa14n9cV4xoc5N17zfrW09",
     "waymaker": "https://buy.stripe.com/eVq9AT0Gp1lc7PxcQhfrW0a",
-    "nope-not-today": "https://buy.stripe.com/cNibJ174NbZQedV03vfrW0b"
+    "nope-not-today": "https://buy.stripe.com/cNibJ174NbZQedV03vfrW0b",
+    "god-fidence": "https://buy.stripe.com/fZufZhfBjbZQ0n5g2tfrW0c"
   },
 
   /* Where the customization details + uploaded artwork are sent when a
