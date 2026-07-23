@@ -116,7 +116,7 @@ const PRODUCTS = [
     blurb: "A romantic laser-cut piece — perfect for the home or as a gift." },
   { id: "kitchen-wall-art", name: "Kitchen Laser-Cut Wall Art", price: 60, from: true, cat: "Wood Art",
     img: "assets/img/shop-kitchen-wall-art.webp", options: "Original / Stained Oak / Stained Walnut",
-    blurb: "Laser-cut from birch plywood and stained — durable, stylish kitchen décor." },
+    blurb: "Laser-cut from birch plywood and stained, 36″W × 22″H — durable, stylish kitchen décor." },
   { id: "jesus-forgives", name: "“Jesus Forgives” T-Shirt", price: 15, from: true, cat: "Apparel",
     img: "assets/img/shop-jesus-forgives.webp", options: "S–2XL",
     blurb: "A simple, powerful message on a comfortable everyday tee." },
