@@ -36,7 +36,8 @@ const SHOP_CONFIG = {
     "nurse-life": "https://buy.stripe.com/3cIeVd2Ox9RI1r96rTfrW0f",
     "his-timing": "https://buy.stripe.com/28E4gz1KtaVM2vdaI9frW0g",
     "classy-hoodrat": "https://buy.stripe.com/fZu5kDfBjgg67Px6rTfrW0h",
-    "stay-humble": "https://buy.stripe.com/7sYbJ1dtbfc2fhZ4jLfrW0i"
+    "stay-humble": "https://buy.stripe.com/7sYbJ1dtbfc2fhZ4jLfrW0i",
+    "mom-life": "https://buy.stripe.com/8x25kD0Gp2pgc5N8A1frW0j"
   },
 
   /* Where the customization details + uploaded artwork are sent when a
