@@ -17,7 +17,7 @@ SVC = [
 ]
 ARROW = '<svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>'
 NAV = [(P+"index.html","Home","home"),(P+"about.html","About","about"),
-       (P+"index.html#services","Services","services"),(P+"shop.html","Shop","shop"),
+       (P+"index.html#services","Services","services"),
        (P+"gallery.html","Gallery","gallery"),(P+"industries.html","Industries","industries"),
        ("index.html","Blog","blog"),
        (P+"faq.html","FAQ","faq"),(P+"contact.html","Contact","contact")]
@@ -38,6 +38,7 @@ def header(active):
       <nav class="primary-nav" aria-label="Primary"><ul class="nav-list">{"".join(items)}</ul></nav>
       <div class="header-actions">
         <button class="icon-btn theme-toggle" id="themeToggle" aria-label="Toggle dark mode"><svg class="sun" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"/><path d="M12 2v2M12 20v2M4 12H2M22 12h-2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></button>
+        <a class="btn btn--ghost" href="{P}shop.html">Shop</a>
         <a class="btn btn--gold" href="{P}quote.html">Request a Quote</a>
         <button class="icon-btn nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
       </div></div></header>
