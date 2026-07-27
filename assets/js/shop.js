@@ -38,7 +38,8 @@ const SHOP_CONFIG = {
     "classy-hoodrat": "https://buy.stripe.com/fZu5kDfBjgg67Px6rTfrW0h",
     "stay-humble": "https://buy.stripe.com/7sYbJ1dtbfc2fhZ4jLfrW0i",
     "mom-life": "https://buy.stripe.com/8x25kD0Gp2pgc5N8A1frW0j",
-    "haec-tshirt": "https://buy.stripe.com/dRmcN50Gp7JAc5N03vfrW0k"
+    "haec-tshirt": "https://buy.stripe.com/dRmcN50Gp7JAc5N03vfrW0k",
+    "haec-tshirt-youth": "https://buy.stripe.com/8x26oHfBj1lc7PxbMdfrW0l"
   },
 
   /* Where the customization details + uploaded artwork are sent when a
@@ -139,11 +140,11 @@ const PRODUCTS = [
   { id: "nurse-life", name: "“Nurse Life” Embroidered Hoodie / Sweatshirt", price: 25, from: true, cat: "Apparel",
     img: "assets/img/shop-nurse-life.webp", options: "Hoodie / Sweatshirt · S–2XL",
     blurb: "Show your passion for nursing with this embroidered design." },
-  { id: "haec-tshirt", name: "H.A.E.C T-Shirt_Adult", price: 18.95, cat: "Education",
-    img: "assets/img/shop-haec-tshirt.webp", options: "Adult S–3XL · PTO or Non-PTO",
+  { id: "haec-tshirt", name: "H.A.E.C T-Shirt_Adult", price: 18.95, cat: "Education", directBuy: true,
+    img: "assets/img/shop-haec-tshirt.webp", options: "Adult S–3XL · PTO",
     blurb: "The High Achievers (H.A.E.C) adult tee — professional style and comfort." },
   { id: "haec-tshirt-youth", name: "H.A.E.C T-Shirt_Youth", price: 16.95, cat: "Education",
-    img: "assets/img/shop-haec-tshirt-youth.webp?v=2", options: "Youth XS–XL · PTO or Non-PTO",
+    img: "assets/img/shop-haec-tshirt-youth.webp?v=2", options: "Youth XS–XL",
     blurb: "The High Achievers (H.A.E.C) youth tee — soft, durable and school-ready." },
   { id: "haec-tote", name: "H.A.E.C Tote Bag", price: 12, from: true, cat: "Education",
     img: "assets/img/shop-haec-tote.webp", options: "Natural / Black · PTO or Non-PTO",
@@ -210,7 +211,8 @@ const SZ_YOUTH_TEE = ["XS", "S", "M", "L", "XL"];   // youth letter sizes (toddl
 
 /* Per-product option sets. `garments` = pickable (affects price); `garment` =
    fixed. `ages`/`age` drive Youth vs Adult pricing (default Adult). `flat` =
-   single price (tote/beanie/bag). `pto` shows a PTO / Non-PTO selector. */
+   single price (tote/beanie/bag). `pto` shows a membership selector: `true`
+   for the usual PTO / Non-PTO pair, or an array to restrict the choices. */
 const VARIANTS = {
   "god-fidence":       { colors: ["Black","Brown","Natural","Blue","Gray","White"], sizes: SZ_ADULT_XS, garments: ["Hoodie","Sweatshirt"], flat: 28.95, bulk: true },
   "nope-not-today":    { colors: ["Black","Natural","Blue","Gray","White"], sizes: SZ_ADULT_XS, garments: ["Hoodie","Sweatshirt"], flat: 28.95, bulk: true },
@@ -226,8 +228,8 @@ const VARIANTS = {
   "trusting-god":      { colors: ["Black","Gray","White","Orange"], sizes: SZ_ADULT_XS, garments: ["Hoodie","Sweatshirt"], flat: 28.95, bulk: true },
   "nurse-life":        { colors: ["Black","Gray","White"], sizes: SZ_ADULT_XS, garments: ["Hoodie","Sweatshirt"], flat: 28.95, bulk: true },
   "stay-humble":       { colors: ["White","Black","Blue","Red"], sizes: SZ_ADULT, garments: ["Hoodie","Sweatshirt"], flat: 28.95, bulk: true },
-  "haec-tshirt":       { colors: ["White","Natural","Black"], sizes: SZ_ADULT, garment: "T-Shirt", age: "Adult", pto: true, flat: 18.95, bulk: true },
-  "haec-tshirt-youth": { colors: ["White","Natural","Black"], sizes: SZ_YOUTH_TEE, garment: "T-Shirt", age: "Youth", pto: true, flat: 16.95, bulk: true },
+  "haec-tshirt":       { colors: ["White","Natural","Black"], sizes: SZ_ADULT, garment: "T-Shirt", age: "Adult", pto: ["PTO"], flat: 18.95, bulk: true },
+  "haec-tshirt-youth": { colors: ["White","Natural","Black"], sizes: SZ_YOUTH_TEE, garment: "T-Shirt", age: "Youth", flat: 16.95, bulk: true },
   "haec-toddler-tee":  { colors: ["White","Natural","Black"], sizes: SZ_TODDLER, garment: "T-Shirt", age: "Youth" },
   "haec-adult-hoodie": { colors: ["Black","White","Natural"], sizes: SZ_ADULT, garments: ["Sweatshirt","Hoodie","Embroidered Sweatshirt","Embroidered Hoodie"], pto: true, bulk: true },
   "haec-youth-hoodie": { colors: ["Black","White","Natural"], sizes: SZ_YOUTH, garments: ["Sweatshirt","Hoodie","Embroidered Sweatshirt","Embroidered Hoodie"], age: "Youth", bulk: true },
@@ -235,6 +237,8 @@ const VARIANTS = {
   "haec-tote":         { colors: ["Natural","Black"], flat: 15, pto: true },
   "snakes-hiss":       { colors: ["Black"], sizes: SZ_ADULT, garment: "T-Shirt", flat: 20.95, bulk: true }
 };
+
+const ptoOptions = (v) => (Array.isArray(v.pto) ? v.pto : ["PTO", "Non-PTO"]);
 
 function garmentKey(label) {
   const s = String(label).toLowerCase();
@@ -286,7 +290,7 @@ function variantSelectsHTML(v) {
   if (v.ages)     out.push(field("Age", "Age", v.ages, true, out.length === 0));
   if (v.colors)   out.push(field("Color", "Color", v.colors, true, out.length === 0));
   if (v.sizes)    out.push(field("Size", "Size", v.sizes, true, out.length === 0));
-  if (v.pto)      out.push(field("Membership", "PTO", ["PTO", "Non-PTO"], false, out.length === 0));
+  if (v.pto)      out.push(field("Membership", "PTO", ptoOptions(v), false, out.length === 0));
   return out.join("");
 }
 
@@ -299,7 +303,7 @@ function bulkGridHTML(v) {
   const styleSel = v.garments ? `<select class="select bulk-line__style" aria-label="Style">${opts(v.garments)}</select>` : "";
   const colorSel = v.colors ? `<select class="select bulk-line__color" aria-label="Color">${opts(v.colors)}</select>` : "";
   const ageSel = v.ages ? `<select class="select bulk-line__age" aria-label="Age">${opts(v.ages)}</select>` : "";
-  const ptoSel = v.pto ? `<select class="select bulk-line__pto" aria-label="Membership">${opts(["PTO", "Non-PTO"])}</select>` : "";
+  const ptoSel = v.pto ? `<select class="select bulk-line__pto" aria-label="Membership">${opts(ptoOptions(v))}</select>` : "";
   const sizeBoxes = sizes.map((s) =>
     `<label class="bulk-line__qty"><span>${esc(s)}</span>
        <input class="input" type="number" inputmode="numeric" min="0" step="1" value="0" data-size="${esc(s)}" aria-label="${esc(s)} quantity" /></label>`).join("");
@@ -339,7 +343,7 @@ function renderShopGrid() {
     // "Set" item with a Stripe link (no variants/options/personalization) → buy now,
     // straight to Stripe checkout, skipping the order form entirely.
     const stripeUrl = SHOP_CONFIG.stripeLinks[p.id];
-    const directBuy = !!stripeUrl && !v && !p.personalize && !p.options;
+    const directBuy = !!stripeUrl && (p.directBuy || (!v && !p.personalize && !p.options));
     const href = directBuy ? stripeUrl : `order.html?item=${encodeURIComponent(p.id)}`;
     const btnLabel = directBuy ? "Buy now" : ((showFrom || v || p.from) ? "Order" : "Customize &amp; Order");
     return `
