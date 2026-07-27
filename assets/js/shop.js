@@ -174,8 +174,8 @@ const PRODUCTS = [
   { id: "haec-adult-hoodie", name: "H.A.E.C Adult Sweatshirts & Hoodies", price: 22, from: true, cat: "Education",
     img: "assets/img/shop-haec-adult-hoodie.webp", options: "Sweatshirt / Hoodie / Embroidered · PTO or Non-PTO · S–2XL",
     blurb: "Premium H.A.E.C sweatshirts and hoodies built for comfort." },
-  { id: "haec-tumbler", name: "H.A.E.C 20oz Skinny Tumbler", price: 20, from: true, cat: "Education",
-    img: "assets/img/shop-haec-tumbler.webp",
+  { id: "haec-tumbler", name: "H.A.E.C 20oz Skinny Tumbler", price: 20, cat: "Education",
+    img: "assets/img/shop-haec-tumbler.webp", options: "PTO or Non-PTO",
     blurb: "A stainless 20oz skinny tumbler that keeps drinks at temperature." },
   { id: "drawstring-bag", name: "Sport Pack Drawstring Bag", price: 15, cat: "Apparel",
     img: "assets/img/shop-drawstring-bag.webp",
@@ -235,6 +235,7 @@ const VARIANTS = {
   "haec-adult-hoodie": { colors: ["Black","White","Natural"], sizes: SZ_ADULT, garments: ["Sweatshirt","Hoodie","Embroidered Sweatshirt","Embroidered Hoodie"], pto: true, bulk: true },
   "haec-youth-hoodie": { colors: ["Black","White","Natural"], sizes: SZ_YOUTH, garments: ["Sweatshirt","Hoodie","Embroidered Sweatshirt","Embroidered Hoodie"], age: "Youth", bulk: true },
   "haec-mug":          { flat: 15, pto: true, bulk: true },
+  "haec-tumbler":      { flat: 20, pto: true, bulk: true },
   "haec-beanie":       { colors: ["Brown","Black"], flat: 12.95, pto: true },
   "haec-tote":         { colors: ["Natural","Black"], flat: 15, pto: true, bulk: true },
   "snakes-hiss":       { colors: ["Black"], sizes: SZ_ADULT, garment: "T-Shirt", flat: 20.95, bulk: true }
