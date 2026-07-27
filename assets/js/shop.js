@@ -139,9 +139,12 @@ const PRODUCTS = [
   { id: "nurse-life", name: "“Nurse Life” Embroidered Hoodie / Sweatshirt", price: 25, from: true, cat: "Apparel",
     img: "assets/img/shop-nurse-life.webp", options: "Hoodie / Sweatshirt · S–2XL",
     blurb: "Show your passion for nursing with this embroidered design." },
-  { id: "haec-tshirt", name: "H.A.E.C T-Shirt", price: 12.95, from: true, cat: "Education",
-    img: "assets/img/shop-haec-tshirt.webp", options: "Youth / Adult / PTO · S–2XL",
-    blurb: "The High Achievers (H.A.E.C) tee — professional style and comfort." },
+  { id: "haec-tshirt", name: "H.A.E.C T-Shirt_Adult", price: 18.95, cat: "Education",
+    img: "assets/img/shop-haec-tshirt.webp", options: "Adult S–3XL · PTO or Non-PTO",
+    blurb: "The High Achievers (H.A.E.C) adult tee — professional style and comfort." },
+  { id: "haec-tshirt-youth", name: "H.A.E.C T-Shirt_Youth", price: 16.95, cat: "Education",
+    img: "assets/img/shop-haec-tshirt-youth.webp", options: "Youth XS–XL · PTO or Non-PTO",
+    blurb: "The High Achievers (H.A.E.C) youth tee — soft, durable and school-ready." },
   { id: "haec-tote", name: "H.A.E.C Tote Bag", price: 12, from: true, cat: "Education",
     img: "assets/img/shop-haec-tote.webp", options: "Natural / Black · PTO or Non-PTO",
     blurb: "A durable, spacious H.A.E.C tote for everyday carry." },
@@ -203,6 +206,7 @@ const SZ_ADULT_XS = ["XS", "S", "M", "L", "XL", "2XL", "3XL"];
 const SZ_ADULT    = ["S", "M", "L", "XL", "2XL", "3XL"];
 const SZ_TODDLER  = ["2T", "3T", "4T", "5T"];
 const SZ_YOUTH    = ["2T", "3T", "4T", "5T", "S", "M", "L", "XL"];
+const SZ_YOUTH_TEE = ["XS", "S", "M", "L", "XL"];   // youth letter sizes (toddler tee is its own product)
 
 /* Per-product option sets. `garments` = pickable (affects price); `garment` =
    fixed. `ages`/`age` drive Youth vs Adult pricing (default Adult). `flat` =
@@ -222,7 +226,8 @@ const VARIANTS = {
   "trusting-god":      { colors: ["Black","Gray","White","Orange"], sizes: SZ_ADULT_XS, garments: ["Hoodie","Sweatshirt"], flat: 28.95, bulk: true },
   "nurse-life":        { colors: ["Black","Gray","White"], sizes: SZ_ADULT_XS, garments: ["Hoodie","Sweatshirt"], flat: 28.95, bulk: true },
   "stay-humble":       { colors: ["White","Black","Blue","Red"], sizes: SZ_ADULT, garments: ["Hoodie","Sweatshirt"], flat: 28.95, bulk: true },
-  "haec-tshirt":       { colors: ["White","Natural","Black"], sizes: SZ_ADULT, garment: "T-Shirt", ages: ["Adult","Youth"], pto: true, bulk: true },
+  "haec-tshirt":       { colors: ["White","Natural","Black"], sizes: SZ_ADULT, garment: "T-Shirt", age: "Adult", pto: true, flat: 18.95, bulk: true },
+  "haec-tshirt-youth": { colors: ["White","Natural","Black"], sizes: SZ_YOUTH_TEE, garment: "T-Shirt", age: "Youth", pto: true, flat: 16.95, bulk: true },
   "haec-toddler-tee":  { colors: ["White","Natural","Black"], sizes: SZ_TODDLER, garment: "T-Shirt", age: "Youth" },
   "haec-adult-hoodie": { colors: ["Black","White","Natural"], sizes: SZ_ADULT, garments: ["Sweatshirt","Hoodie","Embroidered Sweatshirt","Embroidered Hoodie"], pto: true, bulk: true },
   "haec-youth-hoodie": { colors: ["Black","White","Natural"], sizes: SZ_YOUTH, garments: ["Sweatshirt","Hoodie","Embroidered Sweatshirt","Embroidered Hoodie"], age: "Youth", bulk: true },
