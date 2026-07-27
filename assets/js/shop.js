@@ -147,7 +147,7 @@ const PRODUCTS = [
     img: "assets/img/shop-haec-tshirt.webp", options: "Adult S–3XL · PTO or Non-PTO",
     blurb: "The High Achievers (H.A.E.C) adult tee — professional style and comfort." },
   { id: "haec-tshirt-youth", name: "H.A.E.C T-Shirt_Youth", price: 16.95, cat: "Education",
-    img: "assets/img/shop-haec-tshirt-youth.webp?v=2", options: "Youth XS–XL",
+    img: "assets/img/shop-haec-tshirt-youth.webp?v=3", options: "Youth XS–XL",
     blurb: "The High Achievers (H.A.E.C) youth tee — soft, durable and school-ready." },
   { id: "haec-tote", name: "H.A.E.C Tote Bag", price: 15, cat: "Education",
     img: "assets/img/shop-haec-tote.webp", options: "Natural / Black · PTO or Non-PTO",
