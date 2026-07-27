@@ -23,6 +23,7 @@ const SHOP_CONFIG = {
     "drink-straight-tumbler": "https://buy.stripe.com/3cI28r60J7JAgm3dUlfrW02",
     "haec-tumbler": "https://buy.stripe.com/fZu28r2Ox8NE9XF17zfrW03",
     "haec-mug": "https://buy.stripe.com/6oU28rgFn8NE1r93fHfrW04",
+    "haec-tote": "https://buy.stripe.com/00w6oH88RbZQ7PxeYpfrW0m",
     "snakes-hiss": "https://buy.stripe.com/eVqaEXdtbd3UfhZaI9frW05",
     "drawstring-bag": "https://buy.stripe.com/4gMcN59cV9RIfhZ9E5frW06",
     "pray-on-it-hoodie": "https://buy.stripe.com/3cIcN59cV4xo2vdaI9frW07",
