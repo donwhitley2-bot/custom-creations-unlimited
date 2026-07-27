@@ -657,7 +657,9 @@ h3 { font-size: var(--fs-h3); }
 }
 .promo-bar strong { font-weight: 700; }
 .promo-bar a { text-decoration: underline; text-underline-offset: 3px; }
-body.has-promo .site-header { top: 40px; }
+/* Offset the fixed header by the promo bar's real height — it wraps to two or
+   three lines on narrow screens, so a fixed 40px let the header overlap it. */
+body.has-promo .site-header { top: var(--promo-h, 40px); }
 
 /* -------------------------------------------------------------------------
    18. SCROLL REVEAL
@@ -1005,4 +1007,132 @@ select.select {
   .footer-top { grid-template-columns: 1fr; gap: 2rem; }
   .gallery-item.span-4, .gallery-item.span-6, .gallery-item.span-8 { grid-column: span 12; }
   .hero__cta .btn { flex: 1; }
+}
+
+/* ==========================================================================
+   HOMEPAGE LASER HERO — full-bleed photo with scroll/idle motion.
+   Scoped to .hero--laser and body.has-dark-hero so no other page is affected.
+   ========================================================================== */
+.hero--laser {
+  position: relative; min-height: 100svh; padding: 0;
+  background: #07070b; overflow: hidden; isolation: isolate;
+  display: grid; align-items: center;
+}
+.hero--laser .hero-bg { position: absolute; inset: 0; overflow: hidden; z-index: 0; }
+/* Box matching the photo's aspect exactly (emulates object-fit:cover) so the
+   flare/ember overlays can be positioned in true image coordinates. */
+.hero--laser .hero-bg__fit {
+  --ar: 1.4151;
+  position: absolute; top: 50%; left: 50%;
+  width:  max(100%, calc(100svh * var(--ar)));
+  height: max(100%, calc(100vw / var(--ar)));
+  transform: translate(-50%, -50%);
+}
+.hero--laser .hero-bg__anim { position: absolute; inset: 0; will-change: transform; }
+.hero--laser .hero-bg__anim img { width: 100%; height: 100%; display: block; object-fit: fill; }
+
+.hero--laser .flare {
+  position: absolute; left: 50.8%; top: 46.6%;
+  width: 24%; aspect-ratio: 1; transform: translate(-50%, -50%);
+  pointer-events: none; mix-blend-mode: screen;
+  background: radial-gradient(circle,
+    rgba(238,250,255,.85) 0%, rgba(150,205,255,.52) 14%,
+    rgba(90,160,255,.24) 32%, rgba(60,130,255,.07) 55%, rgba(60,130,255,0) 72%);
+  animation: hf-flare 2.6s ease-in-out infinite;
+}
+@keyframes hf-flare {
+  0%,100% { opacity: .58; transform: translate(-50%,-50%) scale(.94) }
+  17%     { opacity: .92; transform: translate(-50%,-50%) scale(1.05) }
+  31%     { opacity: .66; transform: translate(-50%,-50%) scale(.99) }
+  52%     { opacity: 1;   transform: translate(-50%,-50%) scale(1.12) }
+  68%     { opacity: .74; transform: translate(-50%,-50%) scale(1.02) }
+  84%     { opacity: .95; transform: translate(-50%,-50%) scale(1.07) }
+}
+
+.hero--laser .embers { position: absolute; left: 50.8%; top: 46.6%; width: 0; height: 0; pointer-events: none; }
+.hero--laser .ember {
+  position: absolute; width: 4px; height: 4px; border-radius: 50%;
+  background: radial-gradient(circle, #fffaf0 0%, #ffc46a 40%, rgba(255,140,50,0) 72%);
+  opacity: 0; will-change: transform, opacity;
+  animation: hf-ember var(--dur) ease-out var(--delay) infinite;
+}
+@keyframes hf-ember {
+  0%   { opacity: 0; transform: translate(0,0) scale(.5) }
+  12%  { opacity: 1 }
+  70%  { opacity: .55 }
+  100% { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(.15) }
+}
+
+.hero--laser .hero-scrim {
+  position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(7,7,11,.94) 0%, rgba(7,7,11,.86) 24%,
+                           rgba(7,7,11,.62) 38%, rgba(7,7,11,.30) 50%,
+                           rgba(7,7,11,.08) 61%, rgba(7,7,11,0) 70%),
+    linear-gradient(0deg,  rgba(7,7,11,.76) 0%, rgba(7,7,11,.18) 24%, rgba(7,7,11,0) 42%),
+    linear-gradient(180deg, rgba(7,7,11,.70) 0%, rgba(7,7,11,0) 17%);
+}
+@media (max-width: 900px) {
+  .hero--laser .hero-scrim {
+    background:
+      linear-gradient(0deg, rgba(7,7,11,.95) 24%, rgba(7,7,11,.70) 52%, rgba(7,7,11,.32) 100%),
+      linear-gradient(180deg, rgba(7,7,11,.82) 0%, rgba(7,7,11,0) 22%);
+  }
+}
+
+.hero--laser .hero__inner {
+  position: relative; z-index: 2; display: block;
+  padding: calc(var(--header-h) + 3.5rem) var(--gutter) 8.5rem;
+  will-change: transform;
+}
+.hero--laser .hero__copy { max-width: 38rem; }
+@media (max-width: 900px) { .hero--laser .hero__copy { max-width: 100%; } }
+
+.hero--laser h1 {
+  color: var(--ivory-50); margin-bottom: 1.25rem;
+  font-size: clamp(2.5rem, 1.5rem + 4.1vw, 4.5rem);
+  text-shadow: 0 2px 10px rgba(7,7,11,.85), 0 4px 40px rgba(7,7,11,.75);
+}
+.hero--laser .hero__sub { color: rgba(247,244,238,.80); max-width: 38ch; text-shadow: 0 1px 8px rgba(7,7,11,.9), 0 2px 24px rgba(7,7,11,.7); }
+.hero--laser .hero__rating span { color: rgba(247,244,238,.70); text-shadow: 0 1px 8px rgba(7,7,11,.9); }
+.hero--laser .hero__rating strong { color: var(--ivory-50); }
+.hero--laser .stars svg { color: var(--gold-400); }
+.hero--laser .hero__trust { border-top-color: rgba(247,244,238,.16); }
+.hero--laser .hero__trust-item { color: rgba(247,244,238,.74); text-shadow: 0 1px 8px rgba(7,7,11,.9); }
+.hero--laser .btn--ghost { color: var(--ivory-50); border-color: rgba(247,244,238,.34); background: rgba(247,244,238,.05); }
+.hero--laser .btn--ghost:hover { border-color: var(--gold-400); color: var(--gold-200); }
+
+.hero--laser .hero-chips {
+  position: absolute; z-index: 2; left: 0; right: 0; bottom: 1.6rem;
+  display: flex; justify-content: center; padding: 0 1rem; will-change: transform;
+}
+.hero--laser .hero-chips__bar {
+  display: flex; flex-wrap: wrap; justify-content: center; align-items: center;
+  gap: .55rem 1.4rem; max-width: min(64rem, 92vw);
+  background: rgba(14,14,20,.62); border: 1px solid rgba(247,244,238,.12);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  border-radius: 2rem; padding: .8rem 1.75rem;
+}
+.hero--laser .hero-chips a {
+  display: inline-flex; align-items: center; gap: .45rem; line-height: 1.2;
+  color: rgba(247,244,238,.82); font-size: .74rem; font-weight: 600;
+  letter-spacing: .05em; text-transform: uppercase; white-space: nowrap;
+  transition: color var(--dur) var(--ease);
+}
+.hero--laser .hero-chips a:hover { color: var(--gold-300); }
+.hero--laser .hero-chips svg { width: 17px; height: 17px; color: var(--gold-400); flex: none; }
+@media (max-width: 700px) { .hero--laser .hero-chips { display: none } }
+
+/* Header sits over the dark hero until the page is scrolled */
+body.has-dark-hero .site-header:not(.is-scrolled) .brand__name,
+body.has-dark-hero .site-header:not(.is-scrolled) .nav-link { color: rgba(247,244,238,.90); }
+body.has-dark-hero .site-header:not(.is-scrolled) .nav-link:hover,
+body.has-dark-hero .site-header:not(.is-scrolled) .nav-item:hover .nav-link { color: var(--gold-300); }
+body.has-dark-hero .site-header:not(.is-scrolled) .icon-btn { color: rgba(247,244,238,.88); border-color: rgba(247,244,238,.20); }
+body.has-dark-hero .site-header:not(.is-scrolled) .icon-btn:hover { border-color: var(--gold-400); color: var(--gold-300); }
+body.has-dark-hero .site-header:not(.is-scrolled) .brand__mark rect { fill: rgba(247,244,238,.12); }
+
+@media (prefers-reduced-motion: reduce) {
+  .hero--laser .flare { animation: none; opacity: .8 }
+  .hero--laser .ember { animation: none; opacity: 0 }
 }

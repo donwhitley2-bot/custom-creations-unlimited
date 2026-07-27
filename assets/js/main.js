@@ -23,6 +23,19 @@
     });
   }
 
+  /* ---------- Promo bar height -> header offset ----------------------------
+     The bar wraps on narrow screens, so measure it instead of assuming 40px. */
+  (function promoOffset() {
+    var bar = document.querySelector(".promo-bar");
+    if (!bar) return;
+    function sync() {
+      document.documentElement.style.setProperty("--promo-h", bar.offsetHeight + "px");
+    }
+    sync();
+    window.addEventListener("resize", sync);
+    if ("ResizeObserver" in window) new ResizeObserver(sync).observe(bar);
+  })();
+
   /* ---------- Sticky header shadow ---------------------------------------- */
   var header = document.getElementById("header");
   var backToTop = document.getElementById("backToTop");
@@ -340,4 +353,77 @@
   /* ---------- Footer year -------------------------------------------------- */
   var yearEl = document.getElementById("year");
   if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+  /* ---------- Homepage laser hero (no-op on every other page) --------------
+     Composes three motions onto one transform: a slow idle drift so the shot
+     never looks frozen, scroll parallax + push-in, and eased mouse parallax.
+     Transform/opacity only, and the loop is parked when off-screen or hidden. */
+  (function heroLaser() {
+    var stage = document.getElementById("heroLaser");
+    var anim = document.getElementById("heroAnim");
+    var inner = document.getElementById("heroInner");
+    if (!stage || !anim || !inner) return;
+
+    var chips = document.getElementById("heroChips");
+    var fine = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+    var h = stage.offsetHeight || 1, t = 0, raf = null, visible = true;
+    var mx = 0, my = 0, tmx = 0, tmy = 0;
+
+    var host = document.getElementById("heroEmbers");
+    if (host && !prefersReduced) {
+      for (var i = 0; i < 20; i++) {
+        var e = document.createElement("span");
+        e.className = "ember";
+        e.style.setProperty("--dx", (Math.random() * 84 - 42).toFixed(1) + "px");
+        e.style.setProperty("--dy", (-90 - Math.random() * 120).toFixed(1) + "px");
+        e.style.setProperty("--dur", (2.2 + Math.random() * 2.6).toFixed(2) + "s");
+        e.style.setProperty("--delay", (Math.random() * 4).toFixed(2) + "s");
+        e.style.left = (Math.random() * 26 - 13).toFixed(1) + "px";
+        host.appendChild(e);
+      }
+    }
+
+    function frame() {
+      raf = null;
+      var y = window.scrollY;
+      var p = Math.min(Math.max(y / h, 0), 1);
+      if (prefersReduced) return;
+
+      t += 0.0022;
+      var kbX = Math.sin(t) * 9, kbY = Math.cos(t * 0.78) * 7;
+      var kbS = 1 + Math.sin(t * 0.62) * 0.014;
+      mx += (tmx - mx) * 0.06;
+      my += (tmy - my) * 0.06;
+
+      anim.style.transform =
+        "translate3d(" + (kbX + mx).toFixed(2) + "px," +
+        (y * 0.34 + kbY + my).toFixed(2) + "px,0) scale(" + ((1 + p * 0.11) * kbS).toFixed(4) + ")";
+      inner.style.transform = "translate3d(0," + (-y * 0.13).toFixed(2) + "px,0)";
+      inner.style.opacity = Math.max(0, 1 - p * 1.45).toFixed(3);
+      if (chips) {
+        chips.style.transform = "translate3d(0," + (y * 0.20).toFixed(2) + "px,0)";
+        chips.style.opacity = Math.max(0, 1 - p * 2.0).toFixed(3);
+      }
+      if (visible) raf = requestAnimationFrame(frame);
+    }
+    function kick() { if (!raf && visible && !prefersReduced) raf = requestAnimationFrame(frame); }
+
+    if (fine && !prefersReduced) {
+      stage.addEventListener("mousemove", function (ev) {
+        var r = stage.getBoundingClientRect();
+        tmx = ((ev.clientX - r.left) / r.width - 0.5) * -26;
+        tmy = ((ev.clientY - r.top) / r.height - 0.5) * -18;
+      }, { passive: true });
+      stage.addEventListener("mouseleave", function () { tmx = 0; tmy = 0; }, { passive: true });
+    }
+    window.addEventListener("scroll", kick, { passive: true });
+    window.addEventListener("resize", function () { h = stage.offsetHeight || 1; kick(); });
+    document.addEventListener("visibilitychange", function () { visible = !document.hidden; kick(); });
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(function (en) {
+        visible = en[0].isIntersecting && !document.hidden; kick();
+      }, { threshold: 0.01 }).observe(stage);
+    }
+    frame();
+  })();
 })();

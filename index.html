@@ -28,7 +28,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
-  <link rel="stylesheet" href="assets/css/styles.css?v=2" />
+  <link rel="stylesheet" href="assets/css/styles.css?v=4" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230a0a0f'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-family='Georgia,serif' font-size='11' font-weight='700' fill='%23c8a24a'%3ECCU%3C/text%3E%3C/svg%3E" />
 
   <!-- Schema.org structured data -->
@@ -66,7 +66,7 @@
   }
   </script>
 </head>
-<body class="has-promo">
+<body class="has-promo has-dark-hero">
   <a class="skip-link" href="#main">Skip to content</a>
 
   <!-- Urgency / promo bar -->
@@ -182,10 +182,23 @@
     <span id="top"></span>
 
     <!-- ===================== HERO ===================== -->
-    <section class="hero section--tight" aria-labelledby="hero-h">
-      <div class="hero__bg"></div>
-      <div class="hero__grid-lines" aria-hidden="true"></div>
-      <div class="container hero__inner">
+    <section class="hero hero--laser" id="heroLaser" aria-labelledby="hero-h">
+      <div class="hero-bg" aria-hidden="true">
+        <div class="hero-bg__fit">
+          <div class="hero-bg__anim" id="heroAnim">
+            <img src="assets/img/hero-laser-1920.webp"
+                 srcset="assets/img/hero-laser-1280.webp 1280w,
+                         assets/img/hero-laser-1920.webp 1920w,
+                         assets/img/hero-laser-2560.webp 2560w"
+                 sizes="100vw" alt="" fetchpriority="high" decoding="async" />
+            <span class="flare"></span>
+            <span class="embers" id="heroEmbers"></span>
+          </div>
+        </div>
+      </div>
+      <div class="hero-scrim" aria-hidden="true"></div>
+
+      <div class="container hero__inner" id="heroInner">
         <div class="hero__copy">
           <div class="hero__rating" data-reveal>
             <span class="stars" aria-hidden="true">
@@ -203,10 +216,10 @@
           <p class="hero__sub" data-reveal data-delay="2">From embroidered apparel and promotional products to laser engraving and personalized gifts — we help businesses, schools, organizations and individuals bring their ideas to life.</p>
 
           <div class="hero__cta" data-reveal data-delay="3">
-            <a class="btn btn--gold btn--lg" href="quote.html">Request a Quote
+            <a class="btn btn--gold btn--lg" href="shop.html">Shop Custom Items
               <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </a>
-            <a class="btn btn--ghost btn--lg" href="gallery.html">View Our Work</a>
+            <a class="btn btn--ghost btn--lg" href="quote.html">Request a Quote</a>
           </div>
 
           <div class="hero__trust" data-reveal data-delay="4">
@@ -216,20 +229,16 @@
           </div>
         </div>
 
-        <div class="hero__visual" aria-hidden="true">
-          <div class="hero-card hero-card--main">
-            <img class="ph-img" src="assets/img/embroidery-1.webp" alt="Embroidery" loading="lazy" decoding="async" />
-          </div>
-          <div class="hero-card hero-card--top float">
-            <img class="ph-img" src="assets/img/awards-1.webp" alt="Awards" loading="lazy" decoding="async" />
-          </div>
-          <div class="hero-card hero-card--bottom float float--slow">
-            <img class="ph-img" src="assets/img/drinkware-1.webp" alt="Drinkware" loading="lazy" decoding="async" />
-          </div>
-          <div class="hero-badge float">
-            <span class="hero-badge__icon"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2l2.4 7.4H22l-6 4.6 2.3 7.4-6.3-4.6L5.7 21.4 8 14 2 9.4h7.6z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
-            <div><strong>15,000+</strong><span>brands served</span></div>
-          </div>
+      </div>
+
+      <div class="hero-chips" id="heroChips">
+        <div class="hero-chips__bar">
+          <a href="shop.html"><svg viewBox="0 0 24 24" fill="none"><path d="M4 9h16v11H4zM3 5h18v4H3zM12 5v15" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>Custom Gifts</a>
+          <a href="shop.html"><svg viewBox="0 0 24 24" fill="none"><path d="M4 20V9l8-5 8 5v11M9 20v-6h6v6" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>Home Decor</a>
+          <a href="industries.html"><svg viewBox="0 0 24 24" fill="none"><path d="M4 8h16v12H4zM9 8V6a2 2 0 012-2h2a2 2 0 012 2v2" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>Business Branding</a>
+          <a href="services/awards.html"><svg viewBox="0 0 24 24" fill="none"><path d="M8 4h8v4a4 4 0 01-8 0zM9 20h6l-1-4h-4z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>Awards</a>
+          <a href="industries.html"><svg viewBox="0 0 24 24" fill="none"><path d="M12 21s-7-4.5-9-9a4 4 0 017-3 4 4 0 017 3c-2 4.5-9 9-9 9z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>Weddings</a>
+          <a href="shop.html">And more &rarr;</a>
         </div>
       </div>
     </section>
@@ -646,6 +655,6 @@
     <svg viewBox="0 0 24 24" fill="none"><path d="M12 19V5M5 12l7-7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
   </button>
 
-  <script src="assets/js/main.js?v=2" defer></script>
+  <script src="assets/js/main.js?v=4" defer></script>
 </body>
 </html>
