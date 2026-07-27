@@ -321,7 +321,11 @@
       if (formspreeReady && window.fetch) {
         var btn = form.querySelector("[type=submit]");
         if (btn) { btn.disabled = true; btn.style.opacity = ".7"; }
-        fetch(action, { method: "POST", body: new FormData(form), headers: { "Accept": "application/json" } })
+        var fd = new FormData(form);
+        // Tell Formspree where to send the sender's confirmation copy
+        var em = form.querySelector('input[type=email]');
+        if (em && em.value) fd.set("_replyto", em.value);
+        fetch(action, { method: "POST", body: fd, headers: { "Accept": "application/json" } })
           .then(function (r) { if (r.ok) showSuccess(); else composeMailto(); })
           .catch(composeMailto)
           .then(function () { if (btn) { btn.disabled = false; btn.style.opacity = ""; } });

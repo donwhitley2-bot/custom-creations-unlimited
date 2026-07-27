@@ -475,6 +475,17 @@ function renderOrderPage() {
           <input type="hidden" name="Product" value="${esc(product.name)}" />
           <input type="hidden" name="Price" value="${money(initPrice)}" />
           <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true" />
+          <input type="hidden" name="_replyto" />
+          <input type="hidden" name="_autoresponse" value="Thanks for your order — we've received it.
+
+Item: ${esc(product.name)}
+
+We'll email you a free design proof before anything is produced. If you paid by card, your payment receipt arrives separately from Stripe. For multi-item (bulk) orders we'll send a secure invoice, usually within one business day.
+
+Questions, or need to change something? Just reply to this email.
+
+— Custom Creations Unlimited
+(404) 967-8028 · info@ccucustom.com" />
 
           ${step1}
 
@@ -759,6 +770,9 @@ function wireOrderForm(product, hasStripe) {
       try {
         const fd = new FormData(form);
         fd.append("_orderpage", window.location.href);
+        // Tell Formspree where to send the customer's confirmation copy
+        const em = form.elements["Email"];
+        if (em && em.value) fd.set("_replyto", em.value);
         const res = await fetch(SHOP_CONFIG.formEndpoint, {
           method: "POST", body: fd, headers: { Accept: "application/json" }, signal: ctrl.signal
         });
