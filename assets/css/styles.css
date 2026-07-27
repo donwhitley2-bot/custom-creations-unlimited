@@ -1136,3 +1136,18 @@ body.has-dark-hero .site-header:not(.is-scrolled) .brand__mark rect { fill: rgba
   .hero--laser .flare { animation: none; opacity: .8 }
   .hero--laser .ember { animation: none; opacity: 0 }
 }
+
+/* Social-proof badge inside the laser hero — sits in the copy column rather
+   than floating over the photo, so it can't collide with the artwork. */
+.hero--laser .hero-badge {
+  /* Floated over the photo, not in the copy column — inline it fell below the
+     fold and pushed the hero past 100svh. */
+  position: absolute; z-index: 3; right: 5%; top: 26%; bottom: auto; left: auto;
+  background: rgba(14, 14, 20, 0.55);
+  border-color: rgba(247, 244, 238, 0.20);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 10px 34px rgba(7, 7, 11, 0.45);
+}
+@media (max-width: 1100px) { .hero--laser .hero-badge { display: none } }
+.hero--laser .hero-badge strong { color: var(--ivory-50); }
+.hero--laser .hero-badge span { color: rgba(247, 244, 238, 0.72); }
