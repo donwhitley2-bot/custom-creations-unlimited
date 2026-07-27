@@ -24,6 +24,7 @@ const SHOP_CONFIG = {
     "haec-tumbler": "https://buy.stripe.com/fZu28r2Ox8NE9XF17zfrW03",
     "haec-mug": "https://buy.stripe.com/6oU28rgFn8NE1r93fHfrW04",
     "haec-tote": "https://buy.stripe.com/00w6oH88RbZQ7PxeYpfrW0m",
+    "haec-beanie": "https://buy.stripe.com/00w8wP88RbZQ5Hp17zfrW0n",
     "snakes-hiss": "https://buy.stripe.com/eVqaEXdtbd3UfhZaI9frW05",
     "drawstring-bag": "https://buy.stripe.com/4gMcN59cV9RIfhZ9E5frW06",
     "pray-on-it-hoodie": "https://buy.stripe.com/3cIcN59cV4xo2vdaI9frW07",
@@ -153,8 +154,8 @@ const PRODUCTS = [
   { id: "haec-mug", name: "H.A.E.C 15oz Coffee Mug", price: 15, cat: "Education",
     img: "assets/img/shop-haec-mug.webp", options: "PTO or Non-PTO",
     blurb: "A generous 15oz H.A.E.C mug to elevate your mornings." },
-  { id: "haec-beanie", name: "H.A.E.C Embroidered Beanie", price: 15, from: true, cat: "Education",
-    img: "assets/img/shop-haec-beanie.webp", options: "Brown / Black · PTO or Student/Parent",
+  { id: "haec-beanie", name: "H.A.E.C Embroidered Beanie", price: 15.95, cat: "Education",
+    img: "assets/img/shop-haec-beanie.webp", options: "Brown / Black · PTO or Non-PTO",
     blurb: "Stay warm in a soft, embroidered H.A.E.C beanie." },
   { id: "haec-toddler-tee", name: "H.A.E.C Toddler T-Shirt", price: 12.95, from: true, cat: "Education",
     img: "assets/img/shop-haec-toddler-tee.webp", options: "White / Natural · 2T–5T",
@@ -236,7 +237,7 @@ const VARIANTS = {
   "haec-youth-hoodie": { colors: ["Black","White","Natural"], sizes: SZ_YOUTH, garments: ["Sweatshirt","Hoodie","Embroidered Sweatshirt","Embroidered Hoodie"], age: "Youth", bulk: true },
   "haec-mug":          { flat: 15, pto: true, bulk: true },
   "haec-tumbler":      { flat: 20, pto: true, bulk: true },
-  "haec-beanie":       { colors: ["Brown","Black"], flat: 12.95, pto: true },
+  "haec-beanie":       { colors: ["Brown","Black"], flat: 15.95, pto: true, bulk: true },
   "haec-tote":         { colors: ["Natural","Black"], flat: 15, pto: true, bulk: true },
   "snakes-hiss":       { colors: ["Black"], sizes: SZ_ADULT, garment: "T-Shirt", flat: 20.95, bulk: true }
 };
