@@ -149,8 +149,8 @@ const PRODUCTS = [
   { id: "haec-tote", name: "H.A.E.C Tote Bag", price: 15, cat: "Education",
     img: "assets/img/shop-haec-tote.webp", options: "Natural / Black · PTO or Non-PTO",
     blurb: "A durable, spacious H.A.E.C tote for everyday carry." },
-  { id: "haec-mug", name: "H.A.E.C 15oz Coffee Mug", price: 15, from: true, cat: "Education",
-    img: "assets/img/shop-haec-mug.webp",
+  { id: "haec-mug", name: "H.A.E.C 15oz Coffee Mug", price: 15, cat: "Education",
+    img: "assets/img/shop-haec-mug.webp", options: "PTO or Non-PTO",
     blurb: "A generous 15oz H.A.E.C mug to elevate your mornings." },
   { id: "haec-beanie", name: "H.A.E.C Embroidered Beanie", price: 15, from: true, cat: "Education",
     img: "assets/img/shop-haec-beanie.webp", options: "Brown / Black · PTO or Student/Parent",
@@ -233,6 +233,7 @@ const VARIANTS = {
   "haec-toddler-tee":  { colors: ["White","Natural","Black"], sizes: SZ_TODDLER, garment: "T-Shirt", age: "Youth" },
   "haec-adult-hoodie": { colors: ["Black","White","Natural"], sizes: SZ_ADULT, garments: ["Sweatshirt","Hoodie","Embroidered Sweatshirt","Embroidered Hoodie"], pto: true, bulk: true },
   "haec-youth-hoodie": { colors: ["Black","White","Natural"], sizes: SZ_YOUTH, garments: ["Sweatshirt","Hoodie","Embroidered Sweatshirt","Embroidered Hoodie"], age: "Youth", bulk: true },
+  "haec-mug":          { flat: 15, pto: true },
   "haec-beanie":       { colors: ["Brown","Black"], flat: 12.95, pto: true },
   "haec-tote":         { colors: ["Natural","Black"], flat: 15, pto: true, bulk: true },
   "snakes-hiss":       { colors: ["Black"], sizes: SZ_ADULT, garment: "T-Shirt", flat: 20.95, bulk: true }
