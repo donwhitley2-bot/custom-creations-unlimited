@@ -233,7 +233,7 @@ const VARIANTS = {
   "haec-toddler-tee":  { colors: ["White","Natural","Black"], sizes: SZ_TODDLER, garment: "T-Shirt", age: "Youth" },
   "haec-adult-hoodie": { colors: ["Black","White","Natural"], sizes: SZ_ADULT, garments: ["Sweatshirt","Hoodie","Embroidered Sweatshirt","Embroidered Hoodie"], pto: true, bulk: true },
   "haec-youth-hoodie": { colors: ["Black","White","Natural"], sizes: SZ_YOUTH, garments: ["Sweatshirt","Hoodie","Embroidered Sweatshirt","Embroidered Hoodie"], age: "Youth", bulk: true },
-  "haec-mug":          { flat: 15, pto: true },
+  "haec-mug":          { flat: 15, pto: true, bulk: true },
   "haec-beanie":       { colors: ["Brown","Black"], flat: 12.95, pto: true },
   "haec-tote":         { colors: ["Natural","Black"], flat: 15, pto: true, bulk: true },
   "snakes-hiss":       { colors: ["Black"], sizes: SZ_ADULT, garment: "T-Shirt", flat: 20.95, bulk: true }
