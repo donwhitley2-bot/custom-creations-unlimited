@@ -37,7 +37,8 @@ const SHOP_CONFIG = {
     "his-timing": "https://buy.stripe.com/28E4gz1KtaVM2vdaI9frW0g",
     "classy-hoodrat": "https://buy.stripe.com/fZu5kDfBjgg67Px6rTfrW0h",
     "stay-humble": "https://buy.stripe.com/7sYbJ1dtbfc2fhZ4jLfrW0i",
-    "mom-life": "https://buy.stripe.com/8x25kD0Gp2pgc5N8A1frW0j"
+    "mom-life": "https://buy.stripe.com/8x25kD0Gp2pgc5N8A1frW0j",
+    "haec-tshirt": "https://buy.stripe.com/dRmcN50Gp7JAc5N03vfrW0k"
   },
 
   /* Where the customization details + uploaded artwork are sent when a
@@ -523,7 +524,14 @@ function wireOrderForm(product, hasStripe) {
   // ----- "Both buttons" bulk ordering (repeatable style/color/size → invoice) -
   const isBulkItem = !!(v && v.bulk && !product.personalize);
   let mode = "single";
-  const unit = v ? variantPrice(v, {}) : product.price;   // per-item price for the estimate
+  let bulkEst = 0;          // running estimate across all bulk lines
+  // Per-item price for the CURRENT selection. Must be read live: Age/Style
+  // change the price, so a value captured once would go stale.
+  const unitNow = () => {
+    if (!v) return product.price;
+    const g = form.elements["Garment"], a = form.elements["Age"];
+    return variantPrice(v, { garment: g && g.value, age: a && a.value });
+  };
   const bulkPane = form.querySelector('.order-pane[data-pane="bulk"]');
   const bulkTotal = () => { const t = form.elements["Total items"]; return t ? (parseInt(t.value, 10) || 0) : 0; };
   const firstBulkInput = () => bulkPane && bulkPane.querySelector("input[data-size]");
@@ -535,7 +543,7 @@ function wireOrderForm(product, hasStripe) {
       labelEl.textContent = n ? `Submit order (${n}) — we'll email your invoice`
                               : "Submit order — we'll email your invoice";
     } else {
-      labelEl.textContent = hasStripe ? `Continue to secure payment — ${money(unit)}`
+      labelEl.textContent = hasStripe ? `Continue to secure payment — ${money(unitNow())}`
                                       : "Submit order — we'll email your invoice";
     }
   };
@@ -561,7 +569,7 @@ function wireOrderForm(product, hasStripe) {
         .map((i) => ({ sz: i.dataset.size, q: Math.max(0, parseInt(i.value, 10) || 0) }))
         .filter((o) => o.q > 0);
       const count = sizes.reduce((n, o) => n + o.q, 0);
-      const price = v ? variantPrice(v, { garment: style, age: age }) : unit;
+      const price = v ? variantPrice(v, { garment: style, age: age }) : product.price;
       return { style, color, age, membership, sizes, count, price };
     };
     const recompute = () => {
@@ -575,6 +583,7 @@ function wireOrderForm(product, hasStripe) {
           parts.push(`${label} — ${d.sizes.map((o) => o.sz + "×" + o.q).join(", ")}`);
         }
       });
+      bulkEst = est;
       if (breakdownField) breakdownField.value = parts.join("\n");
       if (totalField) totalField.value = total;
       const countEl = bulkPane.querySelector(".bulk-total__count");
@@ -632,6 +641,7 @@ function wireOrderForm(product, hasStripe) {
       const p = variantPrice(v, { garment: gSel && gSel.value, age: aSel && aSel.value });
       if (priceEl) priceEl.textContent = money(p);
       if (priceInput) priceInput.value = money(p);
+      updateSubmitLabel();   // the pay button shows the price too — keep it in sync
     };
     [gSel, aSel].forEach((s) => s && s.addEventListener("change", updatePrice));
     updatePrice();
@@ -660,7 +670,7 @@ function wireOrderForm(product, hasStripe) {
     if (stripeUrl && mode !== "bulk") {
       msg.textContent = "Your customization is saved. Click below to pay securely by card — we'll email a free proof before we produce anything.";
       actions.innerHTML =
-        `<a class="btn btn--gold btn--lg" href="${stripeUrl}">Pay ${money(unit)} securely</a>
+        `<a class="btn btn--gold btn--lg" href="${stripeUrl}">Pay ${money(unitNow())} securely</a>
          <a class="btn btn--ghost btn--lg" href="shop.html">Keep shopping</a>`;
     } else {
       msg.textContent = (mode === "bulk")
@@ -678,11 +688,11 @@ function wireOrderForm(product, hasStripe) {
       lines = ["New online order (multiple — mixed styles/colors)", "",
         "Product: " + product.name, "Order breakdown:"];
       (get("Order breakdown") || "(none)").split("\n").forEach((l) => { if (l) lines.push("  " + l); });
-      lines.push("Total items: " + bulkTotal(), "Est. total: " + money(unit * bulkTotal()));
+      lines.push("Total items: " + bulkTotal(), "Est. total: " + money(bulkEst));
     } else {
       lines = ["New online order", "",
         "Product: " + product.name,
-        "Price: " + money(unit),
+        "Price: " + money(unitNow()),
         "Quantity: " + get("Quantity"),
         product.personalize ? "Personalization: " + get("Personalization") : ""];
     }
