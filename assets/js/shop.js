@@ -146,7 +146,7 @@ const PRODUCTS = [
   { id: "haec-tshirt-youth", name: "H.A.E.C T-Shirt_Youth", price: 16.95, cat: "Education",
     img: "assets/img/shop-haec-tshirt-youth.webp?v=2", options: "Youth XS–XL",
     blurb: "The High Achievers (H.A.E.C) youth tee — soft, durable and school-ready." },
-  { id: "haec-tote", name: "H.A.E.C Tote Bag", price: 12, from: true, cat: "Education",
+  { id: "haec-tote", name: "H.A.E.C Tote Bag", price: 15, cat: "Education",
     img: "assets/img/shop-haec-tote.webp", options: "Natural / Black · PTO or Non-PTO",
     blurb: "A durable, spacious H.A.E.C tote for everyday carry." },
   { id: "haec-mug", name: "H.A.E.C 15oz Coffee Mug", price: 15, from: true, cat: "Education",
@@ -234,7 +234,7 @@ const VARIANTS = {
   "haec-adult-hoodie": { colors: ["Black","White","Natural"], sizes: SZ_ADULT, garments: ["Sweatshirt","Hoodie","Embroidered Sweatshirt","Embroidered Hoodie"], pto: true, bulk: true },
   "haec-youth-hoodie": { colors: ["Black","White","Natural"], sizes: SZ_YOUTH, garments: ["Sweatshirt","Hoodie","Embroidered Sweatshirt","Embroidered Hoodie"], age: "Youth", bulk: true },
   "haec-beanie":       { colors: ["Brown","Black"], flat: 12.95, pto: true },
-  "haec-tote":         { colors: ["Natural","Black"], flat: 15, pto: true },
+  "haec-tote":         { colors: ["Natural","Black"], flat: 15, pto: true, bulk: true },
   "snakes-hiss":       { colors: ["Black"], sizes: SZ_ADULT, garment: "T-Shirt", flat: 20.95, bulk: true }
 };
 
@@ -589,7 +589,11 @@ function wireOrderForm(product, hasStripe) {
         total += d.count; est += d.price * d.count;
         if (d.count) {
           const label = [d.style, d.color, d.age, d.membership].filter(Boolean).join(" / ");
-          parts.push(`${label} — ${d.sizes.map((o) => o.sz + "×" + o.q).join(", ")}`);
+          // Items with no size range (totes, beanies) read better as a plain count
+          const qty = (d.sizes.length === 1 && d.sizes[0].sz === "One size")
+            ? "×" + d.sizes[0].q
+            : d.sizes.map((o) => o.sz + "×" + o.q).join(", ");
+          parts.push(`${label} — ${qty}`);
         }
       });
       bulkEst = est;
