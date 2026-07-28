@@ -100,8 +100,7 @@ h1,h2,h3{font-family:Fraunces,Georgia,serif;font-weight:600;letter-spacing:-.015
 
 /* opening */
 .open .tint{background:linear-gradient(180deg,rgba(7,7,11,.80),rgba(7,7,11,.45) 40%,rgba(7,7,11,.92))}
-.mark{width:170px;height:170px;border-radius:40px;background:var(--grad);
-  display:grid;place-items:center;font-family:Fraunces,serif;font-weight:700;font-size:64px;color:#1a1408}
+.mark{height:180px;width:auto;display:block}
 .open h1{font-size:150px;color:var(--ivory);margin:52px 0 30px}
 .open .sub{font-size:44px;color:rgba(251,250,246,.82);line-height:1.35;max-width:20ch}
 .tag{margin-top:auto;font-size:32px;letter-spacing:.2em;text-transform:uppercase;color:var(--g4);font-weight:600}
@@ -168,7 +167,7 @@ def build_html():
     S.append(f"""<section class="slide open" data-hold="{HOLD_OPEN}">
       <div class="bg"><img src="../{hero}" alt=""></div><div class="tint"></div>
       <div class="pad">
-        <div class="mark">CCU</div>
+        <img class="mark" src="assets/ccu-mark-light.png" alt="Custom Creations Unlimited">
         <h1>Custom<br>Creations<br>Unlimited</h1>
         <div class="rule" style="margin:8px 0 34px"></div>
         <p class="sub">Embroidery, custom apparel, laser engraving &amp; personalized gifts &mdash; made in-house in Atlanta.</p>
