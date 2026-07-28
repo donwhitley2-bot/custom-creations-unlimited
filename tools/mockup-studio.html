@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="robots" content="noindex,nofollow">
+<script>(function(){var K="ccuToolsAuth",PW="JustLaserIt",HOME="../index.html";try{if(sessionStorage.getItem(K)==="1")return}catch(e){}for(var i=0;i<3;i++){var a=window.prompt("Custom Creations — Tools area is password protected.\nEnter the password:");if(a===null){location.replace(HOME);return}if(a===PW){try{sessionStorage.setItem(K,"1")}catch(e){}return}}alert("Incorrect password.");location.replace(HOME)})();</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mockup Studio — Custom Creations Unlimited</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--ink:#14141b;--muted:#565663;--faint:#8a8a96;--line:rgba(20,20,28,.12);
+  --bg:#fbfaf6;--card:#fff;--gold:#c8a24a;--grad:linear-gradient(120deg,#e3c988,#c8a24a 45%,#e0a87e)}
+body{background:var(--bg);color:var(--ink);font:15px/1.5 Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+h1{font-family:Fraunces,Georgia,serif;font-weight:600;font-size:1.45rem;letter-spacing:-.015em}
+header{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;
+  padding:.9rem 1.3rem;background:var(--card);border-bottom:1px solid var(--line)}
+.hint{font-size:.84rem;color:var(--faint)}
+.wrap{display:grid;grid-template-columns:1fr 340px;gap:1.1rem;padding:1.1rem;align-items:start}
+@media(max-width:940px){.wrap{grid-template-columns:1fr}}
+.stage{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:1rem;
+  display:grid;place-items:center;min-height:60vh;position:relative}
+#cv{max-width:100%;max-height:74vh;border-radius:10px;cursor:grab;touch-action:none;background:#eee}
+#cv.drag{cursor:grabbing}
+.empty{position:absolute;inset:0;display:grid;place-items:center;text-align:center;color:var(--faint);padding:2rem;pointer-events:none}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:1.1rem;display:grid;gap:1.05rem}
+.grp{display:grid;gap:.5rem}
+label{font-size:.8rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+.drop{border:1.5px dashed var(--line);border-radius:11px;padding:.85rem;text-align:center;cursor:pointer;
+  font-size:.88rem;color:var(--muted);transition:border-color .2s,background .2s}
+.drop:hover,.drop.over{border-color:var(--gold);background:rgba(200,162,74,.06)}
+.drop input{display:none}
+.row{display:flex;gap:.45rem;flex-wrap:wrap}
+.chip{flex:1;min-width:64px;padding:.45rem .3rem;border:1px solid var(--line);border-radius:9px;background:#fff;
+  font:600 .78rem Inter,sans-serif;color:var(--muted);cursor:pointer;transition:.15s}
+.chip:hover{border-color:var(--gold);color:var(--ink)}
+.chip.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.sw{width:30px;height:30px;border-radius:8px;border:1px solid var(--line);cursor:pointer;padding:0}
+.sw.on{outline:2px solid var(--gold);outline-offset:2px}
+input[type=range]{width:100%;accent-color:var(--gold)}
+.val{font-size:.78rem;color:var(--faint);float:right;font-variant-numeric:tabular-nums}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.4rem;padding:.72rem 1.1rem;
+  border:0;border-radius:99px;font:600 .92rem Inter,sans-serif;cursor:pointer;transition:.18s}
+.btn--gold{background:var(--grad);color:#1a1408}
+.btn--gold:hover{filter:brightness(1.05)}
+.btn--ghost{background:#fff;border:1px solid var(--line);color:var(--ink)}
+.btn--ghost:hover{border-color:var(--gold)}
+.btn:disabled{opacity:.45;cursor:not-allowed;filter:none}
+.stack{display:grid;gap:.5rem}
+.note{font-size:.78rem;color:var(--faint);line-height:1.45}
+kbd{background:#f1efe9;border:1px solid var(--line);border-radius:5px;padding:.05rem .32rem;font:600 .74rem ui-monospace,monospace}
+</style>
+</head>
+<body>
+
+<header>
+  <div><h1>Mockup Studio</h1>
+    <div class="hint">Drop artwork onto a garment, position it, export a proof-ready mockup.</div></div>
+  <a class="btn btn--ghost" href="../index.html">&larr; Back to site</a>
+</header>
+
+<div class="wrap">
+  <div class="stage">
+    <canvas id="cv" width="1000" height="1000"></canvas>
+    <div class="empty" id="empty">Choose a garment, then drop your artwork in&nbsp;&rarr;</div>
+  </div>
+
+  <div class="panel">
+    <div class="grp">
+      <label>1 · Garment</label>
+      <div class="row" id="gTabs">
+        <button class="chip on" data-g="tee">Tee</button>
+        <button class="chip" data-g="hoodie">Hoodie</button>
+        <button class="chip" data-g="tote">Tote</button>
+      </div>
+      <div class="row" id="sw"></div>
+      <label class="drop" id="gDrop">Or use a photo of a real blank
+        <input type="file" id="gFile" accept="image/*"></label>
+    </div>
+
+    <div class="grp">
+      <label>2 · Artwork</label>
+      <label class="drop" id="aDrop">Drop art here or click &mdash; PNG with transparency works best
+        <input type="file" id="aFile" accept="image/*"></label>
+    </div>
+
+    <div class="grp">
+      <label>3 · Placement</label>
+      <div class="row" id="presets">
+        <button class="chip" data-p="chest">Left chest</button>
+        <button class="chip on" data-p="full">Full front</button>
+        <button class="chip" data-p="center">Centered</button>
+      </div>
+      <div><label>Size <span class="val" id="vS">40%</span></label>
+        <input type="range" id="rS" min="4" max="100" value="40"></div>
+      <div><label>Rotation <span class="val" id="vR">0&deg;</span></label>
+        <input type="range" id="rR" min="-180" max="180" value="0"></div>
+      <div><label>Print opacity <span class="val" id="vO">100%</span></label>
+        <input type="range" id="rO" min="20" max="100" value="100"></div>
+      <div class="row">
+        <button class="chip on" id="blend">Blend into fabric</button>
+      </div>
+      <p class="note">Blend multiplies the art by the garment's own shading so it sits in the folds
+        instead of looking pasted on. Drag on the canvas to move; <kbd>scroll</kbd> to resize.</p>
+    </div>
+
+    <div class="stack">
+      <button class="btn btn--gold" id="dl" disabled>Download mockup PNG</button>
+      <button class="btn btn--ghost" id="reset">Reset placement</button>
+      <p class="note">Then run<br><kbd>python3 scripts/new-proof.py --job 1042 --art &lt;file&gt; …</kbd><br>to turn it into a customer approval page.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var cv=document.getElementById('cv'), ctx=cv.getContext('2d');
+  var garment=null, art=null, gKind='tee', gColor='#ffffff';
+  var st={x:.5,y:.42,s:.40,r:0,o:1,blend:true};
+  var COLORS=['#ffffff','#efe9df','#c9ccd1','#7b8794','#2b2f3a','#14141b','#1f3a5f','#5a2a3a','#3f5d3a','#c8a24a'];
+
+  /* ---- flat garment silhouettes, drawn to an offscreen canvas -------------
+     Simple vector blanks so the tool works with no photo at all; a real photo
+     of a blank always looks better and can be loaded instead. */
+  function drawBlank(kind,color){
+    var c=document.createElement('canvas'); c.width=c.height=1000;
+    var x=c.getContext('2d');
+    x.fillStyle='#f4f1ea'; x.fillRect(0,0,1000,1000);
+    var g=x.createLinearGradient(250,120,780,900);
+    g.addColorStop(0,shade(color,10)); g.addColorStop(.5,color); g.addColorStop(1,shade(color,-14));
+    x.fillStyle=g; x.strokeStyle='rgba(0,0,0,.16)'; x.lineWidth=2;
+    x.beginPath();
+    if(kind==='tote'){
+      x.moveTo(300,300); x.lineTo(700,300); x.lineTo(730,880); x.lineTo(270,880); x.closePath(); x.fill(); x.stroke();
+      x.beginPath(); x.lineWidth=16; x.strokeStyle=shade(color,-30);
+      x.moveTo(390,300); x.bezierCurveTo(390,150,610,150,610,300); x.stroke();
+    } else {
+      // body
+      x.moveTo(360,215); x.lineTo(640,215);
+      x.lineTo(700,240); x.lineTo(820,330); x.lineTo(760,430); x.lineTo(710,395);
+      x.lineTo(720,880); x.lineTo(280,880); x.lineTo(290,395);
+      x.lineTo(240,430); x.lineTo(180,330); x.lineTo(300,240); x.closePath();
+      x.fill(); x.stroke();
+      // collar
+      x.beginPath(); x.moveTo(360,215);
+      x.bezierCurveTo(430,(kind==='hoodie'?300:275),570,(kind==='hoodie'?300:275),640,215);
+      x.lineWidth=kind==='hoodie'?26:14; x.strokeStyle=shade(color,-26); x.stroke();
+      if(kind==='hoodie'){
+        x.beginPath(); x.moveTo(430,250);
+        x.bezierCurveTo(470,330,530,330,570,250); x.lineWidth=10; x.stroke();
+        x.fillStyle=shade(color,-8); x.fillRect(330,640,340,110);   // pocket
+        x.strokeStyle='rgba(0,0,0,.12)'; x.lineWidth=2; x.strokeRect(330,640,340,110);
+      }
+    }
+    // soft folds so the blend has something to grab
+    x.globalAlpha=.07; x.fillStyle='#000';
+    [[330,430,70],[640,520,90],[420,760,80]].forEach(function(f){
+      var rg=x.createRadialGradient(f[0],f[1],0,f[0],f[1],f[2]*2.4);
+      rg.addColorStop(0,'#000'); rg.addColorStop(1,'rgba(0,0,0,0)');
+      x.fillStyle=rg; x.fillRect(f[0]-200,f[1]-200,400,400);
+    });
+    x.globalAlpha=1;
+    return c;
+  }
+  function shade(hex,amt){
+    var n=parseInt(hex.slice(1),16), r=(n>>16)+amt, g=(n>>8&255)+amt, b=(n&255)+amt;
+    var cl=function(v){return Math.max(0,Math.min(255,v))};
+    return '#'+((1<<24)+(cl(r)<<16)+(cl(g)<<8)+cl(b)).toString(16).slice(1);
+  }
+
+  /* ---- render ---------------------------------------------------------- */
+  function render(){
+    ctx.clearRect(0,0,1000,1000);
+    if(garment) ctx.drawImage(garment,0,0,1000,1000);
+    document.getElementById('empty').style.display = art?'none':'grid';
+    if(!art) return;
+
+    var w=1000*st.s, h=w*art.height/art.width;
+    var cx=1000*st.x, cy=1000*st.y;
+
+    if(st.blend && garment){
+      // multiply the art by the garment's luminance so the print takes the folds
+      var t=document.createElement('canvas'); t.width=Math.max(1,Math.round(w)); t.height=Math.max(1,Math.round(h));
+      var tx=t.getContext('2d');
+      tx.drawImage(art,0,0,t.width,t.height);
+      var under=document.createElement('canvas'); under.width=t.width; under.height=t.height;
+      var ux=under.getContext('2d');
+      ux.translate(t.width/2,t.height/2); ux.rotate(-st.r*Math.PI/180);
+      ux.drawImage(cv, cx-w/2, cy-h/2, w, h, -t.width/2, -t.height/2, t.width, t.height);
+      var A=tx.getImageData(0,0,t.width,t.height), B=ux.getImageData(0,0,t.width,t.height);
+      var a=A.data, b=B.data;
+      // Modulate by the garment's *relative* shading, not its absolute darkness:
+      // ink on a black hoodie is opaque (white underbase), so it must not be
+      // multiplied toward zero — only the folds should shade it.
+      var sum=0,n=0;
+      for(var j=0;j<b.length;j+=4){ sum+=b[j]*0.299+b[j+1]*0.587+b[j+2]*0.114; n++; }
+      var mean=Math.max(8,sum/Math.max(1,n));
+      for(var i=0;i<a.length;i+=4){
+        var f=(b[i]*0.299+b[i+1]*0.587+b[i+2]*0.114)/mean;
+        if(f<0.72) f=0.72; else if(f>1.18) f=1.18;
+        a[i]*=f; a[i+1]*=f; a[i+2]*=f;
+      }
+      tx.putImageData(A,0,0);
+      ctx.save(); ctx.globalAlpha=st.o; ctx.translate(cx,cy); ctx.rotate(st.r*Math.PI/180);
+      ctx.drawImage(t,-w/2,-h/2,w,h); ctx.restore();
+    } else {
+      ctx.save(); ctx.globalAlpha=st.o; ctx.translate(cx,cy); ctx.rotate(st.r*Math.PI/180);
+      ctx.drawImage(art,-w/2,-h/2,w,h); ctx.restore();
+    }
+  }
+
+  /* ---- garment controls ------------------------------------------------- */
+  var swWrap=document.getElementById('sw');
+  COLORS.forEach(function(c,i){
+    var b=document.createElement('button');
+    b.className='sw'+(i===0?' on':''); b.style.background=c; b.title=c;
+    b.onclick=function(){
+      swWrap.querySelectorAll('.sw').forEach(function(x){x.classList.remove('on')});
+      b.classList.add('on'); gColor=c; garment=drawBlank(gKind,c); render();
+    };
+    swWrap.appendChild(b);
+  });
+  document.querySelectorAll('#gTabs .chip').forEach(function(t){
+    t.onclick=function(){
+      document.querySelectorAll('#gTabs .chip').forEach(function(x){x.classList.remove('on')});
+      t.classList.add('on'); gKind=t.dataset.g; garment=drawBlank(gKind,gColor); render();
+    };
+  });
+
+  /* ---- file loading ------------------------------------------------------ */
+  function loadImg(file,cb){
+    if(!file||!/^image\//.test(file.type)) return;
+    var r=new FileReader();
+    r.onload=function(e){ var im=new Image(); im.onload=function(){cb(im)}; im.src=e.target.result; };
+    r.readAsDataURL(file);
+  }
+  function wireDrop(dropId,inputId,cb){
+    var d=document.getElementById(dropId), inp=document.getElementById(inputId);
+    d.addEventListener('click',function(){inp.click()});
+    inp.addEventListener('change',function(){loadImg(inp.files[0],cb)});
+    ['dragenter','dragover'].forEach(function(ev){
+      d.addEventListener(ev,function(e){e.preventDefault();d.classList.add('over')}) });
+    ['dragleave','drop'].forEach(function(ev){
+      d.addEventListener(ev,function(e){e.preventDefault();d.classList.remove('over')}) });
+    d.addEventListener('drop',function(e){ loadImg(e.dataTransfer.files[0],cb) });
+  }
+  wireDrop('gDrop','gFile',function(im){ garment=im; render(); });
+  wireDrop('aDrop','aFile',function(im){
+    art=im; document.getElementById('dl').disabled=false; applyPreset('full'); });
+
+  // dropping art anywhere on the canvas
+  ['dragover','drop'].forEach(function(ev){
+    cv.addEventListener(ev,function(e){ e.preventDefault();
+      if(ev==='drop') loadImg(e.dataTransfer.files[0],function(im){
+        art=im; document.getElementById('dl').disabled=false; applyPreset('full'); }); });
+  });
+
+  /* ---- placement --------------------------------------------------------- */
+  function applyPreset(p){
+    document.querySelectorAll('#presets .chip').forEach(function(x){
+      x.classList.toggle('on', x.dataset.p===p) });
+    if(p==='chest'){ st.x=.37; st.y=.35; st.s=.14; }
+    else if(p==='full'){ st.x=.5; st.y=.46; st.s=.42; }
+    else { st.x=.5; st.y=.55; st.s=.34; }
+    st.r=0; sync(); render();
+  }
+  document.querySelectorAll('#presets .chip').forEach(function(t){
+    t.onclick=function(){ applyPreset(t.dataset.p) };
+  });
+  function sync(){
+    document.getElementById('rS').value=Math.round(st.s*100);
+    document.getElementById('vS').textContent=Math.round(st.s*100)+'%';
+    document.getElementById('rR').value=st.r;
+    document.getElementById('vR').textContent=st.r+'°';
+    document.getElementById('rO').value=Math.round(st.o*100);
+    document.getElementById('vO').textContent=Math.round(st.o*100)+'%';
+  }
+  document.getElementById('rS').oninput=function(){ st.s=+this.value/100; sync(); render(); };
+  document.getElementById('rR').oninput=function(){ st.r=+this.value; sync(); render(); };
+  document.getElementById('rO').oninput=function(){ st.o=+this.value/100; sync(); render(); };
+  document.getElementById('blend').onclick=function(){
+    st.blend=!st.blend; this.classList.toggle('on',st.blend); render(); };
+  document.getElementById('reset').onclick=function(){ applyPreset('full') };
+
+  // drag + scroll-to-size on the canvas
+  var dragging=false;
+  cv.addEventListener('pointerdown',function(e){
+    if(!art) return; dragging=true; cv.classList.add('drag'); cv.setPointerCapture(e.pointerId); });
+  cv.addEventListener('pointermove',function(e){
+    if(!dragging) return;
+    var b=cv.getBoundingClientRect();
+    st.x=(e.clientX-b.left)/b.width; st.y=(e.clientY-b.top)/b.height; render(); });
+  ['pointerup','pointercancel'].forEach(function(ev){
+    cv.addEventListener(ev,function(){ dragging=false; cv.classList.remove('drag') }); });
+  cv.addEventListener('wheel',function(e){
+    if(!art) return; e.preventDefault();
+    st.s=Math.max(.04,Math.min(1,st.s+(e.deltaY<0?.02:-.02))); sync(); render(); },{passive:false});
+
+  /* ---- export ------------------------------------------------------------ */
+  document.getElementById('dl').onclick=function(){
+    var a=document.createElement('a');
+    a.download='mockup-'+new Date().toISOString().slice(0,10)+'.png';
+    a.href=cv.toDataURL('image/png'); a.click();
+  };
+
+  garment=drawBlank('tee','#ffffff'); sync(); render();
+})();
+</script>
+</body>
+</html>

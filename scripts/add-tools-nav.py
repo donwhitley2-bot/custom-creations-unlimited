@@ -16,6 +16,7 @@ TOOLS = [
     ("bulk-tee-generator", "Bulk Tee Generator", "Bulk t-shirt design generator"),
     ("pattern-press",      "Pattern Press",      "Pattern-fill text generator"),
     ("slogan-generator",   "Slogan Generator",   "Slogan &amp; graphic generator"),
+    ("mockup-studio",      "Mockup Studio",      "Art on garments &rarr; proof"),
 ]
 ICON = ('<svg viewBox="0 0 24 24" fill="none"><path d="M14.7 6.3a4 4 0 01-5.4 5.4l-5 5a1.5 1.5 0 002 2l5-5a4 4 0 005.4-5.4l-2.3 2.3-2-2z" '
         'stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>')
