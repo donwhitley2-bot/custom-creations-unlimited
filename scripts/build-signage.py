@@ -277,7 +277,7 @@ def build_video(holds):
         nxt = f"[x{i}]" if i < len(holds)-1 else "[out]"
         filt.append(f"{chain}[v{i}]xfade=transition=fade:duration={XFADE}:offset={off:.3f}{nxt}")
         chain = f"[x{i}]"
-    out = os.path.join(OUT, "ccu-signage-1080x1920.mp4")
+    out = os.path.join(OUT, "ccu-signage-1080x1920-silent.mp4")
     # crf 23 + a bitrate ceiling keeps it well under typical CMS upload limits
     subprocess.run(["ffmpeg", "-y", *parts, "-filter_complex", ";".join(filt),
                     "-map", "[out]", "-c:v", "libx264", "-profile:v", "high",
@@ -285,9 +285,31 @@ def build_video(holds):
                     "-crf", "23", "-maxrate", "6M", "-bufsize", "12M",
                     "-movflags", "+faststart", out],
                    check=True, capture_output=True)
-    print("signage/ccu-signage-1080x1920.mp4 ->",
+    print("signage/ccu-signage-1080x1920-silent.mp4 ->",
           f"{os.path.getsize(out)/1e6:.1f} MB")
+    add_music(out, sum(holds) + XFADE)
     shutil.rmtree(frames, ignore_errors=True)
+
+
+def add_music(silent, dur):
+    """Mux the ambient bed on: trim to length, normalise to a background level,
+    fade both ends so the loop seam dips to silence."""
+    bed = os.path.join(OUT, "audio", "bed.mp3")
+    out = os.path.join(OUT, "ccu-signage-1080x1920.mp4")
+    if not os.path.exists(bed):
+        print("no signage/audio/bed.mp3 — skipping music")
+        return
+    fo = max(0.0, dur - 2.5)
+    subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", silent, "-stream_loop", "-1", "-i", bed,
+                    "-filter_complex",
+                    f"[1:a]atrim=0:{dur},asetpts=N/SR/TB,loudnorm=I=-17:TP=-1.5:LRA=11,"
+                    f"afade=t=in:st=0:d=2,afade=t=out:st={fo:.2f}:d=2.5[a]",
+                    "-map", "0:v", "-map", "[a]", "-c:v", "copy",
+                    "-c:a", "aac", "-b:a", "160k", "-ar", "44100",
+                    "-shortest", "-movflags", "+faststart", out],
+                   check=True, capture_output=True)
+    print("signage/ccu-signage-1080x1920.mp4 (with music) ->",
+          f"{os.path.getsize(out)/1e6:.1f} MB")
 
 
 if __name__ == "__main__":

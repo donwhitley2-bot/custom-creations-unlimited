@@ -31,3 +31,11 @@ the board can't drift from the site.
 - QR target is set by `SITE_URL` in `scripts/build-signage.py`.
 - **Test-scan the QR with a phone before the event.**
 - Slide timings: `HOLD_*` constants at the top of the build script.
+
+## Audio
+`audio/bed.mp3` is the ambient bed. The build trims it to length, normalises
+to about -17 LUFS (background level), and fades both ends so the loop seam
+dips to silence. Swap the file to change the music; delete it to build silent.
+
+`ccu-signage-1080x1920.mp4`        — with music (use this)
+`ccu-signage-1080x1920-silent.mp4` — no audio, if the venue wants it muted
