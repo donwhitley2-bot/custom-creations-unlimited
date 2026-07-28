@@ -1,0 +1,137 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<title>CCU Signage 1080x1920</title><meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --ink:#0a0a0f; --ink2:#14141d; --ivory:#fbfaf6;
+  --g2:#ecd9a8; --g4:#d4b066; --g5:#c8a24a; --rose:#e0a87e;
+  --grad:linear-gradient(120deg,#e3c988,#c8a24a 45%,#e0a87e);
+}
+html,body{width:1080px;height:1920px;background:var(--ink);overflow:hidden}
+body{font-family:Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+.slide{position:absolute;inset:0;width:1080px;height:1920px;overflow:hidden;display:none}
+.slide.on{display:block}
+.bg{position:absolute;inset:0}
+.bg img{width:100%;height:100%;object-fit:cover;display:block}
+.tint{position:absolute;inset:0}
+.pad{position:absolute;inset:0;padding:110px 90px;display:flex;flex-direction:column}
+h1,h2,h3{font-family:Fraunces,Georgia,serif;font-weight:600;letter-spacing:-.015em;line-height:1.02}
+.eyebrow{font-size:30px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--g4)}
+.rule{width:120px;height:5px;background:var(--grad);border-radius:9px}
+
+/* opening */
+.open .tint{background:linear-gradient(180deg,rgba(7,7,11,.80),rgba(7,7,11,.45) 40%,rgba(7,7,11,.92))}
+.mark{width:170px;height:170px;border-radius:40px;background:var(--grad);
+  display:grid;place-items:center;font-family:Fraunces,serif;font-weight:700;font-size:64px;color:#1a1408}
+.open h1{font-size:150px;color:var(--ivory);margin:52px 0 30px}
+.open .sub{font-size:44px;color:rgba(251,250,246,.82);line-height:1.35;max-width:20ch}
+.tag{margin-top:auto;font-size:32px;letter-spacing:.2em;text-transform:uppercase;color:var(--g4);font-weight:600}
+
+/* section title */
+.title .tint{background:linear-gradient(180deg,rgba(7,7,11,.90),rgba(7,7,11,.72))}
+.title .pad{justify-content:center;align-items:flex-start;gap:40px}
+.title h2{font-size:132px;color:var(--ivory);max-width:15ch}
+.title .sub{font-size:42px;color:rgba(251,250,246,.78);max-width:24ch;line-height:1.4}
+
+/* product grid */
+.prods{background:linear-gradient(165deg,#12121a,#0a0a0f)}
+.prods .pad{gap:56px}
+.prods h3{font-size:56px;color:var(--ivory)}
+.grid{display:flex;flex-direction:column;gap:44px;flex:1}
+.card{flex:1;display:flex;gap:44px;align-items:center;background:rgba(251,250,246,.05);
+  border:1px solid rgba(251,250,246,.13);border-radius:36px;padding:34px;overflow:hidden}
+.card img{width:330px;height:330px;object-fit:cover;border-radius:26px;flex:none;background:#fff}
+.card .n{font-family:Fraunces,serif;font-size:50px;font-weight:600;color:var(--ivory);line-height:1.14}
+.card .p{margin-top:22px;font-size:60px;font-weight:700;
+  background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.card .p small{font-size:28px;font-weight:600;color:var(--g4);-webkit-text-fill-color:var(--g4);margin-right:10px}
+
+/* gallery */
+.gal .tint{background:linear-gradient(180deg,rgba(7,7,11,.34) 0%,rgba(7,7,11,0) 32%,rgba(7,7,11,.30) 62%,rgba(7,7,11,.93))}
+.gal .pad{justify-content:flex-end;gap:26px}
+.gal .cap{font-family:Fraunces,serif;font-size:82px;font-weight:600;color:var(--ivory);max-width:17ch;line-height:1.08}
+.gal .cat{font-size:30px;letter-spacing:.2em;text-transform:uppercase;color:var(--g4);font-weight:700}
+
+/* QR */
+.qr{background:linear-gradient(165deg,#14141d,#0a0a0f)}
+.qr .pad{align-items:center;text-align:center;justify-content:center;gap:0}
+.qr h2{font-size:118px;color:var(--ivory);margin-bottom:34px}
+.qr .sub{font-size:44px;color:rgba(251,250,246,.80);max-width:22ch;line-height:1.38}
+.qrbox{margin:76px 0 64px;width:660px;height:660px;background:var(--ivory);
+  border-radius:44px;padding:46px;box-shadow:0 40px 110px rgba(0,0,0,.55)}
+.qrbox img{width:100%;height:100%;display:block;image-rendering:pixelated}
+.url{font-size:46px;font-weight:700;color:var(--g2);letter-spacing:.01em}
+.ph{margin-top:22px;font-size:40px;color:rgba(251,250,246,.72)}
+</style></head><body>
+<section class="slide open" data-hold="5.5">
+      <div class="bg"><img src="../assets/img/hero-laser-2560.webp" alt=""></div><div class="tint"></div>
+      <div class="pad">
+        <div class="mark">CCU</div>
+        <h1>Custom<br>Creations<br>Unlimited</h1>
+        <div class="rule" style="margin:8px 0 34px"></div>
+        <p class="sub">Embroidery, custom apparel, laser engraving &amp; personalized gifts &mdash; made in-house in Atlanta.</p>
+        <div class="tag">Your Vision &middot; Our Craftsmanship</div>
+      </div></section><section class="slide title" data-hold="3.5">
+      <div class="bg"><img src="../assets/img/shop-haec-tshirt.webp" alt=""></div><div class="tint"></div>
+      <div class="pad">
+        <div class="eyebrow">Official Spirit Wear</div>
+        <h2>Made for High Achievers</h2>
+        <div class="rule"></div>
+        <p class="sub">H.A.E.C tees, hoodies, drinkware &amp; gifts &mdash; PTO and non-PTO pricing.</p>
+      </div></section><section class="slide prods" data-hold="6.0">
+          <div class="pad"><h3>H.A.E.C Collection</h3>
+          <div class="grid"><div class="card"><img src="../assets/img/shop-haec-tshirt.webp" alt=""><div><div class="n">T-Shirt_Adult</div><div class="p">$18.95</div></div></div><div class="card"><img src="../assets/img/shop-haec-tshirt-youth.webp?v=3" alt=""><div><div class="n">T-Shirt_Youth</div><div class="p">$16.95</div></div></div><div class="card"><img src="../assets/img/shop-haec-adult-hoodie.webp" alt=""><div><div class="n">Adult Sweatshirts & Hoodies</div><div class="p"><small>from</small> $22.95</div></div></div></div></div></section><section class="slide prods" data-hold="6.0">
+          <div class="pad"><h3>H.A.E.C Collection</h3>
+          <div class="grid"><div class="card"><img src="../assets/img/shop-haec-youth-hoodie.webp" alt=""><div><div class="n">Youth / Toddler Sweatshirts & Hoodies</div><div class="p"><small>from</small> $16.95</div></div></div><div class="card"><img src="../assets/img/shop-haec-toddler-tee.webp" alt=""><div><div class="n">Toddler T-Shirt</div><div class="p">$14.95</div></div></div><div class="card"><img src="../assets/img/shop-haec-beanie.webp" alt=""><div><div class="n">Embroidered Beanie</div><div class="p">$15.95</div></div></div></div></div></section><section class="slide prods" data-hold="6.0">
+          <div class="pad"><h3>H.A.E.C Collection</h3>
+          <div class="grid"><div class="card"><img src="../assets/img/shop-haec-tote.webp" alt=""><div><div class="n">Tote Bag</div><div class="p">$15.00</div></div></div><div class="card"><img src="../assets/img/shop-haec-mug.webp" alt=""><div><div class="n">15oz Coffee Mug</div><div class="p">$15.00</div></div></div><div class="card"><img src="../assets/img/shop-haec-tumbler.webp" alt=""><div><div class="n">20oz Skinny Tumbler</div><div class="p">$20.00</div></div></div></div></div></section><section class="slide title" data-hold="3.5">
+      <div class="bg"><img src="../assets/img/prod-polos.webp" alt=""></div><div class="tint"></div>
+      <div class="pad">
+        <div class="eyebrow">Our Work</div>
+        <h2>15,000+ brands served</h2>
+        <div class="rule"></div>
+        <p class="sub">Uniform programs, awards, promo kits and one-off keepsakes.</p>
+      </div></section><section class="slide gal" data-hold="4.0">
+          <div class="bg"><img src="../assets/img/prod-polos.webp" alt=""></div><div class="tint"></div>
+          <div class="pad"><div class="cat">embroidery</div>
+          <div class="cap">Corporate uniform program</div></div></section><section class="slide gal" data-hold="4.0">
+          <div class="bg"><img src="../assets/img/prod-salesawards.webp" alt=""></div><div class="tint"></div>
+          <div class="pad"><div class="cat">awards</div>
+          <div class="cap">Annual sales recognition</div></div></section><section class="slide gal" data-hold="4.0">
+          <div class="bg"><img src="../assets/img/prod-cuttingboards.webp" alt=""></div><div class="tint"></div>
+          <div class="pad"><div class="cat">laser</div>
+          <div class="cap">Engraved cutting boards</div></div></section><section class="slide gal" data-hold="4.0">
+          <div class="bg"><img src="../assets/img/prod-laser-tumblers.webp" alt=""></div><div class="tint"></div>
+          <div class="pad"><div class="cat">drinkware</div>
+          <div class="cap">Custom tumbler set</div></div></section><section class="slide gal" data-hold="4.0">
+          <div class="bg"><img src="../assets/img/promo-1.webp" alt=""></div><div class="tint"></div>
+          <div class="pad"><div class="cat">promotional</div>
+          <div class="cap">New-hire welcome kits</div></div></section><section class="slide gal" data-hold="4.0">
+          <div class="bg"><img src="../assets/img/prod-caps.webp" alt=""></div><div class="tint"></div>
+          <div class="pad"><div class="cat">embroidery</div>
+          <div class="cap">Embroidered cap drop</div></div></section><section class="slide gal" data-hold="4.0">
+          <div class="bg"><img src="../assets/img/gifts-1.webp" alt=""></div><div class="tint"></div>
+          <div class="pad"><div class="cat">gifts</div>
+          <div class="cap">Wedding party gifts</div></div></section><section class="slide gal" data-hold="4.0">
+          <div class="bg"><img src="../assets/img/prod-glass.webp" alt=""></div><div class="tint"></div>
+          <div class="pad"><div class="cat">awards</div>
+          <div class="cap">Crystal gala awards</div></div></section><section class="slide qr" data-hold="8.0">
+      <div class="pad">
+        <div class="eyebrow">Scan for the full catalog</div>
+        <h2 style="margin-top:26px">Shop everything online</h2>
+        <p class="sub">Sizes, colors, bulk pricing and secure checkout.</p>
+        <div class="qrbox"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAy4AAAMuAQMAAADFfcXoAAAABlBMVEUKCg/7+vYVM1BxAAADwklEQVR42u3dQa7bIBAGYNQcwEfy1X2kHCASbVNZYWDstBtsqR+bZ+VZ/hZsfsHAlDKOtdb336X+HuFfj1qfn8d8PJNP/ihTBgaDwWAwmP+bGSLK851san3tIef9+CvkbKX0j39G8+4efdbwSXODwWAwGAxmZrJ5hse4ZtPEmfBu+USfGuJM84U975gbDAaDwWAwFyabZlupWZ1J1nf2se9cPSQbDAaDwWAwd0s2TS4J4xUyTA2FONZsMBgMBoPB3CLZJHU2w5LMps4Gg8FgMBjM/ZPNMNZuW+nfH80NBoPBYDCYS5JNfnL7L4LLIxTiNCXGyXiZGwwGg8FgMNOTTTzqXUKGWUNxTXi3flvJMTcYDAaDwWAmJZvDquB43qkZTRnNFn5NVnKs2WAwGAwGg7mozubL6kxSILx9+8JmbjAYDAaDwcxNNodHnw7rbJKWCuvRLTfWbDAYDAaDwUwKNSGMZCebQoFwFojC6ozdKAwGg8FgMPdINv0O0758E09MxQxzslDTNqEyNxgMBoPBYOaMR3/UO4acuPjy/m/ffiHrxBAqk80NBoPBYDCY2SM/AH7eJzNvFjWEHHODwWAwGAxmznik1/OVZsXlE3KyFJS/EIt2zA0Gg8FgMJiZoz/J/SXk9Nfz1b6YOF77Z24wGAwGg8HMGHmXy/y8U95SIew75X3BzQ0Gg8FgMJhJyaamB7WzzaYQZ2re1bsvxNnU2WAwGAwGg5lbZzM0Tzg5MTXc1LfHma1b9Wk+Zm4wGAwGg8FMGUcrLlkZTX9p3zJuVw2/qrPBYDAYDAYz/2zUFnaY+r5Ry1gVHK8urukelbNRGAwGg8Fgpiab/iK+5bTLZfkkm+HCm+KmPgwGg8FgMPdJNnnXp7x/d39JcRnvsymSDQaDwWAwmMnJ5qiJZT3KMEu6c3W2qKPOBoPBYDAYzPxk0+SSZKGmdtU3bcPLT4aJv1qzwWAwGAwGMz/Z5K28k46YWZzJ39VdAYPBYDAYzEXJJtb/5rfvbeNuVNI9Mw439WEwGAwGg5mabGo6ztdh4qHuZPlmCETmBoPBYDAYzEUjVskkxcR17Oqddwsv7iDGYDAYDAYzN9lkVcExl5xcPLx2FTXWbDAYDAaDwVydbGIr7/yQ09YV4uS3+uXfNTcYDAaDwWAuTTavkxf2sYQK4pJ2V3CfDQaDwWAwmBslm6Tk5rATw9FVfuYGg8FgMBjMvGST37639AUz+WNTYpwv6pgbDAaDwWAw5bKxdgeiho2pvsQ4v6TYHcQYDAaDwWAmMz8BlcstNr6FwhMAAAAASUVORK5CYII=" alt="QR code"></div>
+        <div class="url">ccucustom.com</div>
+        <div class="ph">(404) 967-8028 &middot; info@ccucustom.com</div>
+      </div></section>
+<script>
+(function(){
+  var p=new URLSearchParams(location.search), one=p.get('s'), S=[].slice.call(document.querySelectorAll('.slide'));
+  if(one!==null){ document.body.setAttribute('data-single',''); var el=S[+one]; if(el) el.classList.add('on'); return; }
+  var i=0, hold=S.map(function(s){return +s.dataset.hold*1000;});
+  S[0].classList.add('on');
+  (function step(){ setTimeout(function(){ S[i].classList.remove('on'); i=(i+1)%S.length; S[i].classList.add('on'); step(); }, hold[i]); })();
+})();
+</script></body></html>
