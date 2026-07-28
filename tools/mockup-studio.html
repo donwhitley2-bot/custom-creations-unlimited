@@ -49,6 +49,13 @@ input[type=range]{width:100%;accent-color:var(--gold)}
 .btn:disabled{opacity:.45;cursor:not-allowed;filter:none}
 .stack{display:grid;gap:.5rem}
 .note{font-size:.78rem;color:var(--faint);line-height:1.45}
+.in{width:100%;padding:.6rem .7rem;border:1px solid var(--line);border-radius:9px;
+  font:400 .9rem Inter,sans-serif;color:var(--ink);background:#fff}
+.in:focus{outline:2px solid var(--gold);outline-offset:1px;border-color:transparent}
+textarea.in{resize:vertical;line-height:1.5}
+.ok{background:#f2f8f2;border:1px solid #cfe4cf;border-radius:10px;padding:.7rem .8rem;font-size:.8rem;line-height:1.5}
+.ok code{display:block;margin-top:.35rem;background:#fff;border:1px solid var(--line);border-radius:6px;
+  padding:.4rem .5rem;font:600 .74rem ui-monospace,monospace;word-break:break-all}
 kbd{background:#f1efe9;border:1px solid var(--line);border-radius:5px;padding:.05rem .32rem;font:600 .74rem ui-monospace,monospace}
 </style>
 </head>
@@ -108,7 +115,18 @@ kbd{background:#f1efe9;border:1px solid var(--line);border-radius:5px;padding:.0
     <div class="stack">
       <button class="btn btn--gold" id="dl" disabled>Download mockup PNG</button>
       <button class="btn btn--ghost" id="reset">Reset placement</button>
-      <p class="note">Then run<br><kbd>python3 scripts/new-proof.py --job 1042 --art &lt;file&gt; …</kbd><br>to turn it into a customer approval page.</p>
+    </div>
+
+    <div class="grp" style="border-top:1px solid var(--line);padding-top:1.05rem">
+      <label>4 · Send for approval</label>
+      <input class="in" id="pJob" placeholder="Job number — e.g. 1042">
+      <input class="in" id="pName" placeholder="Customer name">
+      <input class="in" id="pEmail" type="email" placeholder="Customer email">
+      <input class="in" id="pItem" placeholder="Item — e.g. Adult Tee, Black, 24 pcs">
+      <textarea class="in" id="pDetail" rows="3" placeholder="Details, one per line&#10;Print: Full front&#10;Sizes: 6×M, 12×L, 6×XL"></textarea>
+      <button class="btn btn--gold" id="mkProof" disabled>Build proof page</button>
+      <p class="note" id="proofNote">Creates a single self-contained HTML file with this mockup baked in &mdash;
+        nothing else to upload. Publish it, then send the customer the link.</p>
     </div>
   </div>
 </div>
@@ -298,10 +316,147 @@ kbd{background:#f1efe9;border:1px solid var(--line);border-radius:5px;padding:.0
     st.s=Math.max(.04,Math.min(1,st.s+(e.deltaY<0?.02:-.02))); sync(); render(); },{passive:false});
 
   /* ---- export ------------------------------------------------------------ */
+  function save(name, href){ var a=document.createElement('a'); a.download=name; a.href=href; a.click(); }
   document.getElementById('dl').onclick=function(){
-    var a=document.createElement('a');
-    a.download='mockup-'+new Date().toISOString().slice(0,10)+'.png';
-    a.href=cv.toDataURL('image/png'); a.click();
+    save('mockup-'+new Date().toISOString().slice(0,10)+'.png', cv.toDataURL('image/png'));
+  };
+
+  /* ---- proof page + notification email ------------------------------------
+     The mockup is embedded as a data URI so the proof is a single file with
+     nothing else to upload. The email is generated separately for you to send —
+     a browser can't email your customer directly, that needs a server. */
+  var CFG={endpoint:'https://formspree.io/f/mdaqdpao', site:'https://www.ccucustom.com',
+           phone:'(404) 967-8028', email:'info@ccucustom.com', brand:'Custom Creations Unlimited'};
+  var esc=function(s){return String(s||'').replace(/[&<>"]/g,function(c){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})};
+
+  function proofHTML(d){
+    var rows=d.details.filter(Boolean).map(function(x){return '<li>'+esc(x)+'</li>'}).join('');
+    return '<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">'
+    +'<meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow">'
+    +'<title>Proof #'+esc(d.job)+' · '+CFG.brand+'</title>'
+    +'<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">'
+    +'<style>*{margin:0;padding:0;box-sizing:border-box}body{background:#f7f4ee;color:#14141b;'
+    +'font:16px/1.6 Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}'
+    +'.w{max-width:52rem;margin:0 auto;padding:1.6rem 1.1rem 4rem}'
+    +'.hd{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;padding:.6rem 0 1.2rem;'
+    +'font-family:Fraunces,Georgia,serif;font-weight:600}.hd small{font-family:Inter,sans-serif;font-weight:400;color:#565663;font-size:.85rem}'
+    +'.card{background:#fff;border:1px solid rgba(20,20,28,.12);border-radius:16px;overflow:hidden;box-shadow:0 2px 18px rgba(15,23,42,.05)}'
+    +'.art{background:#f1efe9;display:grid;place-items:center;padding:1rem}.art img{max-width:100%;max-height:66vh;border-radius:9px;display:block}'
+    +'.bd{padding:1.5rem}h1{font-family:Fraunces,Georgia,serif;font-weight:600;font-size:1.7rem;margin-bottom:.4rem}'
+    +'.lede{color:#565663;margin-bottom:1.3rem}ul{list-style:none;background:#faf8f4;border:1px solid rgba(20,20,28,.1);'
+    +'border-radius:10px;padding:.8rem 1rem;margin-bottom:1.4rem}li{padding:.25rem 0;font-size:.94rem}'
+    +'.ck{display:grid;gap:.65rem;margin-bottom:1rem}.ck label{display:flex;gap:.7rem;align-items:flex-start;cursor:pointer}'
+    +'.ck input{width:21px;height:21px;flex:none;accent-color:#c8a24a}'
+    +'.sig{margin:1.2rem 0}.sig input{width:100%;max-width:22rem;padding:.6rem .7rem;border:1px solid rgba(20,20,28,.16);border-radius:9px;font:400 1rem Inter,sans-serif}'
+    +'.sig span{display:block;font-size:.78rem;color:#8a8a96;margin-top:.35rem}'
+    +'.act{display:flex;gap:.7rem;flex-wrap:wrap;margin-top:1rem}'
+    +'.b{border:0;border-radius:99px;padding:.8rem 1.4rem;font:600 .95rem Inter,sans-serif;cursor:pointer}'
+    +'.b1{background:linear-gradient(120deg,#e3c988,#c8a24a 45%,#e0a87e);color:#1a1408}'
+    +'.b2{background:#fff;border:1px solid rgba(20,20,28,.16);color:#14141b}'
+    +'.b:disabled{opacity:.45;cursor:not-allowed}'
+    +'#ch{display:none;margin-top:1.1rem}#ch.on{display:block}'
+    +'#ch textarea{width:100%;padding:.7rem;border:1px solid rgba(20,20,28,.16);border-radius:9px;font:400 .95rem Inter,sans-serif}'
+    +'#dn{display:none;text-align:center;padding:2.4rem 1rem}#dn.on{display:block}'
+    +'.ft{text-align:center;color:#565663;font-size:.85rem;padding-top:1.6rem}'
+    +'</style></head><body><div class="w">'
+    +'<div class="hd"><span>'+CFG.brand+'</span><small>Proof #'+esc(d.job)+' · '+esc(d.date)+'</small></div>'
+    +'<div class="card"><div class="art"><img src="'+d.img+'" alt="Proof for job '+esc(d.job)+'"></div><div class="bd">'
+    +'<div id="mn"><h1>'+(d.name?esc(d.name.split(' ')[0])+', please review your proof':'Please review your proof')+'</h1>'
+    +'<p class="lede">Check every detail. Once you approve, we produce it exactly as shown here.</p>'
+    +(rows?'<ul>'+rows+'</ul>':'')
+    +'<form id="f"><input type="hidden" name="_subject" value="Proof #'+esc(d.job)+' — '+esc(d.name||'customer')+'">'
+    +'<input type="hidden" name="Job" value="'+esc(d.job)+'"><input type="hidden" name="Customer" value="'+esc(d.name)+'">'
+    +'<input type="hidden" name="Item" value="'+esc(d.item)+'"><input type="hidden" name="Decision" id="dec" value="">'
+    +'<input type="hidden" name="_replyto" value="'+esc(d.email)+'">'
+    +'<input type="text" name="_gotcha" tabindex="-1" style="position:absolute;left:-9999px" aria-hidden="true">'
+    +'<div class="ck">'
+    +'<label><input type="checkbox" class="c"> <span>Spelling and wording are correct</span></label>'
+    +'<label><input type="checkbox" class="c"> <span>Colors are correct</span></label>'
+    +'<label><input type="checkbox" class="c"> <span>Size and placement are correct</span></label></div>'
+    +'<div class="sig"><input id="sg" name="Signed by" placeholder="Type your full name to sign">'
+    +'<span>Typing your name acts as your signature and is recorded with the date and time.</span></div>'
+    +'<div class="act"><button type="button" class="b b1" id="ok" disabled>Approve for production</button>'
+    +'<button type="button" class="b b2" id="no">Request changes</button></div>'
+    +'<div id="ch"><p style="margin:.2rem 0 .5rem;font-weight:600">What needs to change?</p>'
+    +'<textarea name="Requested changes" id="nt" rows="4"></textarea>'
+    +'<div class="act"><button type="button" class="b b1" id="sd">Send change request</button></div></div>'
+    +'</form></div><div id="dn"><h1 id="dh"></h1><p class="lede" id="dm"></p></div></div></div>'
+    +'<p class="ft">Questions? '+CFG.phone+' · <a href="mailto:'+CFG.email+'">'+CFG.email+'</a></p></div>'
+    +'<script>(function(){var f=document.getElementById("f"),c=[].slice.call(document.querySelectorAll(".c")),'
+    +'ok=document.getElementById("ok"),no=document.getElementById("no"),sg=document.getElementById("sg"),'
+    +'ch=document.getElementById("ch"),sd=document.getElementById("sd");'
+    +'function gate(){ok.disabled=!(c.every(function(x){return x.checked})&&sg.value.trim().length>1)}'
+    +'c.forEach(function(x){x.addEventListener("change",gate)});sg.addEventListener("input",gate);'
+    +'no.addEventListener("click",function(){ch.classList.add("on");document.getElementById("nt").focus()});'
+    +'function go(dv,h,m,b){if(f.elements._gotcha.value)return;document.getElementById("dec").value=dv;'
+    +'b.disabled=true;b.textContent="Sending\\u2026";var fd=new FormData(f);fd.append("Submitted",new Date().toString());'
+    +'fetch("'+CFG.endpoint+'",{method:"POST",body:fd,headers:{Accept:"application/json"}})'
+    +'.then(function(r){if(!r.ok)throw 0;fin(h,m)}).catch(function(){location.href="mailto:'+CFG.email
+    +'?subject="+encodeURIComponent("Proof #'+esc(d.job)+' — "+dv)+"&body="+encodeURIComponent('
+    +'"Job: '+esc(d.job)+'\\nSigned by: "+sg.value+"\\nDecision: "+dv+"\\nNotes: "+(document.getElementById("nt").value||"\\u2014"));fin(h,m)})}'
+    +'function fin(h,m){document.getElementById("mn").style.display="none";document.getElementById("dh").textContent=h;'
+    +'document.getElementById("dm").textContent=m;document.getElementById("dn").classList.add("on");scrollTo({top:0,behavior:"smooth"})}'
+    +'ok.addEventListener("click",function(){go("APPROVED","Approved \\u2014 thank you!",'
+    +'"We have your approval and this is going into production. We\\u2019ll let you know when it ships.",ok)});'
+    +'sd.addEventListener("click",function(){go("CHANGES REQUESTED","Change request received",'
+    +'"Thanks \\u2014 we\\u2019ll make those updates and send a revised proof shortly.",sd)});})();<\/script>'
+    +'</body></html>';
+  }
+
+  function emailHTML(d,url){
+    var g='font-family:-apple-system,BlinkMacSystemFont,\'Segoe UI\',Roboto,Helvetica,sans-serif';
+    var rows=[['Order number','#'+esc(d.job)],['Date created',esc(d.date)],['Item',esc(d.item)||'—']]
+      .map(function(r,i){return '<tr><td style="padding:13px 20px;'+(i<2?'border-bottom:1px solid #efe9df;':'')
+        +'color:#565663;font-size:13px">'+r[0]+'</td><td align="right" style="padding:13px 20px;'
+        +(i<2?'border-bottom:1px solid #efe9df;':'')+'color:#14141b;font-size:14px;font-weight:600">'+r[1]+'</td></tr>'}).join('');
+    return '<!DOCTYPE html><html><body style="margin:0;'+g+'">'
+    +'<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f7f4ee;'+g+'"><tr>'
+    +'<td align="center" style="padding:32px 16px"><table role="presentation" cellpadding="0" cellspacing="0" '
+    +'style="width:100%;max-width:640px;background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 4px 24px rgba(15,23,42,.06)">'
+    +'<tr><td style="padding:34px 32px 8px;text-align:center;font-size:20px;font-weight:700;color:#14141b">'+CFG.brand+'</td></tr>'
+    +'<tr><td style="padding:6px 32px 12px;text-align:center"><h1 style="margin:0;font-size:24px;line-height:1.3;color:#14141b">Your artwork is ready for review</h1></td></tr>'
+    +'<tr><td style="padding:0 32px 22px;color:#475569;font-size:14px;line-height:1.7">'
+    +'<p style="margin:0 0 12px">Hi '+esc((d.name||'there').split(' ')[0])+',</p>'
+    +'<p style="margin:0 0 12px">Your proof for order #'+esc(d.job)+' is ready. Please check it carefully &mdash; we produce exactly what you approve.</p>'
+    +'<p style="margin:0">Your order moves forward as soon as it’s approved.</p></td></tr>'
+    +'<tr><td style="padding:0 32px 22px;text-align:center"><img src="'+d.img+'" alt="Proof" style="max-width:280px;width:100%;border-radius:10px;border:1px solid #efe9df"></td></tr>'
+    +'<tr><td style="padding:0 32px 24px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" '
+    +'style="background:#faf8f4;border:1px solid #efe9df;border-radius:12px;'+g+'">'+rows+'</table></td></tr>'
+    +'<tr><td style="padding:0 32px 10px;text-align:center"><span style="display:inline-block;background:#fdf6e6;color:#8a6c2c;'
+    +'font-size:12px;font-weight:600;padding:5px 12px;border-radius:20px;border:1px solid #ecd9a8">Waiting for approval</span></td></tr>'
+    +'<tr><td style="padding:14px 32px 0;text-align:center"><a href="'+url+'" style="display:inline-block;'
+    +'background:#c8a24a;color:#1a1408;text-decoration:none;padding:15px 40px;border-radius:10px;font-weight:700;font-size:16px">Review artwork</a></td></tr>'
+    +'<tr><td style="padding:13px 32px 0;text-align:center"><p style="margin:0;color:#8a8a96;font-size:12px">No login needed. Approve it or request changes.</p></td></tr>'
+    +'<tr><td style="padding:22px 32px 30px;text-align:center;border-top:1px solid #efe9df">'
+    +'<p style="margin:14px 0 0;color:#565663;font-size:12px">Questions? Just reply to this email.</p>'
+    +'<p style="margin:10px 0 0;color:#8a8a96;font-size:11px">'+CFG.brand+' · '+CFG.phone+' · '+CFG.email+'</p>'
+    +'</td></tr></table></td></tr></table></body></html>';
+  }
+
+  var mk=document.getElementById('mkProof');
+  document.getElementById('aFile').addEventListener('change',function(){ mk.disabled=false });
+  mk.onclick=function(){
+    var job=(document.getElementById('pJob').value||'').trim();
+    if(!job){ alert('Enter a job number first.'); return; }
+    var token=Math.random().toString(16).slice(2,8);
+    var slug=job.replace(/[^A-Za-z0-9-]/g,'')+'-'+token;
+    var d={ job:job, name:document.getElementById('pName').value.trim(),
+            email:document.getElementById('pEmail').value.trim(),
+            item:document.getElementById('pItem').value.trim(),
+            details:document.getElementById('pDetail').value.split('\n'),
+            date:new Date().toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}),
+            img:cv.toDataURL('image/png') };
+    var url=CFG.site+'/proof/'+slug+'.html';
+    save(slug+'.html', 'data:text/html;charset=utf-8,'+encodeURIComponent(proofHTML(d)));
+    setTimeout(function(){
+      save('email-'+slug+'.html','data:text/html;charset=utf-8,'+encodeURIComponent(emailHTML(d,url)));
+    },400);
+    document.getElementById('proofNote').outerHTML =
+      '<div class="ok" id="proofNote"><strong>Two files downloaded.</strong> Publish the proof, then send the email.'
+      +'<code>python3 scripts/publish-proof.py ~/Downloads/'+slug+'.html</code>'
+      +'Open <strong>email-'+slug+'.html</strong> in your browser, select all, copy, paste into a new email to '
+      +(d.email||'the customer')+'.</div>';
   };
 
   garment=drawBlank('tee','#ffffff'); sync(); render();
