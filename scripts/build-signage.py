@@ -100,7 +100,8 @@ h1,h2,h3{font-family:Fraunces,Georgia,serif;font-weight:600;letter-spacing:-.015
 
 /* opening */
 .open .tint{background:linear-gradient(180deg,rgba(7,7,11,.80),rgba(7,7,11,.45) 40%,rgba(7,7,11,.92))}
-.mark{height:180px;width:auto;display:block}
+/* align-self stops the column flexbox stretching the mark to full width */
+.mark{height:132px;width:auto;display:block;align-self:flex-start;flex:none}
 .open h1{font-size:150px;color:var(--ivory);margin:52px 0 30px}
 .open .sub{font-size:44px;color:rgba(251,250,246,.82);line-height:1.35;max-width:20ch}
 .tag{margin-top:auto;font-size:32px;letter-spacing:.2em;text-transform:uppercase;color:var(--g4);font-weight:600}
