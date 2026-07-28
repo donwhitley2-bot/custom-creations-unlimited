@@ -263,15 +263,21 @@ kbd{background:#f1efe9;border:1px solid var(--line);border-radius:5px;padding:.0
       d.addEventListener(ev,function(e){e.preventDefault();d.classList.remove('over')}) });
     d.addEventListener('drop',function(e){ loadImg(e.dataTransfer.files[0],cb) });
   }
+  // Single place that reacts to artwork arriving, so every route in — the drop
+  // zone, a drop on the canvas, or the file picker — enables the same controls.
+  function artLoaded(im){
+    art=im;
+    document.getElementById('dl').disabled=false;
+    document.getElementById('mkProof').disabled=false;
+    applyPreset('full');
+  }
   wireDrop('gDrop','gFile',function(im){ garment=im; render(); });
-  wireDrop('aDrop','aFile',function(im){
-    art=im; document.getElementById('dl').disabled=false; applyPreset('full'); });
+  wireDrop('aDrop','aFile',artLoaded);
 
   // dropping art anywhere on the canvas
   ['dragover','drop'].forEach(function(ev){
     cv.addEventListener(ev,function(e){ e.preventDefault();
-      if(ev==='drop') loadImg(e.dataTransfer.files[0],function(im){
-        art=im; document.getElementById('dl').disabled=false; applyPreset('full'); }); });
+      if(ev==='drop') loadImg(e.dataTransfer.files[0],artLoaded); });
   });
 
   /* ---- placement --------------------------------------------------------- */
@@ -435,7 +441,6 @@ kbd{background:#f1efe9;border:1px solid var(--line);border-radius:5px;padding:.0
   }
 
   var mk=document.getElementById('mkProof');
-  document.getElementById('aFile').addEventListener('change',function(){ mk.disabled=false });
   mk.onclick=function(){
     var job=(document.getElementById('pJob').value||'').trim();
     if(!job){ alert('Enter a job number first.'); return; }
