@@ -18,10 +18,31 @@ def run(*cmd):
     return subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True)
 
 
+def newest_downloaded_proof():
+    """Most recent Mockup Studio proof in ~/Downloads, found by its marker so
+    unrelated .html files are never picked up."""
+    d = os.path.expanduser("~/Downloads")
+    best, best_t = None, 0
+    for f in os.listdir(d) if os.path.isdir(d) else []:
+        if not f.endswith(".html"):
+            continue
+        p = os.path.join(d, f)
+        try:
+            with open(p, encoding="utf-8", errors="ignore") as fh:
+                if "<!--ccu-proof-->" not in fh.read(400):
+                    continue
+            t = os.path.getmtime(p)
+            if t > best_t:
+                best, best_t = p, t
+        except OSError:
+            pass
+    return best
+
+
 def main():
-    if len(sys.argv) < 2:
-        sys.exit("usage: publish-proof.py <downloaded-proof.html>")
-    src = os.path.expanduser(sys.argv[1])
+    src = os.path.expanduser(sys.argv[1]) if len(sys.argv) > 1 else newest_downloaded_proof()
+    if not src:
+        sys.exit("No proof found in ~/Downloads. Build one in Mockup Studio first.")
     if not os.path.exists(src):
         sys.exit("not found: " + src)
     name = os.path.basename(src)

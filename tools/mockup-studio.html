@@ -338,7 +338,7 @@ kbd{background:#f1efe9;border:1px solid var(--line);border-radius:5px;padding:.0
 
   function proofHTML(d){
     var rows=d.details.filter(Boolean).map(function(x){return '<li>'+esc(x)+'</li>'}).join('');
-    return '<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">'
+    return '<!DOCTYPE html><!--ccu-proof--><html lang="en"><head><meta charset="utf-8">'
     +'<meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow">'
     +'<title>Proof #'+esc(d.job)+' · '+CFG.brand+'</title>'
     +'<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">'
@@ -454,14 +454,33 @@ kbd{background:#f1efe9;border:1px solid var(--line);border-radius:5px;padding:.0
             img:cv.toDataURL('image/png') };
     var url=CFG.site+'/proof/'+slug+'.html';
     save(slug+'.html', 'data:text/html;charset=utf-8,'+encodeURIComponent(proofHTML(d)));
-    setTimeout(function(){
-      save('email-'+slug+'.html','data:text/html;charset=utf-8,'+encodeURIComponent(emailHTML(d,url)));
-    },400);
+
+    var body='Hi '+((d.name||'there').split(' ')[0])+',\n\n'
+      +'Your proof for order #'+d.job+' is ready to review:\n\n'+url+'\n\n'
+      +'Please check the spelling, colors and placement carefully — we produce exactly what you approve. '
+      +'You can approve it or request changes right on that page.\n\n'
+      +'Questions? Just reply to this email.\n\n'
+      +'— '+CFG.brand+'\n'+CFG.phone+' · '+CFG.email;
+    var mailto='mailto:'+encodeURIComponent(d.email)
+      +'?subject='+encodeURIComponent('Your proof is ready to review — order #'+d.job)
+      +'&body='+encodeURIComponent(body);
+
     document.getElementById('proofNote').outerHTML =
-      '<div class="ok" id="proofNote"><strong>Two files downloaded.</strong> Publish the proof, then send the email.'
-      +'<code>python3 scripts/publish-proof.py ~/Downloads/'+slug+'.html</code>'
-      +'Open <strong>email-'+slug+'.html</strong> in your browser, select all, copy, paste into a new email to '
-      +(d.email||'the customer')+'.</div>';
+      '<div class="ok" id="proofNote">'
+      +'<strong>1 · Publish it</strong><br>Double-click <em>Publish Proof</em> on your Desktop '
+      +'(it picks up the file you just downloaded), or run:'
+      +'<code>python3 scripts/publish-proof.py</code>'
+      +'<strong>2 · Email the customer</strong><br>'
+      +'<a class="btn btn--gold" style="margin:.5rem 0 .2rem" href="'+mailto+'">Open email to '
+      +(d.email? esc(d.email) : 'customer')+'</a><br>'
+      +'<span style="color:#8a8a96">Opens your mail app with the link already written. Publish first, '
+      +'or the link won\'t work yet.</span>'
+      +'<br><br><a href="#" id="dlEmail" style="color:#8a6c2c">Prefer the designed HTML email? Download it</a>'
+      +'</div>';
+    document.getElementById('dlEmail').onclick=function(e){
+      e.preventDefault();
+      save('email-'+slug+'.html','data:text/html;charset=utf-8,'+encodeURIComponent(emailHTML(d,url)));
+    };
   };
 
   garment=drawBlank('tee','#ffffff'); sync(); render();
