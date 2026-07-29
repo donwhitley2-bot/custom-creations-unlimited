@@ -85,6 +85,7 @@ kbd{background:#f1efe9;border:1px solid var(--line);border-radius:5px;padding:.0
 
       <div id="lib" hidden>
         <label style="margin-top:.3rem">Your blanks</label>
+        <div class="row" id="viewFilter" hidden style="margin-bottom:.45rem"></div>
         <select class="in" id="libSel"></select>
         <button class="chip" id="setZone" style="margin-top:.45rem;flex:none;width:100%">
           Set print area on this blank</button>
@@ -275,7 +276,20 @@ kbd{background:#f1efe9;border:1px solid var(--line);border-radius:5px;padding:.0
      A static page can't list a directory, so blanks.json (written by
      scripts/build-blanks.py) is the index. Each blank's print area is stored
      per-browser, since there's no backend to save it to. */
-  var gBlank=null, ZKEY='ccuBlankZones';
+  var gBlank=null, allBlanks=[], viewWanted='Front', ZKEY='ccuBlankZones';
+
+  function fillPicker(){
+    var sel=document.getElementById('libSel');
+    var shown=allBlanks.filter(function(b){ return !b.view || b.view===viewWanted; });
+    var byVendor={};
+    shown.forEach(function(b){ var v=b.vendor||'Other'; (byVendor[v]=byVendor[v]||[]).push(b); });
+    sel.innerHTML='<option value="">— vector blank —</option>'
+      + Object.keys(byVendor).sort().map(function(v){
+          return '<optgroup label="'+v+'">'+byVendor[v].map(function(b){
+            return '<option value="'+b.file+'">'+b.label+'</option>' }).join('')+'</optgroup>';
+        }).join('');
+    if(gBlank && shown.some(function(b){ return b.file===gBlank })) sel.value=gBlank;
+  }
   function zones(){ try{ return JSON.parse(localStorage.getItem(ZKEY)||'{}') }catch(e){ return {} } }
   function saveZone(file,z){ var all=zones(); all[file]=z; try{ localStorage.setItem(ZKEY,JSON.stringify(all)) }catch(e){} }
   function zoneFor(file){ return zones()[file] || {x:.5,y:.42,w:.42}; }
@@ -285,18 +299,22 @@ kbd{background:#f1efe9;border:1px solid var(--line);border-radius:5px;padding:.0
       if(!list.length) return;
       var lib=document.getElementById('lib'), sel=document.getElementById('libSel');
       lib.hidden=false;
-      // group by vendor (first word of the filename) so one folder stays tidy
-      var byVendor={};
-      list.forEach(function(b){
-        var v=(b.file.split(/[-_ ]/)[0]||'Other');
-        v=v.charAt(0).toUpperCase()+v.slice(1);
-        (byVendor[v]=byVendor[v]||[]).push(b);
-      });
-      sel.innerHTML='<option value="">— vector blank —</option>'
-        + Object.keys(byVendor).sort().map(function(v){
-            return '<optgroup label="'+v+'">'+byVendor[v].map(function(b){
-              return '<option value="'+b.file+'">'+b.label+'</option>' }).join('')+'</optgroup>';
-          }).join('');
+      allBlanks=list;
+      // supplier exports carry every view; show one at a time or the list balloons
+      var views={}; list.forEach(function(b){ if(b.view) views[b.view]=1; });
+      var vs=Object.keys(views).sort();
+      if(vs.length>1){
+        var box=document.getElementById('viewFilter'); box.hidden=false;
+        box.innerHTML=vs.map(function(v){
+          return '<button class="chip'+(v===viewWanted?' on':'')+'" data-v="'+v+'">'+v+'</button>' }).join('');
+        box.querySelectorAll('.chip').forEach(function(c){
+          c.onclick=function(){
+            box.querySelectorAll('.chip').forEach(function(x){ x.classList.remove('on') });
+            c.classList.add('on'); viewWanted=c.dataset.v; fillPicker();
+          };
+        });
+      }
+      fillPicker();
       sel.onchange=function(){
         var f=sel.value;
         if(!f){ gBlank=null; garment=drawBlank(gKind,gColor); render(); return; }
