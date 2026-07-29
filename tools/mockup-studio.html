@@ -118,7 +118,11 @@ kbd{background:#f1efe9;border:1px solid var(--line);border-radius:5px;padding:.0
         <input type="range" id="rO" min="20" max="100" value="100"></div>
       <div class="row">
         <button class="chip on" id="blend">Blend into fabric</button>
+        <button class="chip" id="isCap">This is a cap</button>
+        <button class="chip" id="curve" hidden>Curve print</button>
       </div>
+      <div id="curveWrap" hidden><label>Curve amount <span class="val" id="vC">55%</span></label>
+        <input type="range" id="rC" min="10" max="100" value="55"></div>
       <p class="note">Blend multiplies the art by the garment's own shading so it sits in the folds
         instead of looking pasted on. Drag on the canvas to move; <kbd>scroll</kbd> to resize.</p>
     </div>
@@ -146,7 +150,7 @@ kbd{background:#f1efe9;border:1px solid var(--line);border-radius:5px;padding:.0
 (function(){
   var cv=document.getElementById('cv'), ctx=cv.getContext('2d');
   var garment=null, art=null, gKind='tee', gColor='#ffffff';
-  var st={x:.5,y:.42,s:.40,r:0,o:1,blend:true};
+  var st={x:.5,y:.42,s:.40,r:0,o:1,blend:true,curve:false,curveAmt:.55};
   var COLORS=['#ffffff','#efe9df','#c9ccd1','#7b8794','#2b2f3a','#14141b','#1f3a5f','#5a2a3a','#3f5d3a','#c8a24a'];
 
   /* ---- flat garment silhouettes, drawn to an offscreen canvas -------------
@@ -243,13 +247,34 @@ kbd{background:#f1efe9;border:1px solid var(--line);border-radius:5px;padding:.0
         a[i]*=f; a[i+1]*=f; a[i+2]*=f;
       }
       tx.putImageData(A,0,0);
-      ctx.save(); ctx.globalAlpha=st.o; ctx.translate(cx,cy); ctx.rotate(st.r*Math.PI/180);
-      ctx.drawImage(t,-w/2,-h/2,w,h); ctx.restore();
+      paint(t,w,h,cx,cy);
     } else {
-      ctx.save(); ctx.globalAlpha=st.o; ctx.translate(cx,cy); ctx.rotate(st.r*Math.PI/180);
-      ctx.drawImage(art,-w/2,-h/2,w,h); ctx.restore();
+      paint(art,w,h,cx,cy);
     }
     drawZone();
+  }
+
+  /* Lay the print down. Flat by default; for caps, project it onto a cylinder
+     so it wraps the crown — vertical strips get squeezed toward the edges and
+     ride down the curve, instead of the art sitting flat and looking pasted. */
+  function paint(src,w,h,cx,cy){
+    ctx.save(); ctx.globalAlpha=st.o; ctx.translate(cx,cy); ctx.rotate(st.r*Math.PI/180);
+    if(!st.curve){
+      ctx.drawImage(src,-w/2,-h/2,w,h); ctx.restore(); return;
+    }
+    var sw0=src.naturalWidth||src.width, sh0=src.naturalHeight||src.height;
+    var N=110, th=Math.max(.12,st.curveAmt), sinT=Math.sin(th), cosT=Math.cos(th);
+    for(var i=0;i<N;i++){
+      var u0=(i/N)*2-1, u1=((i+1)/N)*2-1, um=(u0+u1)/2;
+      var dx0=(Math.sin(u0*th)/sinT)*w/2, dx1=(Math.sin(u1*th)/sinT)*w/2;
+      var dw=dx1-dx0; if(dw<=0) continue;
+      var k=(1-Math.cos(um*th))/(1-cosT);        // 0 at centre, 1 at the edges
+      var dy=k*h*0.13*(th/0.9);                  // edges ride down the crown
+      var sh=h*(1-0.07*k);                       // and foreshorten slightly
+      ctx.drawImage(src, i*(sw0/N), 0, sw0/N, sh0,
+                    dx0, -h/2+dy, dw+0.7, sh);
+    }
+    ctx.restore();
   }
 
   /* ---- garment controls ------------------------------------------------- */
@@ -386,15 +411,39 @@ kbd{background:#f1efe9;border:1px solid var(--line);border-radius:5px;padding:.0
 
   /* Caps need their own placements — "left chest" means nothing on a hat, and
      the print sits high and small on the front panel. */
-  function isHat(){
+  /* Supplier filenames are just brand + style ("RICHARDSON_112_Black_Front"),
+     so there's no reliable word to detect a cap from. Keyword matching is only
+     a first guess; the real answer is a toggle, remembered per style alongside
+     the print area. */
+  var HKEY='ccuCapStyles';
+  function hatFlags(){ try{ return JSON.parse(localStorage.getItem(HKEY)||'{}') }catch(e){ return {} } }
+  function guessHat(){
     var b=allBlanks.filter(function(x){ return x.file===gBlank })[0];
     var s=((b && (b.label+' '+b.file)) || '').toLowerCase();
-    return /\b(cap|hat|trucker|snapback|visor|beanie|bucket)\b/.test(s);
+    return /(cap|hat|trucker|snapback|visor|beanie|bucket)/.test(s);
+  }
+  function isHat(){
+    if(!gBlank) return false;
+    var f=hatFlags()[zoneKey(gBlank)];
+    return (f===undefined) ? guessHat() : !!f;
+  }
+  function setHat(on){
+    var all=hatFlags(); all[zoneKey(gBlank)]=!!on;
+    try{ localStorage.setItem(HKEY,JSON.stringify(all)) }catch(e){}
   }
   function relabelPresets(){
     var hat=isHat(), names = hat ? ['Left panel','Front panel','Low profile']
                                  : ['Left chest','Full front','Centered'];
     document.querySelectorAll('#presets .chip').forEach(function(c,i){ c.textContent=names[i]; });
+
+    // the curve only makes sense on a curved crown
+    var capBtn=document.getElementById('isCap');
+    var btn=document.getElementById('curve'), wrap=document.getElementById('curveWrap');
+    capBtn.hidden=!gBlank;                       // only meaningful for a real photo
+    capBtn.classList.toggle('on',hat);
+    st.curve = hat;
+    btn.hidden=!hat; btn.classList.toggle('on',hat);
+    wrap.hidden=!hat;
   }
 
   function applyPreset(p){
@@ -431,6 +480,18 @@ kbd{background:#f1efe9;border:1px solid var(--line);border-radius:5px;padding:.0
   document.getElementById('rO').oninput=function(){ st.o=+this.value/100; sync(); render(); };
   document.getElementById('blend').onclick=function(){
     st.blend=!st.blend; this.classList.toggle('on',st.blend); render(); };
+  document.getElementById('isCap').onclick=function(){
+    if(!gBlank) return;
+    setHat(!isHat());
+    applyPreset(curPreset);           // relabels, re-places and toggles the curve
+  };
+  document.getElementById('curve').onclick=function(){
+    st.curve=!st.curve;
+    this.classList.toggle('on',st.curve);
+    document.getElementById('curveWrap').hidden=!st.curve; render(); };
+  document.getElementById('rC').oninput=function(){
+    st.curveAmt=+this.value/100;
+    document.getElementById('vC').textContent=this.value+'%'; render(); };
   document.getElementById('reset').onclick=function(){ applyPreset('full') };
 
   // drag + scroll-to-size on the canvas
