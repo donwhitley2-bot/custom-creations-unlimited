@@ -270,5 +270,197 @@
   "style": "3001",
   "color": "White",
   "view": "Back"
+ },
+ {
+  "file": "Gildan_64000_Antique_Cherry_Red_Front_High.jpg",
+  "label": "64000 \u00b7 Antique Cherry Red",
+  "vendor": "Gildan",
+  "style": "64000",
+  "color": "Antique Cherry Red",
+  "view": "Front"
+ },
+ {
+  "file": "Gildan_64000_Antique_Heliconia_Front_High.jpg",
+  "label": "64000 \u00b7 Antique Heliconia",
+  "vendor": "Gildan",
+  "style": "64000",
+  "color": "Antique Heliconia",
+  "view": "Front"
+ },
+ {
+  "file": "Gildan_64000_Antique_Sapphire_Front_High.jpg",
+  "label": "64000 \u00b7 Antique Sapphire",
+  "vendor": "Gildan",
+  "style": "64000",
+  "color": "Antique Sapphire",
+  "view": "Front"
+ },
+ {
+  "file": "Gildan_64000_Azalea_Front_High.jpg",
+  "label": "64000 \u00b7 Azalea",
+  "vendor": "Gildan",
+  "style": "64000",
+  "color": "Azalea",
+  "view": "Front"
+ },
+ {
+  "file": "Gildan_64000_Black_Front_High.jpg",
+  "label": "64000 \u00b7 Black",
+  "vendor": "Gildan",
+  "style": "64000",
+  "color": "Black",
+  "view": "Front"
+ },
+ {
+  "file": "Gildan_64000_Carolina_Blue_Front_High.jpg",
+  "label": "64000 \u00b7 Carolina Blue",
+  "vendor": "Gildan",
+  "style": "64000",
+  "color": "Carolina Blue",
+  "view": "Front"
+ },
+ {
+  "file": "Gildan_64000_Charcoal_Front_High.jpg",
+  "label": "64000 \u00b7 Charcoal",
+  "vendor": "Gildan",
+  "style": "64000",
+  "color": "Charcoal",
+  "view": "Front"
+ },
+ {
+  "file": "Gildan_64000_Cherry_Red_Front_High.jpg",
+  "label": "64000 \u00b7 Cherry Red",
+  "vendor": "Gildan",
+  "style": "64000",
+  "color": "Cherry Red",
+  "view": "Front"
+ },
+ {
+  "file": "Gildan_64000_Fan_Dark_Green_Front_High.jpg",
+  "label": "64000 \u00b7 Fan Dark Green",
+  "vendor": "Gildan",
+  "style": "64000",
+  "color": "Fan Dark Green",
+  "view": "Front"
+ },
+ {
+  "file": "Gildan_64000_Fan_Deep_Royal_Front_High.jpg",
+  "label": "64000 \u00b7 Fan Deep Royal",
+  "vendor": "Gildan",
+  "style": "64000",
+  "color": "Fan Deep Royal",
+  "view": "Front"
+ },
+ {
+  "file": "Gildan_64000_Graphite_Heather_Front_High.jpg",
+  "label": "64000 \u00b7 Graphite Heather",
+  "vendor": "Gildan",
+  "style": "64000",
+  "color": "Graphite Heather",
+  "view": "Front"
+ },
+ {
+  "file": "Gildan_64000_Heather_Berry_Front_High.jpg",
+  "label": "64000 \u00b7 Heather Berry",
+  "vendor": "Gildan",
+  "style": "64000",
+  "color": "Heather Berry",
+  "view": "Front"
+ },
+ {
+  "file": "Gildan_64000_Antique_Cherry_Red_Back_High.jpg",
+  "label": "64000 \u00b7 Antique Cherry Red (back)",
+  "vendor": "Gildan",
+  "style": "64000",
+  "color": "Antique Cherry Red",
+  "view": "Back"
+ },
+ {
+  "file": "Gildan_64000_Antique_Heliconia_Back_High.jpg",
+  "label": "64000 \u00b7 Antique Heliconia (back)",
+  "vendor": "Gildan",
+  "style": "64000",
+  "color": "Antique Heliconia",
+  "view": "Back"
+ },
+ {
+  "file": "Gildan_64000_Antique_Sapphire_Back_High.jpg",
+  "label": "64000 \u00b7 Antique Sapphire (back)",
+  "vendor": "Gildan",
+  "style": "64000",
+  "color": "Antique Sapphire",
+  "view": "Back"
+ },
+ {
+  "file": "Gildan_64000_Azalea_DirectSide_High.jpg",
+  "label": "64000 \u00b7 Azalea Directside",
+  "vendor": "Gildan",
+  "style": "64000",
+  "color": "Azalea Directside",
+  "view": ""
+ },
+ {
+  "file": "Gildan_64000_Black_Back_High.jpg",
+  "label": "64000 \u00b7 Black (back)",
+  "vendor": "Gildan",
+  "style": "64000",
+  "color": "Black",
+  "view": "Back"
+ },
+ {
+  "file": "Gildan_64000_Carolina_Blue_DirectSide_High.jpg",
+  "label": "64000 \u00b7 Carolina Blue Directside",
+  "vendor": "Gildan",
+  "style": "64000",
+  "color": "Carolina Blue Directside",
+  "view": ""
+ },
+ {
+  "file": "Gildan_64000_Charcoal_Back_High.jpg",
+  "label": "64000 \u00b7 Charcoal (back)",
+  "vendor": "Gildan",
+  "style": "64000",
+  "color": "Charcoal",
+  "view": "Back"
+ },
+ {
+  "file": "Gildan_64000_Cherry_Red_Back_High.jpg",
+  "label": "64000 \u00b7 Cherry Red (back)",
+  "vendor": "Gildan",
+  "style": "64000",
+  "color": "Cherry Red",
+  "view": "Back"
+ },
+ {
+  "file": "Gildan_64000_Fan_Dark_Green_Back_High.jpg",
+  "label": "64000 \u00b7 Fan Dark Green (back)",
+  "vendor": "Gildan",
+  "style": "64000",
+  "color": "Fan Dark Green",
+  "view": "Back"
+ },
+ {
+  "file": "Gildan_64000_Fan_Deep_Royal_Back_High.jpg",
+  "label": "64000 \u00b7 Fan Deep Royal (back)",
+  "vendor": "Gildan",
+  "style": "64000",
+  "color": "Fan Deep Royal",
+  "view": "Back"
+ },
+ {
+  "file": "Gildan_64000_Graphite_Heather_Back_High.jpg",
+  "label": "64000 \u00b7 Graphite Heather (back)",
+  "vendor": "Gildan",
+  "style": "64000",
+  "color": "Graphite Heather",
+  "view": "Back"
+ },
+ {
+  "file": "Gildan_64000_Heather_Berry_Back_High.jpg",
+  "label": "64000 \u00b7 Heather Berry (back)",
+  "vendor": "Gildan",
+  "style": "64000",
+  "color": "Heather Berry",
+  "view": "Back"
  }
 ]
