@@ -1,11 +1,24 @@
 #!/bin/bash
-# Double-click this to publish the proof you just built in Mockup Studio.
-# Keep it on your Desktop (or make an alias there) — it always uses the newest
-# proof in ~/Downloads. You can also drag a specific proof file onto it.
-cd "/Users/donwhitley/Documents/Website_New" || { echo "Project folder not found."; read -n1; exit 1; }
-echo "Publishing proof…"
-echo
+# Double-click to publish the proof you just built in Mockup Studio.
+# Works from any Mac that has this repo cloned — it locates the project from
+# its own location, so no path is hard-coded. Safe to alias onto the Desktop.
+
+SRC="${BASH_SOURCE[0]}"
+while [ -L "$SRC" ]; do                       # follow a Desktop alias/symlink
+  DIR="$(cd -P "$(dirname "$SRC")" && pwd)"
+  SRC="$(readlink "$SRC")"
+  [[ $SRC != /* ]] && SRC="$DIR/$SRC"
+done
+ROOT="$(cd -P "$(dirname "$SRC")/.." && pwd)"
+
+if [ ! -f "$ROOT/scripts/publish-proof.py" ]; then
+  echo "Couldn't find the project folder from $ROOT"
+  echo "Run this copy of the file that lives inside the repo."
+  read -n1 -r -p "Press any key to close."; exit 1
+fi
+
+cd "$ROOT" || exit 1
+echo "Publishing proof…"; echo
 python3 scripts/publish-proof.py "$@"
 echo
-echo "Press any key to close."
-read -n1
+read -n1 -r -p "Press any key to close."
