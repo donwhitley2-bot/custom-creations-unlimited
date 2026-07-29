@@ -89,8 +89,8 @@ kbd{background:#f1efe9;border:1px solid var(--line);border-radius:5px;padding:.0
         <select class="in" id="libSel"></select>
         <button class="chip" id="setZone" style="margin-top:.45rem;flex:none;width:100%">
           Set print area on this blank</button>
-        <p class="note" id="zoneNote">Drag a box over the chest once per blank &mdash; the placement
-          presets then land correctly. Saved on this computer.</p>
+        <p class="note" id="zoneNote">Drag a box over the chest once per style &mdash; every colour of
+          that style inherits it. Saved on this computer.</p>
       </div>
 
       <label class="drop" id="gDrop">Or use a one-off photo
@@ -291,8 +291,19 @@ kbd{background:#f1efe9;border:1px solid var(--line);border-radius:5px;padding:.0
     if(gBlank && shown.some(function(b){ return b.file===gBlank })) sel.value=gBlank;
   }
   function zones(){ try{ return JSON.parse(localStorage.getItem(ZKEY)||'{}') }catch(e){ return {} } }
-  function saveZone(file,z){ var all=zones(); all[file]=z; try{ localStorage.setItem(ZKEY,JSON.stringify(all)) }catch(e){} }
-  function zoneFor(file){ return zones()[file] || {x:.5,y:.42,w:.42}; }
+
+  /* Key the print area to vendor+style+view, not the filename — every colour of
+     a style is the same shot, so setting it once should cover all of them.
+     View matters: a back print sits differently to a front. */
+  function zoneKey(file){
+    var b=allBlanks.filter(function(x){ return x.file===file })[0];
+    return (b && b.style) ? (b.vendor||'')+'|'+b.style+'|'+(b.view||'Front') : file;
+  }
+  function saveZone(file,z){
+    var all=zones(); all[zoneKey(file)]=z;
+    try{ localStorage.setItem(ZKEY,JSON.stringify(all)) }catch(e){}
+  }
+  function zoneFor(file){ return zones()[zoneKey(file)] || {x:.5,y:.42,w:.42}; }
 
   fetch('blanks/blanks.json',{cache:'no-store'}).then(function(r){ return r.ok?r.json():[] })
    .then(function(list){
