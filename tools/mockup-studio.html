@@ -82,7 +82,17 @@ kbd{background:#f1efe9;border:1px solid var(--line);border-radius:5px;padding:.0
         <button class="chip" data-g="tote">Tote</button>
       </div>
       <div class="row" id="sw"></div>
-      <label class="drop" id="gDrop">Or use a photo of a real blank
+
+      <div id="lib" hidden>
+        <label style="margin-top:.3rem">Your blanks</label>
+        <select class="in" id="libSel"></select>
+        <button class="chip" id="setZone" style="margin-top:.45rem;flex:none;width:100%">
+          Set print area on this blank</button>
+        <p class="note" id="zoneNote">Drag a box over the chest once per blank &mdash; the placement
+          presets then land correctly. Saved on this computer.</p>
+      </div>
+
+      <label class="drop" id="gDrop">Or use a one-off photo
         <input type="file" id="gFile" accept="image/*"></label>
     </div>
 
@@ -188,11 +198,23 @@ kbd{background:#f1efe9;border:1px solid var(--line);border-radius:5px;padding:.0
   }
 
   /* ---- render ---------------------------------------------------------- */
+  function drawZone(){
+    if(!zoning) return;
+    var z = zRect ? zRect : (function(){ var q=zoneFor(gBlank);
+      return {x0:q.x-q.w/2, y0:q.y-q.w/2, x1:q.x+q.w/2, y1:q.y+q.w/2}; })();
+    ctx.save();
+    ctx.fillStyle='rgba(200,162,74,.16)';
+    ctx.fillRect(z.x0*1000, z.y0*1000, (z.x1-z.x0)*1000, (z.y1-z.y0)*1000);
+    ctx.strokeStyle='#c8a24a'; ctx.lineWidth=3; ctx.setLineDash([10,7]);
+    ctx.strokeRect(z.x0*1000, z.y0*1000, (z.x1-z.x0)*1000, (z.y1-z.y0)*1000);
+    ctx.restore();
+  }
+
   function render(){
     ctx.clearRect(0,0,1000,1000);
     if(garment) ctx.drawImage(garment,0,0,1000,1000);
     document.getElementById('empty').style.display = art?'none':'grid';
-    if(!art) return;
+    if(!art){ drawZone(); return; }
 
     var w=1000*st.s, h=w*art.height/art.width;
     var cx=1000*st.x, cy=1000*st.y;
@@ -226,6 +248,7 @@ kbd{background:#f1efe9;border:1px solid var(--line);border-radius:5px;padding:.0
       ctx.save(); ctx.globalAlpha=st.o; ctx.translate(cx,cy); ctx.rotate(st.r*Math.PI/180);
       ctx.drawImage(art,-w/2,-h/2,w,h); ctx.restore();
     }
+    drawZone();
   }
 
   /* ---- garment controls ------------------------------------------------- */
@@ -242,9 +265,56 @@ kbd{background:#f1efe9;border:1px solid var(--line);border-radius:5px;padding:.0
   document.querySelectorAll('#gTabs .chip').forEach(function(t){
     t.onclick=function(){
       document.querySelectorAll('#gTabs .chip').forEach(function(x){x.classList.remove('on')});
-      t.classList.add('on'); gKind=t.dataset.g; garment=drawBlank(gKind,gColor); render();
+      t.classList.add('on'); gKind=t.dataset.g; gBlank=null;
+      document.getElementById('libSel').value='';
+      garment=drawBlank(gKind,gColor); render();
     };
   });
+
+  /* ---- library of real garment photos -----------------------------------
+     A static page can't list a directory, so blanks.json (written by
+     scripts/build-blanks.py) is the index. Each blank's print area is stored
+     per-browser, since there's no backend to save it to. */
+  var gBlank=null, ZKEY='ccuBlankZones';
+  function zones(){ try{ return JSON.parse(localStorage.getItem(ZKEY)||'{}') }catch(e){ return {} } }
+  function saveZone(file,z){ var all=zones(); all[file]=z; try{ localStorage.setItem(ZKEY,JSON.stringify(all)) }catch(e){} }
+  function zoneFor(file){ return zones()[file] || {x:.5,y:.42,w:.42}; }
+
+  fetch('blanks/blanks.json',{cache:'no-store'}).then(function(r){ return r.ok?r.json():[] })
+   .then(function(list){
+      if(!list.length) return;
+      var lib=document.getElementById('lib'), sel=document.getElementById('libSel');
+      lib.hidden=false;
+      // group by vendor (first word of the filename) so one folder stays tidy
+      var byVendor={};
+      list.forEach(function(b){
+        var v=(b.file.split(/[-_ ]/)[0]||'Other');
+        v=v.charAt(0).toUpperCase()+v.slice(1);
+        (byVendor[v]=byVendor[v]||[]).push(b);
+      });
+      sel.innerHTML='<option value="">— vector blank —</option>'
+        + Object.keys(byVendor).sort().map(function(v){
+            return '<optgroup label="'+v+'">'+byVendor[v].map(function(b){
+              return '<option value="'+b.file+'">'+b.label+'</option>' }).join('')+'</optgroup>';
+          }).join('');
+      sel.onchange=function(){
+        var f=sel.value;
+        if(!f){ gBlank=null; garment=drawBlank(gKind,gColor); render(); return; }
+        var im=new Image();
+        im.onload=function(){ gBlank=f; garment=im; applyPreset(curPreset); render(); };
+        im.src='blanks/'+encodeURIComponent(f);
+      };
+   }).catch(function(){});
+
+  /* drag a rectangle to record where the print goes on a photographed blank */
+  var zoning=false, zStart=null, zRect=null;
+  document.getElementById('setZone').onclick=function(){
+    if(!gBlank){ alert('Pick one of your blanks first.'); return; }
+    zoning=!zoning; this.classList.toggle('on',zoning);
+    document.getElementById('zoneNote').textContent = zoning
+      ? 'Now drag a box across the chest of the garment.'
+      : 'Drag a box over the chest once per blank — the placement presets then land correctly. Saved on this computer.';
+  };
 
   /* ---- file loading ------------------------------------------------------ */
   function loadImg(file,cb){
@@ -281,12 +351,22 @@ kbd{background:#f1efe9;border:1px solid var(--line);border-radius:5px;padding:.0
   });
 
   /* ---- placement --------------------------------------------------------- */
+  var curPreset='full';
   function applyPreset(p){
+    curPreset=p;
     document.querySelectorAll('#presets .chip').forEach(function(x){
       x.classList.toggle('on', x.dataset.p===p) });
-    if(p==='chest'){ st.x=.37; st.y=.35; st.s=.14; }
-    else if(p==='full'){ st.x=.5; st.y=.46; st.s=.42; }
-    else { st.x=.5; st.y=.55; st.s=.34; }
+    if(gBlank){
+      // place relative to the print area recorded for this photographed blank
+      var z=zoneFor(gBlank);
+      if(p==='chest'){ st.x=z.x-z.w*0.30; st.y=z.y-z.w*0.20; st.s=z.w*0.33; }
+      else if(p==='full'){ st.x=z.x; st.y=z.y; st.s=z.w; }
+      else { st.x=z.x; st.y=z.y+z.w*0.16; st.s=z.w*0.80; }
+    } else {
+      if(p==='chest'){ st.x=.37; st.y=.35; st.s=.14; }
+      else if(p==='full'){ st.x=.5; st.y=.46; st.s=.42; }
+      else { st.x=.5; st.y=.55; st.s=.34; }
+    }
     st.r=0; sync(); render();
   }
   document.querySelectorAll('#presets .chip').forEach(function(t){
@@ -309,14 +389,34 @@ kbd{background:#f1efe9;border:1px solid var(--line);border-radius:5px;padding:.0
 
   // drag + scroll-to-size on the canvas
   var dragging=false;
+  function pos(e){ var b=cv.getBoundingClientRect();
+    return {x:(e.clientX-b.left)/b.width, y:(e.clientY-b.top)/b.height}; }
+
   cv.addEventListener('pointerdown',function(e){
-    if(!art) return; dragging=true; cv.classList.add('drag'); cv.setPointerCapture(e.pointerId); });
+    cv.setPointerCapture(e.pointerId);
+    if(zoning){ zStart=pos(e); zRect=null; return; }
+    if(!art) return; dragging=true; cv.classList.add('drag'); });
+
   cv.addEventListener('pointermove',function(e){
+    var p=pos(e);
+    if(zoning && zStart){
+      zRect={x0:Math.min(zStart.x,p.x), y0:Math.min(zStart.y,p.y),
+             x1:Math.max(zStart.x,p.x), y1:Math.max(zStart.y,p.y)};
+      render(); return;
+    }
     if(!dragging) return;
-    var b=cv.getBoundingClientRect();
-    st.x=(e.clientX-b.left)/b.width; st.y=(e.clientY-b.top)/b.height; render(); });
+    st.x=p.x; st.y=p.y; render(); });
+
   ['pointerup','pointercancel'].forEach(function(ev){
-    cv.addEventListener(ev,function(){ dragging=false; cv.classList.remove('drag') }); });
+    cv.addEventListener(ev,function(){
+      if(zoning && zRect && zRect.x1-zRect.x0 > .03){
+        saveZone(gBlank,{x:(zRect.x0+zRect.x1)/2, y:(zRect.y0+zRect.y1)/2, w:zRect.x1-zRect.x0});
+        zoning=false; zStart=null; zRect=null;
+        document.getElementById('setZone').classList.remove('on');
+        document.getElementById('zoneNote').textContent='Print area saved for this blank.';
+        applyPreset(curPreset);
+      }
+      zStart=null; dragging=false; cv.classList.remove('drag'); }); });
   cv.addEventListener('wheel',function(e){
     if(!art) return; e.preventDefault();
     st.s=Math.max(.04,Math.min(1,st.s+(e.deltaY<0?.02:-.02))); sync(); render(); },{passive:false});
