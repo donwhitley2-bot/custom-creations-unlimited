@@ -268,7 +268,9 @@ kbd{background:#f1efe9;border:1px solid var(--line);border-radius:5px;padding:.0
       document.querySelectorAll('#gTabs .chip').forEach(function(x){x.classList.remove('on')});
       t.classList.add('on'); gKind=t.dataset.g; gBlank=null;
       document.getElementById('libSel').value='';
-      garment=drawBlank(gKind,gColor); render();
+      garment=drawBlank(gKind,gColor);
+      applyPreset(curPreset);   // re-place and relabel — a cap isn't a tee
+      render();
     };
   });
 
@@ -381,10 +383,25 @@ kbd{background:#f1efe9;border:1px solid var(--line);border-radius:5px;padding:.0
 
   /* ---- placement --------------------------------------------------------- */
   var curPreset='full';
+
+  /* Caps need their own placements — "left chest" means nothing on a hat, and
+     the print sits high and small on the front panel. */
+  function isHat(){
+    var b=allBlanks.filter(function(x){ return x.file===gBlank })[0];
+    var s=((b && (b.label+' '+b.file)) || '').toLowerCase();
+    return /\b(cap|hat|trucker|snapback|visor|beanie|bucket)\b/.test(s);
+  }
+  function relabelPresets(){
+    var hat=isHat(), names = hat ? ['Left panel','Front panel','Low profile']
+                                 : ['Left chest','Full front','Centered'];
+    document.querySelectorAll('#presets .chip').forEach(function(c,i){ c.textContent=names[i]; });
+  }
+
   function applyPreset(p){
     curPreset=p;
     document.querySelectorAll('#presets .chip').forEach(function(x){
       x.classList.toggle('on', x.dataset.p===p) });
+    relabelPresets();
     if(gBlank){
       // place relative to the print area recorded for this photographed blank
       var z=zoneFor(gBlank);
