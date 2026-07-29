@@ -18,31 +18,40 @@ def run(*cmd):
     return subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True)
 
 
+SEARCH_DIRS = ["~/Downloads", "~/Documents", "~/Desktop"]
+
+
 def newest_downloaded_proof():
-    """Most recent Mockup Studio proof in ~/Downloads, found by its marker so
-    unrelated .html files are never picked up."""
-    d = os.path.expanduser("~/Downloads")
+    """Most recent Mockup Studio proof, found by its embedded marker so
+    unrelated .html files are never picked up. Browsers don't all save to
+    ~/Downloads, so check the usual destinations."""
     best, best_t = None, 0
-    for f in os.listdir(d) if os.path.isdir(d) else []:
-        if not f.endswith(".html"):
+    for d in SEARCH_DIRS:
+        d = os.path.expanduser(d)
+        if not os.path.isdir(d):
             continue
-        p = os.path.join(d, f)
-        try:
-            with open(p, encoding="utf-8", errors="ignore") as fh:
-                if "<!--ccu-proof-->" not in fh.read(400):
-                    continue
-            t = os.path.getmtime(p)
-            if t > best_t:
-                best, best_t = p, t
-        except OSError:
-            pass
+        for f in os.listdir(d):
+            if not f.endswith(".html"):
+                continue
+            p = os.path.join(d, f)
+            try:
+                with open(p, encoding="utf-8", errors="ignore") as fh:
+                    if "<!--ccu-proof-->" not in fh.read(400):
+                        continue
+                t = os.path.getmtime(p)
+                if t > best_t:
+                    best, best_t = p, t
+            except OSError:
+                pass
     return best
 
 
 def main():
     src = os.path.expanduser(sys.argv[1]) if len(sys.argv) > 1 else newest_downloaded_proof()
     if not src:
-        sys.exit("No proof found in ~/Downloads. Build one in Mockup Studio first.")
+        sys.exit("No proof found in " + ", ".join(SEARCH_DIRS) +
+                 ".\nBuild one in Mockup Studio first, or pass the file path:"
+                 "\n  python3 scripts/publish-proof.py /path/to/proof.html")
     if not os.path.exists(src):
         sys.exit("not found: " + src)
     name = os.path.basename(src)
