@@ -451,14 +451,20 @@ kbd{background:#f1efe9;border:1px solid var(--line);border-radius:5px;padding:.0
     document.querySelectorAll('#presets .chip').forEach(function(x){
       x.classList.toggle('on', x.dataset.p===p) });
     relabelPresets();
+    // "Left chest" is the WEARER's left. Facing the front of a garment that is
+    // the viewer's right, so it sits right of centre in the image. On a back
+    // view the mirroring flips and it returns to the viewer's left.
+    var bl=allBlanks.filter(function(x){ return x.file===gBlank })[0];
+    var side = (bl && bl.view==='Back') ? -1 : 1;
+
     if(gBlank){
       // place relative to the print area recorded for this photographed blank
       var z=zoneFor(gBlank);
-      if(p==='chest'){ st.x=z.x-z.w*0.30; st.y=z.y-z.w*0.20; st.s=z.w*0.33; }
+      if(p==='chest'){ st.x=z.x+side*z.w*0.30; st.y=z.y-z.w*0.20; st.s=z.w*0.33; }
       else if(p==='full'){ st.x=z.x; st.y=z.y; st.s=z.w; }
       else { st.x=z.x; st.y=z.y+z.w*0.16; st.s=z.w*0.80; }
     } else {
-      if(p==='chest'){ st.x=.37; st.y=.35; st.s=.14; }
+      if(p==='chest'){ st.x=.63; st.y=.35; st.s=.14; }
       else if(p==='full'){ st.x=.5; st.y=.46; st.s=.42; }
       else { st.x=.5; st.y=.55; st.s=.34; }
     }
