@@ -90,8 +90,8 @@ def qr_uri(url):
     it in CSS stretches the canvas instead of the code."""
     import io, segno
     buf = io.BytesIO()
-    # Opaque white quiet zone — a transparent QR with dark modules disappears
-    # entirely on the dark back panel, and scanners want the light border.
+    # Opaque white quiet zone matching the panel — a transparent QR loses its
+    # light border, which scanners need.
     segno.make(url, error="h").save(buf, kind="png", scale=20, border=2,
                                     dark="#101019", light="#ffffff")
     return "data:image/png;base64," + base64.b64encode(buf.getvalue()).decode()
@@ -116,32 +116,30 @@ html,body{ width:11in; background:#fff; color:var(--text);
   display:flex; flex-direction:column }
 .w-narrow{ width:3.625in; flex:0 0 3.625in }
 .w-wide  { width:3.6875in; flex:0 0 3.6875in }
-.dark{ background:var(--ink); color:var(--ivory) }
-.soft{ background:var(--ivory) }
-.tint{ background:var(--ivory-2) }
+/* Every panel is bare white. A toner-heavy panel cracks along the folds and
+   eats a cartridge, and no laser can reach the sheet edge — the unprintable
+   margin would frame any full-panel fill, tint or black, in ragged white.
+   Warmth comes from the gold rules and the ivory blocks instead. */
+.soft,.tint{ background:#fff }   /* see note above — no full-panel fills */
 
 h1,h2,h3,.disp{ font-family:"Fraunces",Georgia,"Times New Roman",serif; font-weight:600;
   line-height:1.1; letter-spacing:-.01em }
 .eyebrow{ font-size:6.6pt; letter-spacing:.19em; text-transform:uppercase;
   font-weight:700; color:var(--gold-dk) }
-.dark .eyebrow{ color:var(--gold-lt) }
 .rule{ height:2px; width:1.1in; background:linear-gradient(90deg,var(--gold-lt),var(--gold-dk));
   border-radius:2px }
-.muted{ color:var(--muted) } .dark .muted{ color:#b8b4ab }
+.muted{ color:var(--muted) }
 .grow{ flex:1 }
+.hair{ border-top:1px solid rgba(20,20,28,.14) }
 
 /* ---- front cover ---- */
-.cover-art{ position:absolute; inset:0 }
-.cover-art img{ width:100%; height:100%; object-fit:cover; opacity:.42 }
-.cover-art::after{ content:""; position:absolute; inset:0;
-  background:linear-gradient(180deg,rgba(16,16,25,.55) 0%,rgba(16,16,25,.80) 46%,var(--ink) 88%) }
-.cover-in{ position:relative; z-index:1; display:flex; flex-direction:column; height:100% }
+.cover-in{ display:flex; flex-direction:column; height:100% }
 .mark{ height:.62in; width:auto; align-self:flex-start; flex:none }
 .cover-in h1{ font-size:25pt; margin:.16in 0 .10in }
-.cover-in h1 em{ font-style:normal; color:var(--gold-lt) }
-.cover-tag{ font-size:9.4pt; color:#d8d4cc; max-width:2.7in }
+.cover-in h1 em{ font-style:normal; color:var(--gold-dk) }
+.cover-tag{ font-size:9.4pt; color:var(--muted); max-width:2.8in }
 .cover-foot{ font-size:7.6pt; letter-spacing:.13em; text-transform:uppercase;
-  color:var(--gold-lt); font-weight:700 }
+  color:var(--gold-dk); font-weight:700 }
 
 /* ---- generic blocks ---- */
 .stack > * + *{ margin-top:.19in }
@@ -166,7 +164,7 @@ h1,h2,h3,.disp{ font-family:"Fraunces",Georgia,"Times New Roman",serif; font-wei
 .dark .ticks li::before{ color:var(--gold-lt) }
 
 .inds{ display:grid; grid-template-columns:1fr 1fr; gap:.09in }
-.inds div{ border:1px solid rgba(20,20,28,.12); border-radius:.05in; padding:.085in .09in }
+.inds div{ background:var(--ivory); border:1px solid rgba(20,20,28,.10); border-radius:.05in; padding:.085in .09in }
 .inds b{ display:block; font-size:8.6pt } .inds span{ font-size:7pt; color:var(--muted) }
 
 .stat{ display:flex; gap:.16in; margin-top:.04in }
@@ -175,14 +173,14 @@ h1,h2,h3,.disp{ font-family:"Fraunces",Georgia,"Times New Roman",serif; font-wei
 .dark .stat b{ color:var(--gold-lt) }
 .stat span{ font-size:6.6pt; text-transform:uppercase; letter-spacing:.09em; color:var(--muted) }
 
-.qr-card{ background:#fff; border-radius:.09in; padding:.09in; width:1.66in; margin:0 auto }
-.qr{ width:1.48in; height:1.48in; display:block }
+.qr-card{ width:1.66in; margin:0 auto }
+.qr{ width:1.66in; height:1.66in; display:block }
 .qr-cap{ text-align:center; font-size:8pt; color:var(--muted); margin-top:.09in }
-.svclist{ text-align:center; max-width:2.45in; margin:0 auto; font-size:8pt; line-height:1.75; color:#c9c5bc }
-.svclist b{ color:var(--gold-lt); font-weight:600 }
+.svclist{ text-align:center; max-width:2.45in; margin:0 auto; font-size:8pt; line-height:1.75 }
+.svclist b{ color:var(--gold-dk); font-weight:600 }
 .contact{ font-size:9.4pt; line-height:1.6 }
 .contact a{ color:inherit; text-decoration:none }
-.contact .big{ font-family:"Fraunces",Georgia,serif; font-size:13pt; color:var(--gold-lt) }
+.contact .big{ font-family:"Fraunces",Georgia,serif; font-size:15pt; color:var(--gold-dk) }
 
 .cta{ background:linear-gradient(135deg,var(--gold-lt),var(--gold-dk)); color:#1a1408;
   border-radius:.07in; padding:.12in .13in; text-align:center }
@@ -201,43 +199,43 @@ h1,h2,h3,.disp{ font-family:"Fraunces",Georgia,"Times New Roman",serif; font-wei
 
 
 def cover(assets):
-    return f"""<div class="panel w-wide dark">
-  <div class="cover-art"><img src="{assets['hero']}" alt=""></div>
+    return f"""<div class="panel w-wide soft">
   <div class="cover-in">
-    <img class="mark" src="{assets['light']}" alt="Custom Creations Unlimited">
+    <img class="mark" src="{assets['dark']}" alt="Custom Creations Unlimited">
     <div class="grow"></div>
     <p class="eyebrow">Atlanta, Georgia</p>
     <h1>Custom branding that makes your business <em>stand out.</em></h1>
-    <div class="rule" style="margin:.10in 0 .12in"></div>
+    <div class="rule" style="margin:.12in 0 .14in"></div>
     <p class="cover-tag">Embroidery, apparel, promotional products, awards,
       laser engraving and personalized gifts — all decorated in-house.</p>
+    <img class="band" src="{assets['hero']}" alt="" style="height:3.05in;margin-top:.28in">
     <div class="grow"></div>
-    <p class="cover-foot">ccucustom.com &nbsp;·&nbsp; {PHONE}</p>
+    <p class="cover-foot hair" style="padding-top:.16in">ccucustom.com &nbsp;·&nbsp; {PHONE}</p>
   </div>
 </div>"""
 
 
 def back(assets):
     names = " &nbsp;·&nbsp; ".join(n for n, _, _ in SERVICES)
-    return f"""<div class="panel w-wide dark">
+    return f"""<div class="panel w-wide tint">
   <div style="text-align:center">
-    <img class="mark" src="{assets['light']}" alt="" style="align-self:center;margin:0 auto">
-    <p class="eyebrow" style="margin-top:.14in">Atlanta's in-house branding shop</p>
-    <div class="rule" style="margin:.10in auto .14in"></div>
+    <img class="mark" src="{assets['dark']}" alt="" style="align-self:center;margin:0 auto">
+    <p class="eyebrow" style="margin-top:.16in">Atlanta's in-house branding shop</p>
+    <div class="rule" style="margin:.10in auto .16in"></div>
     <p class="svclist"><b>{names}</b></p>
   </div>
   <div class="grow"></div>
   <div class="qr-card"><img class="qr" src="{assets['qr']}" alt="QR code to ccucustom.com"></div>
-  <p class="qr-cap" style="color:#b8b4ab">Scan to browse products, see our work<br>and request a quote in about a minute</p>
+  <p class="qr-cap">Scan to browse products, see our work<br>and request a quote in about a minute</p>
   <div class="grow"></div>
-  <div class="rule" style="margin:0 auto .16in"></div>
+  <div class="rule" style="margin:0 auto .18in"></div>
   <div class="contact" style="text-align:center">
     <span class="big">{PHONE}</span><br>
     <a href="mailto:{EMAIL}">{EMAIL}</a><br>
-    <span class="muted" style="font-size:8.2pt">{ADDR}</span>
+    <span class="muted" style="font-size:8.4pt">{ADDR}</span>
   </div>
   <div class="grow"></div>
-  <p class="qr-cap" style="color:#8d8981;font-size:7pt;margin:0">
+  <p class="qr-cap hair" style="font-size:7.2pt;margin:0;padding-top:.14in">
     Custom Creations Unlimited &nbsp;·&nbsp; ccucustom.com</p>
 </div>"""
 
@@ -339,11 +337,14 @@ def ticks_for(widths):
 def build(marks=True):
     os.makedirs(OUT, exist_ok=True)
     assets = {
-        "hero": data_uri("assets/img/hero-laser-1280.webp"),
-        "light": data_uri("signage/assets/ccu-mark-light.png"),
-        "branding": data_uri("assets/img/branding-1.webp"),
-        "work": data_uri("assets/img/embroidery-2.webp"),
-        "shop": data_uri("assets/img/printing-1.webp"),
+        # Chosen by measured mean luminance (0-255). The old picks — the dark
+        # laser hero at 98, branding-1 at 71, embroidery-2 at 86 — laid down a
+        # lot of toner as large bands. These sit at 117-161.
+        "hero": data_uri("assets/img/laser-2.webp"),          # 161
+        "dark": data_uri("signage/assets/ccu-mark-dark.png"),
+        "branding": data_uri("assets/img/apparel-2.webp"),    # 117
+        "work": data_uri("assets/img/gifts-2.webp"),          # 145
+        "shop": data_uri("assets/img/printing-1.webp"),       # 118
         "qr": qr_uri(SITE),
         "svc": {img: data_uri("assets/img/" + img) for _, img, _ in SERVICES},
     }
