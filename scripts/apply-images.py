@@ -37,6 +37,10 @@ NAMES = {"jordan": 0, "riley": 1, "sam": 2, "taylor": 3}  # team headshots
 # Used for the Promotional Products "What we make most" grid so each card
 # shows its own product.
 LABEL_MAP = {
+    # About page. Both frames used to fall through to the same "studio"
+    # keyword pool and rendered the identical photo twice.
+    "Our studio":       "studio-1.webp",
+    "In the community": "apparel-1.webp",
     # real jobs (scripts/prep-work-photos.py)
     "Fire academy alumni award":        "work-award-arrowhead.webp",
     "Subsurface crystal logo cube":     "work-crystal-cube.webp",
