@@ -440,14 +440,34 @@
     var btn = document.getElementById("heroVidBtn");
     if (!v || !btn || prefersReduced) return;
 
+    /* Pick the rendition in JS rather than with <source media="...">. Safari's
+       support for the media attribute on a <source> inside <video> is
+       unreliable — it can end up selecting nothing and just sit on the poster,
+       which is exactly what it did. One element, one src, no negotiation. */
+    function pick() {
+      var w = window.innerWidth;
+      if (w >= 1400) return v.dataset.srcLg;
+      if (w >= 800) return v.dataset.srcMd;
+      return v.dataset.srcSm;
+    }
+
     function load() {
       if (v.dataset.on) return;
       v.dataset.on = "1";
-      [].forEach.call(v.querySelectorAll("source"), function (s) {
-        if (s.dataset.src) s.src = s.dataset.src;
-      });
+      v.src = pick();
       v.load();
-      v.play().catch(function () { mark(true); });   // autoplay refused: offer play
+      // Try immediately, then again once there is decoded data: Chrome is happy
+      // straight away, while Safari can reject a play() issued before the first
+      // frame exists. Only the later attempt is allowed to give up and show the
+      // play button, so a spurious early rejection doesn't strand the control.
+      function attempt(final) {
+        var p = v.play();
+        if (p && p.catch) p.catch(function () { if (final) mark(true); });
+      }
+      attempt(false);
+      ["loadeddata", "canplay"].forEach(function (ev) {
+        v.addEventListener(ev, function () { if (v.paused) attempt(true); }, { once: true });
+      });
     }
     if (document.readyState === "complete") setTimeout(load, 180);
     else window.addEventListener("load", function () { setTimeout(load, 180); });

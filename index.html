@@ -186,11 +186,10 @@
       <div class="hero-vid" aria-hidden="true">
         <video id="heroVideo" class="hero-vid__el"
                poster="assets/video/hero-poster.jpg?v=1"
-               muted playsinline loop preload="none" disablepictureinpicture>
-          <source data-src="assets/video/hero-loop-1920.mp4?v=1" type="video/mp4" media="(min-width:1400px)">
-          <source data-src="assets/video/hero-loop-1280.mp4?v=1" type="video/mp4" media="(min-width:800px)">
-          <source data-src="assets/video/hero-loop-860.mp4?v=1"  type="video/mp4">
-        </video>
+               muted playsinline autoplay loop preload="none" disablepictureinpicture
+               data-src-lg="assets/video/hero-loop-1920.mp4?v=1"
+               data-src-md="assets/video/hero-loop-1280.mp4?v=1"
+               data-src-sm="assets/video/hero-loop-860.mp4?v=1"></video>
       </div>
       <div class="hero-vid__scrim" aria-hidden="true"></div>
 
@@ -644,6 +643,6 @@
     <svg viewBox="0 0 24 24" fill="none"><path d="M12 19V5M5 12l7-7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
   </button>
 
-  <script src="assets/js/main.js?v=6" defer></script>
+  <script src="assets/js/main.js?v=7" defer></script>
 </body>
 </html>
