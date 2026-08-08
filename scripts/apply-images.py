@@ -37,6 +37,10 @@ NAMES = {"jordan": 0, "riley": 1, "sam": 2, "taylor": 3}  # team headshots
 # Used for the Promotional Products "What we make most" grid so each card
 # shows its own product.
 LABEL_MAP = {
+    # real jobs (scripts/prep-work-photos.py)
+    "Fire academy alumni award":        "work-award-arrowhead.webp",
+    "Subsurface crystal logo cube":     "work-crystal-cube.webp",
+    "Subsurface crystal chess knight":  "work-crystal-knight.webp",
     "Printing": "printing-1.webp",
     "Branding": "uniform-1.webp",  # uniform-program blog post
     # Promotional Products

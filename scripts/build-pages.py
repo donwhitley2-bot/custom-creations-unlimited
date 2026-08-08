@@ -192,6 +192,11 @@ CTA = '''<section class="section"><div class="container"><div class="cta-banner"
 GAL_CATS = [("all","All work"),("embroidery","Embroidery"),("apparel","Apparel"),("promotional","Promotional"),
             ("awards","Awards"),("laser","Laser Engraving"),("drinkware","Drinkware"),("branding","Business Branding"),("gifts","Custom Gifts")]
 GAL_ITEMS = [
+    # Real jobs first. Portrait pieces take span-4 + tall so object-fit:cover
+    # has a portrait tile to fill and doesn't slice the top and bottom off.
+    ("awards","Awards","Fire academy alumni award","span-4 tall"),
+    ("laser","Laser Engraving","Subsurface crystal logo cube","span-4"),
+    ("laser","Laser Engraving","Subsurface crystal chess knight","span-4 tall"),
     ("embroidery","Embroidery","Corporate uniform program","span-6 tall"),
     ("apparel","Apparel","School spirit wear run","span-6"),
     ("awards","Awards","Annual sales recognition","span-6"),
@@ -415,6 +420,13 @@ def contact_page():
         <div class="form-card">
           <form class="form" action="https://formspree.io/f/xykqkqao" method="POST" data-mailto-form data-mailto="info@ccucustom.com" data-subject="Website contact message" novalidate>
             <input type="hidden" name="_subject" value="New website contact message" />
+            <input type="hidden" name="_replyto" />
+            <input type="hidden" name="_autoresponse" value="Thanks for reaching out &#8212; we&#39;ve received your message.
+
+Someone from our team will get back to you within one business day.
+
+&#8212; Custom Creations Unlimited
+(404) 967-8028 &#183; info@ccucustom.com" />
             <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true" />
             <div class="form-row">
               <div class="field"><label for="c-name">Name <span class="req">*</span></label><input class="input" id="c-name" name="Name" data-label="Name" required /></div>
@@ -481,6 +493,15 @@ def quote_page():
         <div class="form-card" data-reveal>
           <form class="form" action="https://formspree.io/f/xykqkqao" method="POST" data-mailto-form data-mailto="info@ccucustom.com" data-subject="New quote request" novalidate>
             <input type="hidden" name="_subject" value="New quote request from the website" />
+            <input type="hidden" name="_replyto" />
+            <input type="hidden" name="_autoresponse" value="Thanks for your quote request &#8212; we&#39;ve received it.
+
+Our team will review your details and get back to you within one business day with a free design proof and exact pricing.
+
+Need to add artwork or change something? Just reply to this email.
+
+&#8212; Custom Creations Unlimited
+(404) 967-8028 &#183; info@ccucustom.com" />
             <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true" />
             <div class="fieldset">
               <legend class="fieldset__legend"><span class="n">1</span> Your project</legend>
