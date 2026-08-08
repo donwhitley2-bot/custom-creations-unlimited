@@ -3,3 +3,19 @@ RedirectMatch 404 ^/scripts(/|$)
 RedirectMatch 404 ^/\.git(/|$)
 RedirectMatch 404 \.(py|sh|md)$
 RedirectMatch 404 ^/CNAME$
+
+# Caching. HTML carried no Cache-Control at all, so browsers fell back to
+# heuristic caching and returning visitors could sit on a stale page for days
+# after a deploy. HTML must always be revalidated; CSS/JS/media are safe to
+# cache hard because every reference is versioned (?v=N) and a content change
+# comes with a new version string.
+# IfModule guards: if a module is missing the block is skipped rather than
+# throwing a 500.
+<IfModule mod_headers.c>
+  <FilesMatch "\.(html|htm)$">
+    Header set Cache-Control "no-cache, must-revalidate"
+  </FilesMatch>
+  <FilesMatch "\.(css|js|webp|jpg|jpeg|png|svg|woff2|mp4|pdf)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+</IfModule>
