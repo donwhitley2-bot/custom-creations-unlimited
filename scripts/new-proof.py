@@ -34,7 +34,7 @@ PAGE = """<!DOCTYPE html>
 <title>Proof #{job} · Custom Creations Unlimited</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/css/styles.css?v=6">
+<link rel="stylesheet" href="../assets/css/styles.css?v=7">
 <style>
   body{{background:var(--bg-soft)}}
   .pf{{max-width:56rem;margin:0 auto;padding:2rem var(--gutter) 5rem}}

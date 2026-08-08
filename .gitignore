@@ -2,3 +2,6 @@
 *.log
 node_modules/
 .vscode/
+
+# Local hero/design previews — large, throwaway, never published
+preview/

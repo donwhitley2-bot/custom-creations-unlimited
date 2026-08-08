@@ -430,4 +430,49 @@
     }
     frame();
   })();
+
+  /* ---------- Homepage video hero (no-op on every other page) -------------
+     The poster frame paints for LCP and the video only starts downloading
+     after load, so it never competes with first paint. Playback is parked
+     off-screen and on hidden tabs. */
+  (function heroVideo() {
+    var v = document.getElementById("heroVideo");
+    var btn = document.getElementById("heroVidBtn");
+    if (!v || !btn || prefersReduced) return;
+
+    function load() {
+      if (v.dataset.on) return;
+      v.dataset.on = "1";
+      [].forEach.call(v.querySelectorAll("source"), function (s) {
+        if (s.dataset.src) s.src = s.dataset.src;
+      });
+      v.load();
+      v.play().catch(function () { mark(true); });   // autoplay refused: offer play
+    }
+    if (document.readyState === "complete") setTimeout(load, 180);
+    else window.addEventListener("load", function () { setTimeout(load, 180); });
+
+    function mark(paused) {
+      btn.classList.toggle("paused", paused);
+      btn.setAttribute("aria-label", paused ? "Play background video" : "Pause background video");
+    }
+
+    btn.addEventListener("click", function () {
+      if (v.paused) { v.play(); mark(false); } else { v.pause(); mark(true); }
+    });
+
+    function parked() { return !v.dataset.on || btn.classList.contains("paused"); }
+
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(function (en) {
+        if (parked()) return;
+        if (en[0].isIntersecting) v.play().catch(function () {}); else v.pause();
+      }, { threshold: 0.05 }).observe(v);
+    }
+    document.addEventListener("visibilitychange", function () {
+      if (parked()) return;
+      if (document.hidden) v.pause(); else v.play().catch(function () {});
+    });
+  })();
+
 })();
