@@ -14,8 +14,6 @@ def priority(rel):
     if rel in ("quote.html", "contact.html"): return "0.9", "monthly"
     if rel.startswith("services/"): return "0.8", "monthly"
     if rel in ("gallery.html", "industries.html", "about.html"): return "0.8", "monthly"
-    if rel == "blog/index.html": return "0.7", "weekly"
-    if rel.startswith("blog/"): return "0.6", "monthly"
     return "0.7", "monthly"  # faq + fallback
 
 def loc(rel):
@@ -25,7 +23,7 @@ def loc(rel):
 
 def collect():
     out = []
-    for d in (".", "services", "blog"):
+    for d in (".", "services"):
         base = os.path.join(ROOT, d)
         if not os.path.isdir(base): continue
         for f in sorted(os.listdir(base)):

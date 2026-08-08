@@ -487,7 +487,6 @@ TEMPLATE = Template(r"""<!DOCTYPE html>
           </li>
           <li class="nav-item"><a class="nav-link" href="../gallery.html">Gallery</a></li>
           <li class="nav-item"><a class="nav-link" href="../industries.html">Industries</a></li>
-          <li class="nav-item"><a class="nav-link" href="../blog/index.html">Blog</a></li>
           <li class="nav-item"><a class="nav-link" href="../faq.html">FAQ</a></li>
           <li class="nav-item"><a class="nav-link" href="../contact.html">Contact</a></li>
         </ul>
@@ -522,7 +521,6 @@ TEMPLATE = Template(r"""<!DOCTYPE html>
       <li><a class="mobile-nav__link" href="../shop.html">Shop</a></li>
       <li><a class="mobile-nav__link" href="../gallery.html">Gallery</a></li>
       <li><a class="mobile-nav__link" href="../industries.html">Industries</a></li>
-      <li><a class="mobile-nav__link" href="../blog/index.html">Blog</a></li>
       <li><a class="mobile-nav__link" href="../faq.html">FAQ</a></li>
       <li><a class="mobile-nav__link" href="../contact.html">Contact</a></li>
     </ul>

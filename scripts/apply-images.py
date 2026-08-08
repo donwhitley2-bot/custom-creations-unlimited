@@ -3,7 +3,7 @@
 Replace every `.ph` placeholder block with a real <img> from assets/img,
 choosing the image by matching the placeholder's data-label to a category.
 
-Run LAST, after the page generators (build-services / build-pages / build-blog),
+Run LAST, after the page generators (build-services / build-pages),
 because those emit fresh `.ph` placeholders. `build-all.sh` does this in order.
 Idempotent: if a file has no `.ph` blocks, it's left unchanged.
 """
@@ -203,7 +203,7 @@ def main():
     targets = []
     for f in os.listdir(ROOT):
         if f.endswith(".html"): targets.append((os.path.join(ROOT, f), ""))
-    for sub in ("services", "blog"):
+    for sub in ("services",):
         d = os.path.join(ROOT, sub)
         if os.path.isdir(d):
             for f in os.listdir(d):

@@ -61,7 +61,7 @@ def process(path):
 
 def main():
     targets = [os.path.join(ROOT, f) for f in os.listdir(ROOT) if f.endswith(".html")]
-    for sub in ("services", "blog"):
+    for sub in ("services",):
         d = os.path.join(ROOT, sub)
         if os.path.isdir(d):
             targets += [os.path.join(d, f) for f in os.listdir(d) if f.endswith(".html")]

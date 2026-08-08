@@ -27,7 +27,6 @@ def svc_icon(p):
 NAV = [("index.html", "Home", "home"), ("about.html", "About", "about"),
        ("index.html#services", "Services", "services"),
        ("gallery.html", "Gallery", "gallery"), ("industries.html", "Industries", "industries"),
-       ("blog/index.html", "Blog", "blog"),
        ("faq.html", "FAQ", "faq"), ("contact.html", "Contact", "contact")]
 
 def header(active):
@@ -87,7 +86,6 @@ def header(active):
       <li><a class="mobile-nav__link" href="shop.html">Shop</a></li>
       <li><a class="mobile-nav__link" href="gallery.html">Gallery</a></li>
       <li><a class="mobile-nav__link" href="industries.html">Industries</a></li>
-      <li><a class="mobile-nav__link" href="blog/index.html">Blog</a></li>
       <li><a class="mobile-nav__link" href="faq.html">FAQ</a></li>
       <li><a class="mobile-nav__link" href="contact.html">Contact</a></li>
     </ul>
