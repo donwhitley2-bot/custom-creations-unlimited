@@ -1207,3 +1207,20 @@ body.has-dark-hero .site-header:not(.is-scrolled) .brand__mark rect { fill: rgba
   .hero-vid { background: url(../video/hero-poster.jpg?v=1) center / cover no-repeat; }
   .hero-vid__btn { display: none; }
 }
+
+/* Laptop header fit.
+   Between the mobile breakpoint (1080px) and roughly 1500px the full nav —
+   nine links, the theme toggle and two pill buttons — was wider than the
+   viewport, so "Request a Quote" ran off the right edge on most laptop
+   screens. Tightening the spacing here keeps every item reachable instead of
+   collapsing the nav to a hamburger at a width that clearly has room for it. */
+@media (min-width: 1081px) and (max-width: 1579px) {
+  .nav-link { padding: .5rem .5rem; font-size: .88rem; }
+  .header-actions { margin-left: .7rem; gap: .4rem; }
+  .header-actions .btn { padding: .55rem .85rem; font-size: .85rem; }
+  .brand__name { font-size: 1rem; }
+}
+@media (min-width: 1081px) and (max-width: 1279px) {
+  .nav-link { padding: .5rem .34rem; font-size: .84rem; }
+  .header-actions .btn { padding: .5rem .7rem; font-size: .8rem; }
+}

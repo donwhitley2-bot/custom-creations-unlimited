@@ -160,7 +160,7 @@ def page(slug, title, desc, keywords, active, body, schema=""):
   <meta property="og:image" content="https://www.ccucustom.com/assets/img/og-cover.jpg" />
   <meta name="twitter:card" content="summary_large_image" />
   {FONT}
-  <link rel="stylesheet" href="assets/css/styles.css?v=7" />
+  <link rel="stylesheet" href="assets/css/styles.css?v=8" />
   <link rel="icon" href="{FAVICON}" />
   {schema}
 </head>
