@@ -6,13 +6,15 @@ RedirectMatch 404 ^/CNAME$
 
 # The blog was removed (2026-08-08). Point the old URLs at the closest service
 # page rather than 404ing anything Google already has indexed; the catch-all
-# must stay last so the specific rules win.
-Redirect 301 /blog/embroidery-vs-screen-print-vs-dtf.html   /services/embroidery.html
-Redirect 301 /blog/build-a-uniform-program.html             /services/embroidery.html
-Redirect 301 /blog/awards-that-feel-earned.html             /services/awards.html
-Redirect 301 /blog/corporate-gifting-that-works.html        /services/personalized-gifts.html
-Redirect 301 /blog/promotional-products-worth-the-spend.html /services/promotional-products.html
-Redirect 301 /blog/advantages-of-uv-printing.html           /services/custom-apparel.html
+# must stay last so the specific rules win. All of them are RedirectMatch:
+# mixing Redirect with RedirectMatch let the catch-all win on this server,
+# and every post landed on the homepage instead.
+RedirectMatch 301 ^/blog/embroidery-vs-screen-print-vs-dtf\.html$    /services/embroidery.html
+RedirectMatch 301 ^/blog/build-a-uniform-program\.html$              /services/embroidery.html
+RedirectMatch 301 ^/blog/awards-that-feel-earned\.html$              /services/awards.html
+RedirectMatch 301 ^/blog/corporate-gifting-that-works\.html$         /services/personalized-gifts.html
+RedirectMatch 301 ^/blog/promotional-products-worth-the-spend\.html$ /services/promotional-products.html
+RedirectMatch 301 ^/blog/advantages-of-uv-printing\.html$            /services/custom-apparel.html
 RedirectMatch 301 ^/blog(/.*)?$ /
 
 # Caching. HTML carried no Cache-Control at all, so browsers fell back to
