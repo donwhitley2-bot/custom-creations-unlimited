@@ -96,6 +96,18 @@ input[readonly]{background:var(--ivory-2);color:var(--muted)}
 .btn--ghost{background:transparent;color:var(--ivory);border:1px solid rgba(255,255,255,.3)}
 .btn:active{transform:translateY(1px)}
 
+.lstat{display:grid;gap:.5rem;grid-template-columns:repeat(2,minmax(0,1fr));
+  background:var(--ivory);border:1px solid var(--line);border-radius:11px;padding:.8rem}
+.lstat div{font-size:.8rem;color:var(--muted)}
+.lstat b{display:block;font-family:Fraunces,Georgia,serif;font-size:1.25rem;color:var(--ink);line-height:1.2}
+.lstat .wide{grid-column:1/-1;font-size:.78rem;color:var(--warn);background:#fbf3e2;
+  border-radius:8px;padding:.5rem .6rem;margin-top:.1rem}
+.lstat .wide b{display:inline;font-family:inherit;font-size:inherit;color:inherit}
+#lMsg{font-size:.82rem;margin-top:.7rem;padding:.6rem .7rem;border-radius:9px;
+  background:#f9e9e9;color:#8d2a2a}
+#lPrev{max-width:100%;max-height:96px;border-radius:8px;border:1px solid var(--line);
+  background:repeating-conic-gradient(#eee 0 25%,#fff 0 50%) 0 0/14px 14px}
+
 details.settings{margin-top:1rem;border-top:1px solid var(--line);padding-top:.8rem}
 details.settings summary{cursor:pointer;font-size:.82rem;font-weight:600;color:var(--muted)}
 details.settings .grid{margin-top:.7rem}
@@ -139,6 +151,39 @@ details.settings .grid{margin-top:.7rem}
       </div>
       <input type="file" id="file" accept=".dst,.pdf,application/pdf" hidden>
       <div id="fileMsg"></div>
+    </div>
+
+    <div class="card">
+      <h2><span class="step">1b</span>Logo estimate <span class="tag guess" style="margin-left:.3rem">beta</span></h2>
+      <p class="hint">No stitch file yet? Drop the logo and set the finished size — this measures how much
+        of the area is covered and how much outline there is, then estimates from that.
+        <b>It is a ballpark for a first conversation, not a price to commit to.</b></p>
+
+      <div class="drop" id="ldrop">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M4 16l5-5 4 4 3-3 4 4M4 5h16v14H4z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+        <b>Drop a logo here</b>
+        <span>PNG, JPG, SVG or WEBP — transparent PNG gives the best read</span>
+      </div>
+      <input type="file" id="lfile" accept="image/*" hidden>
+
+      <div class="grid" style="margin-top:.8rem">
+        <div>
+          <label>Finished width (mm)</label>
+          <input id="lW" type="number" min="0" step="0.1" value="76.2">
+        </div>
+        <div>
+          <label>Finished height (mm)</label>
+          <input id="lH" type="number" min="0" step="0.1" value="0" placeholder="auto from aspect">
+        </div>
+      </div>
+      <p class="tiers">Leave height at 0 and it follows the logo's own proportions. 76.2 mm = 3 in, a typical left chest.</p>
+
+      <div id="lOut" style="display:none;margin-top:.8rem">
+        <div class="lstat" id="lStats"></div>
+        <button class="btn btn--gold" id="lUse" type="button" style="margin-top:.7rem">
+          Use this estimate as the stitch count</button>
+      </div>
+      <div id="lMsg" style="display:none"></div>
     </div>
 
     <div class="card">
@@ -239,6 +284,24 @@ details.settings .grid{margin-top:.7rem}
           <div><label>15k–25k ($)</label><input id="t4" type="number" min="0" step="1" value="60"></div>
           <div><label>25k+ ($)</label><input id="t5" type="number" min="0" step="1" value="80"></div>
         </div>
+        <div class="grid g3" style="margin-top:.7rem">
+          <div>
+            <label>Fill density (st / in² covered)</label>
+            <input id="sFill" type="number" min="100" step="50" value="2000">
+          </div>
+          <div>
+            <label>Outline density (st / mm edge)</label>
+            <input id="sEdge" type="number" min="0" step="0.1" value="1.2">
+          </div>
+          <div>
+            <label>Machine speed (SPM)</label>
+            <input id="sSpm" type="number" min="100" step="50" value="750">
+          </div>
+        </div>
+        <p class="tiers">The first two drive the logo estimate. <b>Calibrate them:</b> run a design you
+          already have a DST for through the analyzer, then nudge the fill density until the estimate
+          lands near the real count. They start at industry averages, which will be wrong for your work
+          until tuned.</p>
         <p class="tiers">Settings are remembered on this computer.</p>
       </details>
     </div>
@@ -274,7 +337,7 @@ details.settings .grid{margin-top:.7rem}
   var money = function(n){ return "$" + (isFinite(n)?n:0).toFixed(2); };
   var num = function(el){ var v = parseFloat(el.value); return isFinite(v) ? v : 0; };
 
-  var SETTINGS = ["sRate","sMin","sMarkup","sTax","t1","t2","t3","t4","t5"];
+  var SETTINGS = ["sRate","sMin","sMarkup","sTax","sFill","sEdge","sSpm","t1","t2","t3","t4","t5"];
   var LS = "ccuStitchQuote";
 
   /* ---------- settings persistence ---------------------------------- */
@@ -628,6 +691,197 @@ details.settings .grid{margin-top:.7rem}
     drop.addEventListener(ev, function(e){ e.preventDefault(); drop.classList.remove("over"); });
   });
   drop.addEventListener("drop", function(e){ handle(e.dataTransfer.files[0]); });
+
+  /* ================= LOGO ANALYZER (beta) ===========================
+     Stitch count is mostly area × fill density, plus outline length × satin
+     density. Both are measurable from a bitmap once the finished size is
+     known, so the image is scaled down, ink is separated from background, and
+     covered area plus edge length are counted.
+
+     What it cannot know is what a digitizer will actually do — underlay
+     passes, satin versus fill, how small text gets handled. So the answer is
+     given as a range and never overwrites a real stitch file on its own.   */
+  var lastEstimate = null;
+
+  function analyzeImage(img){
+    var MAX = 360;
+    var scale = Math.min(1, MAX / Math.max(img.width, img.height));
+    var w = Math.max(1, Math.round(img.width * scale));
+    var h = Math.max(1, Math.round(img.height * scale));
+    var c = document.createElement("canvas"); c.width = w; c.height = h;
+    var x = c.getContext("2d", {willReadFrequently:true});
+    x.drawImage(img, 0, 0, w, h);
+    var d = x.getImageData(0, 0, w, h).data;
+
+    // Background: transparent if there is an alpha channel to speak of,
+    // otherwise whatever the four corners agree on (usually white).
+    var hasAlpha = false;
+    for(var i = 3; i < d.length; i += 4){ if(d[i] < 250){ hasAlpha = true; break; } }
+    var corners = [0, (w-1)*4, (h-1)*w*4, ((h-1)*w + (w-1))*4];
+    var bg = [0,1,2].map(function(k){
+      return Math.round(corners.reduce(function(a,p){ return a + d[p+k]; }, 0) / 4);
+    });
+
+    var ink = new Uint8Array(w*h), inkCount = 0;
+    for(var p = 0, px = 0; p < d.length; p += 4, px++){
+      var on;
+      if(hasAlpha) on = d[p+3] > 40;
+      else on = (Math.abs(d[p]-bg[0]) + Math.abs(d[p+1]-bg[1]) + Math.abs(d[p+2]-bg[2])) > 60;
+      if(on){ ink[px] = 1; inkCount++; }
+    }
+    // A logo cropped tight to its artwork has ink in all four corners, so the
+    // corner sample IS the logo and everything reads as background. Treat that
+    // as full coverage rather than calling a perfectly good image blank.
+    if(!inkCount){
+      if(hasAlpha) return null;                 // genuinely transparent = empty
+      ink.fill(1); inkCount = w*h;
+    }
+
+    // Edge = ink pixel touching non-ink. That perimeter is what gets satin or
+    // outlined, and it is where detailed logos hide their stitch count.
+    var edge = 0;
+    for(var y = 0; y < h; y++){
+      for(var xx = 0; xx < w; xx++){
+        var idx = y*w + xx;
+        if(!ink[idx]) continue;
+        if(xx === 0 || xx === w-1 || y === 0 || y === h-1 ||
+           !ink[idx-1] || !ink[idx+1] || !ink[idx-w] || !ink[idx+w]) edge++;
+      }
+    }
+
+    // Distinct thread colours: quantise to a coarse palette and keep buckets
+    // holding at least 1.5% of the ink.
+    var buckets = {};
+    for(var p2 = 0, px2 = 0; p2 < d.length; p2 += 4, px2++){
+      if(!ink[px2]) continue;
+      var key = (d[p2] >> 5) + "," + (d[p2+1] >> 5) + "," + (d[p2+2] >> 5);
+      buckets[key] = (buckets[key] || 0) + 1;
+    }
+    var colors = Object.keys(buckets).filter(function(k){
+      return buckets[k] / inkCount >= 0.015;
+    }).length;
+
+    return {
+      w: w, h: h, aspect: img.width / img.height,
+      coverage: inkCount / (w*h),
+      edgeFrac: edge / (w*h),
+      colors: Math.max(1, Math.min(15, colors))
+    };
+  }
+
+  function estimateFrom(a){
+    var Wmm = num($("lW"));
+    var Hmm = num($("lH"));
+    if(Wmm <= 0) return null;
+    if(Hmm <= 0){ Hmm = Wmm / a.aspect; $("lH").value = Hmm.toFixed(1); }
+
+    var areaMM2    = Wmm * Hmm;
+    var coveredMM2 = areaMM2 * a.coverage;
+    var coveredIn2 = coveredMM2 / 645.16;
+
+    // Edge pixels scale to real length by the pixel pitch of the analysis grid.
+    var mmPerPx  = Wmm / a.w;
+    var edgeMM   = a.edgeFrac * a.w * a.h * mmPerPx;
+
+    var fill = coveredIn2 * num($("sFill"));
+    var line = edgeMM * num($("sEdge"));
+    var mid  = Math.round((fill + line) / 50) * 50;
+
+    var spm  = Math.max(100, num($("sSpm")));
+    var mins = mid / spm + a.colors * 0.5;   // + ~30s per colour change
+
+    return {
+      mid: mid, lo: Math.round(mid * 0.7 / 50) * 50, hi: Math.round(mid * 1.35 / 50) * 50,
+      coverage: a.coverage, colors: a.colors, Wmm: Wmm, Hmm: Hmm,
+      fill: fill, line: line, mins: mins
+    };
+  }
+
+  function showEstimate(){
+    if(!lastEstimate) return;
+    var e = estimateFrom(lastEstimate);
+    if(!e){
+      $("lMsg").style.display = "";
+      $("lMsg").textContent = "Enter the finished width in millimetres — stitch count depends on the size it will be sewn at.";
+      $("lOut").style.display = "none";
+      return;
+    }
+    $("lMsg").style.display = "none";
+    $("lOut").style.display = "";
+    var hrs = Math.floor(e.mins / 60), rem = Math.round(e.mins % 60);
+    $("lStats").innerHTML =
+      '<div>Estimated stitches<b>' + e.mid.toLocaleString() + '</b></div>' +
+      '<div>Likely range<b>' + e.lo.toLocaleString() + '–' + e.hi.toLocaleString() + '</b></div>' +
+      '<div>Run time (1 head)<b>' + (hrs ? hrs + "h " : "") + rem + 'm</b></div>' +
+      '<div>Thread colors<b>' + e.colors + '</b></div>' +
+      '<div>Coverage<b>' + Math.round(e.coverage * 100) + '%</b></div>' +
+      '<div>At ' + e.Wmm.toFixed(1) + ' × ' + e.Hmm.toFixed(1) + ' mm<b>' +
+        (e.Wmm/25.4).toFixed(2) + ' × ' + (e.Hmm/25.4).toFixed(2) + ' in</b></div>' +
+      '<div class="wide">This is an estimate from a picture, not a stitch file. Real counts commonly land ' +
+        '<b>30% either side</b> of it, and small text or heavy underlay can push it further. ' +
+        'Confirm against a digitized file before you commit to a price.</div>';
+  }
+
+  var limg = null;
+  function handleLogo(f){
+    if(!f || !/^image\//.test(f.type)){
+      $("lMsg").style.display = ""; $("lMsg").textContent = "That doesn't look like an image file.";
+      return;
+    }
+    var r = new FileReader();
+    r.onload = function(){
+      var img = new Image();
+      img.onload = function(){
+        var a = analyzeImage(img);
+        if(!a){
+          $("lMsg").style.display = "";
+          $("lMsg").textContent = "Couldn't find any artwork in that image — it looks blank.";
+          $("lOut").style.display = "none";
+          return;
+        }
+        limg = img; lastEstimate = a;
+        if(num($("lH")) <= 0 && num($("lW")) > 0) $("lH").value = (num($("lW"))/a.aspect).toFixed(1);
+        showEstimate();
+      };
+      img.onerror = function(){
+        $("lMsg").style.display = "";
+        $("lMsg").textContent = "That image couldn't be read. SVGs without a set width sometimes fail — try a PNG.";
+      };
+      img.src = r.result;
+    };
+    r.readAsDataURL(f);
+  }
+
+  var ldrop = $("ldrop"), lfile = $("lfile");
+  ldrop.addEventListener("click", function(){ lfile.click(); });
+  lfile.addEventListener("change", function(){ handleLogo(lfile.files[0]); lfile.value = ""; });
+  ["dragenter","dragover"].forEach(function(ev){
+    ldrop.addEventListener(ev, function(e){ e.preventDefault(); ldrop.classList.add("over"); });
+  });
+  ["dragleave","drop"].forEach(function(ev){
+    ldrop.addEventListener(ev, function(e){ e.preventDefault(); ldrop.classList.remove("over"); });
+  });
+  ldrop.addEventListener("drop", function(e){ handleLogo(e.dataTransfer.files[0]); });
+  ["lW","lH","sFill","sEdge","sSpm"].forEach(function(id){
+    $(id).addEventListener("input", function(){ showEstimate(); saveSettings(); });
+  });
+
+  // Deliberately a button, not automatic: an estimate from a picture must
+  // never quietly replace a number read from a real stitch file.
+  $("lUse").addEventListener("click", function(){
+    var e = estimateFrom(lastEstimate);
+    if(!e) return;
+    $("pStitches").value = e.mid;
+    $("pColors").value   = e.colors;
+    $("pW").value = e.Wmm.toFixed(1);
+    $("pH").value = e.Hmm.toFixed(1);
+    badge($("tagStitch"), "guess", "estimated");
+    badge($("tagColors"), "guess", "estimated");
+    badge($("tagSize"),   "guess", "estimated");
+    digitizingTouched = false;
+    calc();
+    $("pStitches").scrollIntoView({behavior:"smooth", block:"center"});
+  });
 
   /* ---------- output ------------------------------------------------- */
   $("btnPrint").addEventListener("click", function(){ window.print(); });
