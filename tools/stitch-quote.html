@@ -94,7 +94,12 @@ input[readonly]{background:var(--ivory-2);color:var(--muted)}
   cursor:pointer;margin-top:.6rem}
 .btn--gold{background:linear-gradient(135deg,var(--gold-lt),var(--gold-dk));color:#1a1408}
 .btn--ghost{background:transparent;color:var(--ivory);border:1px solid rgba(255,255,255,.3)}
+.btn--quiet{background:var(--ivory-2);color:var(--muted);border:1px solid var(--line-2)}
+.btn--quiet:hover{background:#e6dfd2;color:var(--ink)}
 .btn:active{transform:translateY(1px)}
+.btnrow{display:flex;gap:.6rem}
+.btnrow .btn{margin-top:.7rem}
+.btnrow #lClear{flex:0 0 8rem}
 
 .lstat{display:grid;gap:.5rem;grid-template-columns:repeat(2,minmax(0,1fr));
   background:var(--ivory);border:1px solid var(--line);border-radius:11px;padding:.8rem}
@@ -180,8 +185,12 @@ details.settings .grid{margin-top:.7rem}
 
       <div id="lOut" style="display:none;margin-top:.8rem">
         <div class="lstat" id="lStats"></div>
-        <button class="btn btn--gold" id="lUse" type="button" style="margin-top:.7rem">
-          Use this estimate as the stitch count</button>
+        <div class="btnrow">
+          <button class="btn btn--gold" id="lUse" type="button">Use this estimate</button>
+          <button class="btn btn--quiet" id="lClear" type="button">Clear</button>
+        </div>
+        <p class="tiers" id="lApplied" style="display:none">
+          Applied to the pattern below. <b>Clear</b> removes it and empties those fields again.</p>
       </div>
       <div id="lMsg" style="display:none"></div>
     </div>
@@ -377,7 +386,9 @@ details.settings .grid{margin-top:.7rem}
     var auto = autoDigitizing(st);
     $("dAuto").value = auto == null ? "—" : money(auto);
     // Follow the tier automatically until the user types their own number.
-    if(!digitizingTouched && auto != null) $("dFee").value = auto;
+    // With no stitch count there is no design, so the fee drops to zero rather
+    // than stranding the previous tier on an empty form.
+    if(!digitizingTouched) $("dFee").value = auto == null ? 0 : auto;
     var dig = $("dRepeat").checked ? 0 : num($("dFee"));
     $("dFee").disabled = $("dRepeat").checked;
 
@@ -510,6 +521,7 @@ details.settings .grid{margin-top:.7rem}
     }
     if(!$("pName").value) $("pName").value = (d.name || fname.replace(/\.[^.]+$/,"")).trim();
     digitizingTouched = false;
+    estimateApplied = false; $("lApplied").style.display = "none";
 
     var notes = [];
     notes.push("<b>" + fname + "</b> read.");
@@ -613,6 +625,7 @@ details.settings .grid{margin-top:.7rem}
 
     if(d.name && !$("pName").value) $("pName").value = d.name;
     digitizingTouched = false;
+    estimateApplied = false; $("lApplied").style.display = "none";
 
     var html = "<b>" + fname + "</b> — ";
     if(!textLen){
@@ -701,7 +714,7 @@ details.settings .grid{margin-top:.7rem}
      What it cannot know is what a digitizer will actually do — underlay
      passes, satin versus fill, how small text gets handled. So the answer is
      given as a range and never overwrites a real stitch file on its own.   */
-  var lastEstimate = null;
+  var lastEstimate = null, estimateApplied = false;
 
   function analyzeImage(img){
     var MAX = 360;
@@ -879,8 +892,30 @@ details.settings .grid{margin-top:.7rem}
     badge($("tagColors"), "guess", "estimated");
     badge($("tagSize"),   "guess", "estimated");
     digitizingTouched = false;
+    estimateApplied = true;
+    $("lApplied").style.display = "";
     calc();
     $("pStitches").scrollIntoView({behavior:"smooth", block:"center"});
+  });
+
+  // Clearing has to undo the whole thing, not just hide the panel — otherwise
+  // the estimate is still sitting in the pattern fields driving the price.
+  // Values are only emptied if this estimate is what put them there, so a DST
+  // read afterwards is never wiped by a stray click.
+  $("lClear").addEventListener("click", function(){
+    if(estimateApplied){
+      ["pStitches","pColors","pW","pH"].forEach(function(id){ $(id).value = 0; });
+      clearBadges();
+      digitizingTouched = false;
+    }
+    estimateApplied = false;
+    lastEstimate = null; limg = null;
+    $("lOut").style.display = "none";
+    $("lApplied").style.display = "none";
+    $("lMsg").style.display = "none";
+    $("lStats").innerHTML = "";
+    $("lH").value = 0;
+    calc();
   });
 
   /* ---------- output ------------------------------------------------- */
