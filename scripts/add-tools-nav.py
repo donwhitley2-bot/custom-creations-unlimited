@@ -17,6 +17,7 @@ TOOLS = [
     ("pattern-press",      "Pattern Press",      "Pattern-fill text generator"),
     ("slogan-generator",   "Slogan Generator",   "Slogan &amp; graphic generator"),
     ("mockup-studio",      "Mockup Studio",      "Art on garments &rarr; proof"),
+    ("stitch-quote",       "Stitch Quote",       "Embroidery pricing calculator"),
 ]
 ICON = ('<svg viewBox="0 0 24 24" fill="none"><path d="M14.7 6.3a4 4 0 01-5.4 5.4l-5 5a1.5 1.5 0 002 2l5-5a4 4 0 005.4-5.4l-2.3 2.3-2-2z" '
         'stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>')
@@ -44,10 +45,15 @@ def mobile(p):
 DESK_RE = re.compile(r'<li class="nav-item"><a class="nav-link" href="((?:\.\./)?)contact\.html"[^>]*>Contact</a></li>')
 MOB_RE  = re.compile(r'<li><a class="mobile-nav__link" href="((?:\.\./)?)contact\.html">Contact</a></li>')
 
+DESK_OLD = re.compile(r'<li class="nav-item nav-item--has-mega"><a class="nav-link js-tools-link".*?</li>', re.S)
+MOB_OLD  = re.compile(r'<li><button class="mobile-nav__link" data-sub="m-tools".*?</li>', re.S)
+
 def process(path):
     s = open(path, encoding="utf-8").read()
-    if "js-tools-link" in s:
-        return 0
+    before = s
+    s = DESK_OLD.sub("", s)
+    s = MOB_OLD.sub("", s)
+    rewrite = s != before
     n = 0
     m = DESK_RE.search(s)
     if m:
@@ -55,7 +61,7 @@ def process(path):
     m = MOB_RE.search(s)
     if m:
         s = s[:m.start()] + mobile(m.group(1)) + s[m.start():]; n += 1
-    if n:
+    if n or rewrite:
         open(path, "w", encoding="utf-8").write(s)
     return n
 
@@ -70,7 +76,7 @@ def main():
         inserted = process(path)
         if inserted:
             total += 1
-            print(f"  {os.path.relpath(path, ROOT):34} Tools nav added")
+            print(f"  {os.path.relpath(path, ROOT):34} Tools nav written")
     print(f"\nTools menu added to {total} page(s).")
 
 if __name__ == "__main__":

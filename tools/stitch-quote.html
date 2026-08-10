@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="robots" content="noindex,nofollow">
+<script>(function(){var K="ccuToolsAuth",PW="JustLaserIt",HOME="../index.html";try{if(sessionStorage.getItem(K)==="1")return}catch(e){}for(var i=0;i<3;i++){var a=window.prompt("Custom Creations — Tools area is password protected.\nEnter the password:");if(a===null){location.replace(HOME);return}if(a===PW){try{sessionStorage.setItem(K,"1")}catch(e){}return}}alert("Incorrect password.");location.replace(HOME)})();</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Stitch Quote — Custom Creations Unlimited</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --ink:#14141b; --ink-2:#1d1d28; --ivory:#f7f4ee; --ivory-2:#efe9df; --paper:#fff;
+  --gold:#c8a24a; --gold-lt:#e3c988; --gold-dk:#8a6c2c;
+  --muted:#565663; --faint:#8a8a96; --line:rgba(20,20,28,.12); --line-2:rgba(20,20,28,.2);
+  --ok:#1f7a4d; --warn:#9a6b13; --bad:#a33232;
+  --radius:14px;
+}
+body{background:var(--ivory);color:var(--ink);font-family:Inter,-apple-system,BlinkMacSystemFont,sans-serif;
+  font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:Fraunces,Georgia,serif;font-weight:600;line-height:1.15}
+
+.top{background:var(--ink);color:var(--ivory);padding:1rem 1.4rem;display:flex;align-items:center;
+  justify-content:space-between;gap:1rem;flex-wrap:wrap;position:sticky;top:0;z-index:20}
+.top h1{font-size:1.15rem}
+.top .sub{font-size:.78rem;color:#b8b4ab}
+.top a{color:var(--gold-lt);text-decoration:none;font-size:.85rem;font-weight:600}
+
+.wrap{max-width:1240px;margin:0 auto;padding:1.4rem;display:grid;gap:1.4rem;
+  grid-template-columns:minmax(0,1fr)}
+@media(min-width:1000px){ .wrap{grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);align-items:start} }
+
+.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);
+  padding:1.15rem 1.2rem;margin-bottom:1.2rem}
+.card h2{font-size:1.05rem;margin-bottom:.2rem}
+.card .hint{font-size:.8rem;color:var(--faint);margin-bottom:.9rem}
+.step{display:inline-flex;align-items:center;justify-content:center;width:1.4rem;height:1.4rem;
+  border-radius:50%;background:linear-gradient(135deg,var(--gold-lt),var(--gold-dk));color:#1a1408;
+  font-size:.72rem;font-weight:800;margin-right:.45rem}
+
+.drop{border:2px dashed var(--line-2);border-radius:12px;padding:1.5rem 1rem;text-align:center;
+  cursor:pointer;transition:border-color .2s,background .2s;background:var(--ivory)}
+.drop:hover,.drop.over{border-color:var(--gold);background:#fdfaf3}
+.drop b{display:block;font-size:.95rem;margin-bottom:.2rem}
+.drop span{font-size:.78rem;color:var(--faint)}
+.drop svg{width:26px;height:26px;color:var(--gold-dk);margin-bottom:.4rem}
+
+.grid{display:grid;gap:.7rem;grid-template-columns:repeat(2,minmax(0,1fr))}
+.grid.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media(max-width:560px){ .grid,.grid.g3{grid-template-columns:1fr} }
+label{display:block;font-size:.76rem;font-weight:600;color:var(--muted);margin-bottom:.25rem;
+  letter-spacing:.02em}
+input,select,textarea{width:100%;padding:.55rem .65rem;font:inherit;font-size:.92rem;
+  border:1px solid var(--line-2);border-radius:9px;background:var(--paper);color:var(--ink)}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--gold);outline-offset:1px;border-color:transparent}
+input[readonly]{background:var(--ivory-2);color:var(--muted)}
+.chk{display:flex;gap:.5rem;align-items:flex-start;font-size:.88rem;font-weight:500;color:var(--ink);
+  margin-top:.5rem;cursor:pointer}
+.chk input{width:17px;height:17px;flex:none;margin-top:2px;accent-color:var(--gold-dk)}
+
+.tag{display:inline-block;font-size:.68rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;
+  padding:.16rem .42rem;border-radius:5px;margin-left:.4rem;vertical-align:middle}
+.tag.read{background:#e6f2ea;color:var(--ok)}
+.tag.guess{background:#fbf1dd;color:var(--warn)}
+.tag.miss{background:#f7e5e5;color:var(--bad)}
+
+#fileMsg{font-size:.82rem;margin-top:.7rem;padding:.6rem .7rem;border-radius:9px;display:none}
+#fileMsg.on{display:block}
+#fileMsg.ok{background:#e9f4ee;color:#155e38}
+#fileMsg.warn{background:#fbf3e2;color:#7a5510}
+#fileMsg.err{background:#f9e9e9;color:#8d2a2a}
+#fileMsg ul{margin:.4rem 0 0 1.1rem}
+
+/* ---- quote panel ---- */
+.quote{position:sticky;top:5.2rem}
+.quote .card{background:var(--ink);color:var(--ivory);border-color:transparent}
+.quote h2{color:#fff}
+.qline{display:flex;justify-content:space-between;gap:1rem;padding:.42rem 0;font-size:.92rem;
+  border-bottom:1px solid rgba(255,255,255,.09)}
+.qline span:first-child{color:#c9c5bc}
+.qline b{font-variant-numeric:tabular-nums}
+.qline.sub{font-size:.79rem;color:#8d8981;border:0;padding:.1rem 0 .5rem}
+.qline.sub span{color:#8d8981}
+.qtotal{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;
+  margin-top:.9rem;padding-top:.9rem;border-top:2px solid var(--gold)}
+.qtotal span{font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-lt);font-weight:700}
+.qtotal b{font-family:Fraunces,Georgia,serif;font-size:1.9rem;color:#fff}
+.qper{text-align:right;font-size:.8rem;color:#b8b4ab;margin-top:.25rem}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.4rem;width:100%;
+  padding:.7rem 1rem;font:inherit;font-size:.92rem;font-weight:700;border:0;border-radius:10px;
+  cursor:pointer;margin-top:.6rem}
+.btn--gold{background:linear-gradient(135deg,var(--gold-lt),var(--gold-dk));color:#1a1408}
+.btn--ghost{background:transparent;color:var(--ivory);border:1px solid rgba(255,255,255,.3)}
+.btn:active{transform:translateY(1px)}
+
+details.settings{margin-top:1rem;border-top:1px solid var(--line);padding-top:.8rem}
+details.settings summary{cursor:pointer;font-size:.82rem;font-weight:600;color:var(--muted)}
+details.settings .grid{margin-top:.7rem}
+.tiers{font-size:.78rem;color:var(--faint);margin-top:.5rem}
+
+@media print{
+  .top,.drop,.btn,details.settings,#fileMsg,.noprint{display:none!important}
+  body{background:#fff}
+  .wrap{grid-template-columns:1fr;max-width:none;padding:0}
+  .quote{position:static}
+  .quote .card{background:#fff;color:#000;border:1px solid #999}
+  .quote h2,.qtotal b{color:#000}
+  .qline span:first-child,.qline.sub span{color:#444}
+  .qtotal span{color:#000}
+}
+</style>
+</head>
+<body>
+
+<div class="top">
+  <div>
+    <h1>Stitch Quote</h1>
+    <div class="sub">Embroidery pricing · Custom Creations Unlimited</div>
+  </div>
+  <a href="../index.html">← Back to site</a>
+</div>
+
+<div class="wrap">
+
+  <!-- ================= LEFT: inputs ================= -->
+  <div>
+
+    <div class="card">
+      <h2><span class="step">1</span>Design file</h2>
+      <p class="hint">Drop a <b>.DST</b> for exact numbers, or a PDF production worksheet. Everything it reads stays editable below.</p>
+
+      <div class="drop" id="drop">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 16V4m0 0L7 9m5-5l5 5M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <b>Drop a design file here</b>
+        <span>.DST (exact) · PDF worksheet (best effort) — or just type the numbers</span>
+      </div>
+      <input type="file" id="file" accept=".dst,.pdf,application/pdf" hidden>
+      <div id="fileMsg"></div>
+    </div>
+
+    <div class="card">
+      <h2><span class="step">2</span>Pattern</h2>
+      <p class="hint">Stitch count drives the price. The rest is for the quote sheet.</p>
+      <div class="grid">
+        <div style="grid-column:1/-1">
+          <label>Design name</label>
+          <input id="pName" placeholder="e.g. Conyers Car Care — left chest">
+        </div>
+        <div>
+          <label>Stitch count <span id="tagStitch"></span></label>
+          <input id="pStitches" type="number" min="0" step="1" value="0">
+        </div>
+        <div>
+          <label>Thread colors <span id="tagColors"></span></label>
+          <input id="pColors" type="number" min="0" step="1" value="0">
+        </div>
+        <div>
+          <label>Width (mm) <span id="tagSize"></span></label>
+          <input id="pW" type="number" min="0" step="0.1" value="0">
+        </div>
+        <div>
+          <label>Height (mm)</label>
+          <input id="pH" type="number" min="0" step="0.1" value="0">
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2><span class="step">3</span>Order</h2>
+      <div class="grid">
+        <div>
+          <label>Quantity</label>
+          <input id="oQty" type="number" min="1" step="1" value="12">
+        </div>
+        <div>
+          <label>Garment / blank cost each ($)</label>
+          <input id="oBlank" type="number" min="0" step="0.01" value="0.00">
+        </div>
+        <div style="grid-column:1/-1">
+          <label>Garment description</label>
+          <input id="oItem" placeholder="e.g. Bella + Canvas 3001, black, S–XL">
+        </div>
+        <div style="grid-column:1/-1">
+          <label>Customer</label>
+          <input id="oCust" placeholder="Name or company">
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2><span class="step">4</span>Digitizing</h2>
+      <p class="hint">One-time per design, not per piece. Auto-set from the stitch count — override any time.</p>
+      <div class="grid">
+        <div>
+          <label>Digitizing fee ($)</label>
+          <input id="dFee" type="number" min="0" step="1" value="0">
+        </div>
+        <div style="display:flex;align-items:flex-end">
+          <div style="width:100%">
+            <label>Auto from stitch count</label>
+            <input id="dAuto" readonly value="—">
+          </div>
+        </div>
+      </div>
+      <label class="chk"><input type="checkbox" id="dRepeat">
+        <span>Repeat or customer-supplied file — no digitizing charge</span></label>
+      <div class="tiers" id="tierText"></div>
+
+      <details class="settings">
+        <summary>Pricing settings</summary>
+        <div class="grid g3">
+          <div>
+            <label>Rate per 1,000 stitches ($)</label>
+            <input id="sRate" type="number" min="0" step="0.01" value="1.25">
+          </div>
+          <div>
+            <label>Garment markup (%)</label>
+            <input id="sMarkup" type="number" min="0" step="1" value="0">
+          </div>
+          <div>
+            <label>Tax (%)</label>
+            <input id="sTax" type="number" min="0" step="0.001" value="0">
+          </div>
+        </div>
+        <div class="grid g3" style="margin-top:.7rem">
+          <div><label>0–4k tier ($)</label><input id="t1" type="number" min="0" step="1" value="15"></div>
+          <div><label>4k–8k ($)</label><input id="t2" type="number" min="0" step="1" value="25"></div>
+          <div><label>8k–15k ($)</label><input id="t3" type="number" min="0" step="1" value="40"></div>
+          <div><label>15k–25k ($)</label><input id="t4" type="number" min="0" step="1" value="60"></div>
+          <div><label>25k+ ($)</label><input id="t5" type="number" min="0" step="1" value="80"></div>
+        </div>
+        <p class="tiers">Settings are remembered on this computer.</p>
+      </details>
+    </div>
+  </div>
+
+  <!-- ================= RIGHT: quote ================= -->
+  <div class="quote">
+    <div class="card">
+      <h2>Quote</h2>
+      <div id="qMeta" class="qline sub"></div>
+
+      <div class="qline"><span>Embroidery — <b id="qStitchTxt">0</b> stitches</span><b id="qEmbEach">$0.00</b></div>
+      <div class="qline sub"><span id="qRateTxt"></span><span></span></div>
+      <div class="qline"><span>Garment each</span><b id="qBlankEach">$0.00</b></div>
+      <div class="qline"><span>Per piece</span><b id="qPer">$0.00</b></div>
+      <div class="qline"><span>× <b id="qQty">0</b> pieces</span><b id="qLine">$0.00</b></div>
+      <div class="qline"><span>Digitizing (one-time)</span><b id="qDig">$0.00</b></div>
+      <div class="qline" id="qTaxRow" style="display:none"><span>Tax</span><b id="qTax">$0.00</b></div>
+
+      <div class="qtotal"><span>Total</span><b id="qTotal">$0.00</b></div>
+      <div class="qper" id="qAllIn"></div>
+
+      <button class="btn btn--gold noprint" id="btnPrint">Print / save as PDF</button>
+      <button class="btn btn--ghost noprint" id="btnCopy">Copy quote as text</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var $ = function(id){ return document.getElementById(id); };
+  var money = function(n){ return "$" + (isFinite(n)?n:0).toFixed(2); };
+  var num = function(el){ var v = parseFloat(el.value); return isFinite(v) ? v : 0; };
+
+  var SETTINGS = ["sRate","sMarkup","sTax","t1","t2","t3","t4","t5"];
+  var LS = "ccuStitchQuote";
+
+  /* ---------- settings persistence ---------------------------------- */
+  try{
+    var saved = JSON.parse(localStorage.getItem(LS) || "{}");
+    SETTINGS.forEach(function(k){ if(saved[k] != null) $(k).value = saved[k]; });
+  }catch(e){}
+  function saveSettings(){
+    try{
+      var o = {}; SETTINGS.forEach(function(k){ o[k] = $(k).value; });
+      localStorage.setItem(LS, JSON.stringify(o));
+    }catch(e){}
+  }
+
+  /* ---------- digitizing tiers -------------------------------------- */
+  function autoDigitizing(st){
+    if(st <= 0) return null;
+    if(st < 4000)  return num($("t1"));
+    if(st < 8000)  return num($("t2"));
+    if(st < 15000) return num($("t3"));
+    if(st < 25000) return num($("t4"));
+    return num($("t5"));
+  }
+
+  /* ---------- the maths --------------------------------------------- */
+  var digitizingTouched = false;
+  $("dFee").addEventListener("input", function(){ digitizingTouched = true; });
+
+  function calc(){
+    var st    = num($("pStitches"));
+    var qty   = Math.max(0, num($("oQty")));
+    var rate  = num($("sRate"));
+    var blank = num($("oBlank"));
+    var mk    = num($("sMarkup"));
+    var tax   = num($("sTax"));
+
+    var auto = autoDigitizing(st);
+    $("dAuto").value = auto == null ? "—" : money(auto);
+    // Follow the tier automatically until the user types their own number.
+    if(!digitizingTouched && auto != null) $("dFee").value = auto;
+    var dig = $("dRepeat").checked ? 0 : num($("dFee"));
+    $("dFee").disabled = $("dRepeat").checked;
+
+    var embEach   = (st / 1000) * rate;
+    var blankEach = blank * (1 + mk/100);
+    var perPiece  = embEach + blankEach;
+    var lineTotal = perPiece * qty;
+    var preTax    = lineTotal + dig;
+    var taxAmt    = preTax * (tax/100);
+    var total     = preTax + taxAmt;
+
+    $("qStitchTxt").textContent = st.toLocaleString();
+    $("qEmbEach").textContent   = money(embEach);
+    $("qRateTxt").textContent   = st > 0
+      ? (st.toLocaleString() + " ÷ 1,000 × " + money(rate))
+      : "Enter a stitch count";
+    $("qBlankEach").textContent = money(blankEach);
+    $("qPer").textContent       = money(perPiece);
+    $("qQty").textContent       = qty.toLocaleString();
+    $("qLine").textContent      = money(lineTotal);
+    $("qDig").textContent       = money(dig);
+    $("qTaxRow").style.display  = tax > 0 ? "" : "none";
+    $("qTax").textContent       = money(taxAmt);
+    $("qTotal").textContent     = money(total);
+    $("qAllIn").textContent     = qty > 0
+      ? money(total/qty) + " per piece all-in" : "";
+
+    var meta = [];
+    if($("oCust").value) meta.push($("oCust").value);
+    if($("pName").value) meta.push($("pName").value);
+    if($("oItem").value) meta.push($("oItem").value);
+    $("qMeta").innerHTML = "<span>" + (meta.join(" · ") || "&nbsp;") + "</span><span></span>";
+
+    $("tierText").textContent = "Tiers: <4k " + money(num($("t1"))) +
+      " · 4–8k " + money(num($("t2"))) + " · 8–15k " + money(num($("t3"))) +
+      " · 15–25k " + money(num($("t4"))) + " · 25k+ " + money(num($("t5")));
+    saveSettings();
+  }
+
+  ["pStitches","pColors","pW","pH","pName","oQty","oBlank","oItem","oCust",
+   "dFee","dRepeat","sRate","sMarkup","sTax","t1","t2","t3","t4","t5"]
+    .forEach(function(id){
+      $(id).addEventListener("input", calc);
+      $(id).addEventListener("change", calc);
+    });
+
+  /* ---------- badges ------------------------------------------------- */
+  function badge(el, state, text){
+    el.className = "tag " + state;
+    el.textContent = text;
+    el.style.display = state ? "" : "none";
+  }
+  function clearBadges(){
+    ["tagStitch","tagColors","tagSize"].forEach(function(id){
+      $(id).textContent = ""; $(id).className = "";
+    });
+  }
+
+  function msg(kind, html){
+    var m = $("fileMsg");
+    m.className = "on " + kind;
+    m.innerHTML = html;
+  }
+
+  /* ================= DST ============================================
+     A DST file opens with a 512-byte ASCII header carrying the values we
+     want outright: ST = stitch count, CO = colour changes, and the four
+     extents in 0.1 mm. Some writers leave the header blank or wrong, so the
+     stitch records are walked as a cross-check and used when it does.
+     Record = 3 bytes; byte 3 flags the type: 0xF3 end, 0xC3 colour change,
+     0x83 jump, otherwise a normal stitch.                                */
+  function parseDST(buf){
+    var bytes  = new Uint8Array(buf);
+    var header = "";
+    for(var i = 0; i < Math.min(512, bytes.length); i++) header += String.fromCharCode(bytes[i]);
+
+    function field(tag){
+      var m = header.match(new RegExp(tag + "\\s*:\\s*([+-]?\\d+)"));
+      return m ? parseInt(m[1], 10) : null;
+    }
+    var out = {
+      name:     (header.match(/LA\s*:\s*(.+?)\s*[\r\n\x1a]/) || [])[1] || "",
+      stitches: field("ST"),
+      colors:   field("CO"),
+      px: field("\\+X"), mx: field("-X"), py: field("\\+Y"), my: field("-Y"),
+      source: "header"
+    };
+
+    var st = 0, cc = 0, ended = false;
+    for(var p = 512; p + 2 < bytes.length; p += 3){
+      var b2 = bytes[p+2];
+      if(b2 === 0xF3){ ended = true; break; }
+      if((b2 & 0xC3) === 0xC3) cc++;
+      else if((b2 & 0x83) === 0x83) { /* jump — not a stitch */ }
+      else st++;
+    }
+    out.countedStitches = st;
+    out.countedColors   = cc + 1;
+    out.ended = ended;
+
+    // Trust the header only when it is plausible; otherwise use the walk.
+    if(!out.stitches || out.stitches <= 0 ||
+       (st > 0 && Math.abs(out.stitches - st) / Math.max(st, 1) > 0.25)){
+      out.stitches = st;
+      out.source = "records";
+    }
+    if(!out.colors || out.colors <= 0) out.colors = out.countedColors;
+
+    if(out.px != null && out.mx != null) out.width  = (out.px + out.mx) / 10;
+    if(out.py != null && out.my != null) out.height = (out.py + out.my) / 10;
+    return out;
+  }
+
+  function applyDST(d, fname){
+    clearBadges();
+    if(d.stitches > 0){ $("pStitches").value = d.stitches; badge($("tagStitch"),"read","from file"); }
+    if(d.colors   > 0){ $("pColors").value   = d.colors;   badge($("tagColors"),"read","from file"); }
+    if(d.width  > 0 && d.height > 0){
+      $("pW").value = d.width.toFixed(1); $("pH").value = d.height.toFixed(1);
+      badge($("tagSize"),"read","from file");
+    }
+    if(!$("pName").value) $("pName").value = (d.name || fname.replace(/\.[^.]+$/,"")).trim();
+    digitizingTouched = false;
+
+    var notes = [];
+    notes.push("<b>" + fname + "</b> read.");
+    notes.push("<ul>");
+    notes.push("<li>Stitches: <b>" + d.stitches.toLocaleString() + "</b>" +
+               (d.source === "records" ? " (counted from the stitch data — the header was missing or disagreed)" : "") + "</li>");
+    notes.push("<li>Colors: <b>" + d.colors + "</b></li>");
+    if(d.width) notes.push("<li>Size: <b>" + d.width.toFixed(1) + " × " + d.height.toFixed(1) +
+                           " mm</b> (" + (d.width/25.4).toFixed(2) + " × " + (d.height/25.4).toFixed(2) + " in)</li>");
+    if(!d.ended) notes.push("<li>No end-of-file marker — the file may be truncated. Check the stitch count.</li>");
+    notes.push("</ul>");
+    msg(d.ended ? "ok" : "warn", notes.join(""));
+    calc();
+  }
+
+  /* ================= PDF ============================================
+     Worksheets differ by program, so this pulls the text layer and looks for
+     labelled numbers. Anything it can't find is left for you to type, and
+     everything it does find stays editable — a wrong read is a five-second
+     correction, never a silent wrong price.                                */
+  var PDFJS_URL = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js";
+  var pdfjsReady = null;
+  function loadPdfJs(){
+    if(pdfjsReady) return pdfjsReady;
+    pdfjsReady = new Promise(function(res, rej){
+      var s = document.createElement("script");
+      s.src = PDFJS_URL;
+      s.onload = function(){
+        var lib = window.pdfjsLib;
+        if(!lib) return rej(new Error("pdf.js did not load"));
+        lib.GlobalWorkerOptions.workerSrc =
+          "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+        res(lib);
+      };
+      s.onerror = function(){ rej(new Error("could not reach the PDF reader")); };
+      document.head.appendChild(s);
+    });
+    return pdfjsReady;
+  }
+
+  function grab(text, patterns){
+    for(var i = 0; i < patterns.length; i++){
+      var m = text.match(patterns[i]);
+      if(m) return m;
+    }
+    return null;
+  }
+
+  function parseWorksheet(text){
+    var t = text.replace(/\s+/g, " ");
+    var out = {};
+
+    var m = grab(t, [
+      /stitch(?:es)?\s*count\s*[:\-]?\s*([\d,\.]+)/i,
+      /(?:total\s*)?stitches\s*[:\-]?\s*([\d,\.]+)/i,
+      /\bST\s*[:\-]\s*([\d,\.]+)/i
+    ]);
+    if(m) out.stitches = parseInt(m[1].replace(/[,\.]/g,""), 10);
+
+    m = grab(t, [
+      /colou?r\s*changes?\s*[:\-]?\s*(\d+)/i,
+      /(?:number\s*of\s*)?colou?rs?\s*[:\-]?\s*(\d+)/i,
+      /\bCO\s*[:\-]\s*(\d+)/i
+    ]);
+    if(m) out.colors = parseInt(m[1], 10);
+
+    m = grab(t, [
+      /(?:size|dimensions?)\s*[:\-]?\s*([\d\.]+)\s*(?:mm)?\s*[x×]\s*([\d\.]+)\s*mm/i,
+      /width\s*[:\-]?\s*([\d\.]+)\s*mm.*?height\s*[:\-]?\s*([\d\.]+)\s*mm/i,
+      /([\d\.]+)\s*mm\s*[x×]\s*([\d\.]+)\s*mm/i
+    ]);
+    if(m){ out.width = parseFloat(m[1]); out.height = parseFloat(m[2]); }
+    else{
+      m = grab(t, [
+        /(?:size|dimensions?)\s*[:\-]?\s*([\d\.]+)\s*(?:in|")?\s*[x×]\s*([\d\.]+)\s*(?:in|")/i
+      ]);
+      if(m){ out.width = parseFloat(m[1]) * 25.4; out.height = parseFloat(m[2]) * 25.4; }
+    }
+
+    m = grab(t, [/(?:design|pattern|file)\s*name\s*[:\-]?\s*([A-Za-z0-9 _\-\.]{2,60})/i]);
+    if(m) out.name = m[1].trim();
+
+    return out;
+  }
+
+  function applyPDF(d, fname, textLen){
+    clearBadges();
+    var found = [], missing = [];
+
+    if(d.stitches > 0){ $("pStitches").value = d.stitches; badge($("tagStitch"),"guess","from PDF"); found.push("stitches <b>" + d.stitches.toLocaleString() + "</b>"); }
+    else missing.push("stitch count");
+
+    if(d.colors > 0){ $("pColors").value = d.colors; badge($("tagColors"),"guess","from PDF"); found.push("colors <b>" + d.colors + "</b>"); }
+    else missing.push("colors");
+
+    if(d.width > 0 && d.height > 0){
+      $("pW").value = d.width.toFixed(1); $("pH").value = d.height.toFixed(1);
+      badge($("tagSize"),"guess","from PDF");
+      found.push("size <b>" + d.width.toFixed(1) + " × " + d.height.toFixed(1) + " mm</b>");
+    } else missing.push("dimensions");
+
+    if(d.name && !$("pName").value) $("pName").value = d.name;
+    digitizingTouched = false;
+
+    var html = "<b>" + fname + "</b> — ";
+    if(!textLen){
+      html += "no readable text. This looks like a scanned or image-only PDF, so nothing could be extracted. Type the numbers in below.";
+      msg("err", html);
+    } else if(found.length){
+      html += "read " + found.join(", ") + ".";
+      if(missing.length) html += " Couldn't find: " + missing.join(", ") + " — please fill those in.";
+      html += "<br><b>Check these against the worksheet before quoting</b> — worksheet layouts vary by program.";
+      msg(missing.length ? "warn" : "ok", html);
+    } else {
+      html += "the text was readable but no design data was recognised. Worksheets differ by program — type the numbers in below.";
+      msg("err", html);
+    }
+    calc();
+  }
+
+  /* ---------- file intake ------------------------------------------- */
+  function handle(f){
+    if(!f) return;
+    var name = f.name || "file";
+    var ext = (name.split(".").pop() || "").toLowerCase();
+
+    if(ext === "dst"){
+      var r = new FileReader();
+      r.onload = function(){
+        try{ applyDST(parseDST(r.result), name); }
+        catch(e){ msg("err", "<b>" + name + "</b> — couldn't be read as a DST file. Type the numbers in below."); }
+      };
+      r.onerror = function(){ msg("err","Could not read that file."); };
+      r.readAsArrayBuffer(f);
+      return;
+    }
+
+    if(ext === "pdf"){
+      msg("warn", "Reading <b>" + name + "</b>…");
+      var r2 = new FileReader();
+      r2.onload = function(){
+        loadPdfJs().then(function(lib){
+          return lib.getDocument({data: new Uint8Array(r2.result)}).promise;
+        }).then(function(doc){
+          var pages = [];
+          for(var i = 1; i <= doc.numPages; i++) pages.push(i);
+          return Promise.all(pages.map(function(n){
+            return doc.getPage(n).then(function(p){ return p.getTextContent(); })
+              .then(function(tc){ return tc.items.map(function(it){ return it.str; }).join(" "); });
+          }));
+        }).then(function(chunks){
+          var text = chunks.join("\n");
+          applyPDF(parseWorksheet(text), name, text.replace(/\s/g,"").length);
+        }).catch(function(err){
+          msg("err", "<b>" + name + "</b> — " + err.message +
+              ". You can still type the numbers in below.");
+        });
+      };
+      r2.readAsArrayBuffer(f);
+      return;
+    }
+
+    if(ext === "pes" || ext === "exp" || ext === "jef" || ext === "vp3"){
+      msg("warn", "<b>" + name + "</b> — ." + ext.toUpperCase() +
+          " isn't supported yet. Export a .DST from your software for exact numbers, " +
+          "or type the stitch count in below.");
+      return;
+    }
+    msg("err", "<b>" + name + "</b> — unsupported file. Use a .DST or a PDF worksheet.");
+  }
+
+  var drop = $("drop"), fileEl = $("file");
+  drop.addEventListener("click", function(){ fileEl.click(); });
+  fileEl.addEventListener("change", function(){ handle(fileEl.files[0]); fileEl.value = ""; });
+  ["dragenter","dragover"].forEach(function(ev){
+    drop.addEventListener(ev, function(e){ e.preventDefault(); drop.classList.add("over"); });
+  });
+  ["dragleave","drop"].forEach(function(ev){
+    drop.addEventListener(ev, function(e){ e.preventDefault(); drop.classList.remove("over"); });
+  });
+  drop.addEventListener("drop", function(e){ handle(e.dataTransfer.files[0]); });
+
+  /* ---------- output ------------------------------------------------- */
+  $("btnPrint").addEventListener("click", function(){ window.print(); });
+  $("btnCopy").addEventListener("click", function(){
+    var st = num($("pStitches")), qty = num($("oQty"));
+    var lines = [
+      "CUSTOM CREATIONS UNLIMITED — EMBROIDERY QUOTE",
+      $("oCust").value ? "Customer: " + $("oCust").value : "",
+      $("pName").value ? "Design: " + $("pName").value : "",
+      $("oItem").value ? "Garment: " + $("oItem").value : "",
+      "",
+      "Stitch count: " + st.toLocaleString(),
+      "Embroidery:   " + $("qEmbEach").textContent + " each  (" + $("qRateTxt").textContent + ")",
+      "Garment:      " + $("qBlankEach").textContent + " each",
+      "Per piece:    " + $("qPer").textContent,
+      "Quantity:     " + qty,
+      "Digitizing:   " + $("qDig").textContent + " (one-time)",
+      "",
+      "TOTAL: " + $("qTotal").textContent,
+      $("qAllIn").textContent ? "(" + $("qAllIn").textContent + ")" : ""
+    ].filter(Boolean).join("\n");
+    navigator.clipboard.writeText(lines).then(function(){
+      var b = $("btnCopy"), t = b.textContent;
+      b.textContent = "Copied ✓";
+      setTimeout(function(){ b.textContent = t; }, 1400);
+    });
+  });
+
+  calc();
+})();
+</script>
+</body>
+</html>
