@@ -217,6 +217,10 @@ details.settings .grid{margin-top:.7rem}
             <input id="sRate" type="number" min="0" step="0.01" value="1.25">
           </div>
           <div>
+            <label>Minimum per piece ($)</label>
+            <input id="sMin" type="number" min="0" step="0.25" value="8.00">
+          </div>
+          <div>
             <label>Garment markup (%)</label>
             <input id="sMarkup" type="number" min="0" step="1" value="0">
           </div>
@@ -225,6 +229,9 @@ details.settings .grid{margin-top:.7rem}
             <input id="sTax" type="number" min="0" step="0.001" value="0">
           </div>
         </div>
+        <p class="tiers">The minimum is a floor on the <b>embroidery</b> charge only —
+          the garment is still added on top. Below about 6,400 stitches at $1.25, the
+          minimum takes over.</p>
         <div class="grid g3" style="margin-top:.7rem">
           <div><label>0–4k tier ($)</label><input id="t1" type="number" min="0" step="1" value="15"></div>
           <div><label>4k–8k ($)</label><input id="t2" type="number" min="0" step="1" value="25"></div>
@@ -267,7 +274,7 @@ details.settings .grid{margin-top:.7rem}
   var money = function(n){ return "$" + (isFinite(n)?n:0).toFixed(2); };
   var num = function(el){ var v = parseFloat(el.value); return isFinite(v) ? v : 0; };
 
-  var SETTINGS = ["sRate","sMarkup","sTax","t1","t2","t3","t4","t5"];
+  var SETTINGS = ["sRate","sMin","sMarkup","sTax","t1","t2","t3","t4","t5"];
   var LS = "ccuStitchQuote";
 
   /* ---------- settings persistence ---------------------------------- */
@@ -311,7 +318,13 @@ details.settings .grid{margin-top:.7rem}
     var dig = $("dRepeat").checked ? 0 : num($("dFee"));
     $("dFee").disabled = $("dRepeat").checked;
 
-    var embEach   = (st / 1000) * rate;
+    // The minimum floors the embroidery charge, not the whole piece — the
+    // garment is a pass-through cost and still gets added on top. A 900-stitch
+    // left chest bills the minimum, not $1.13.
+    var minEach   = num($("sMin"));
+    var rawEmb    = (st / 1000) * rate;
+    var embEach   = Math.max(rawEmb, st > 0 ? minEach : 0);
+    var floored   = st > 0 && embEach > rawEmb;
     var blankEach = blank * (1 + mk/100);
     var perPiece  = embEach + blankEach;
     var lineTotal = perPiece * qty;
@@ -322,8 +335,11 @@ details.settings .grid{margin-top:.7rem}
     $("qStitchTxt").textContent = st.toLocaleString();
     $("qEmbEach").textContent   = money(embEach);
     $("qRateTxt").textContent   = st > 0
-      ? (st.toLocaleString() + " ÷ 1,000 × " + money(rate))
+      ? (floored
+          ? (money(minEach) + " minimum applied — rate would be " + money(rawEmb))
+          : (st.toLocaleString() + " ÷ 1,000 × " + money(rate)))
       : "Enter a stitch count";
+    $("qRateTxt").parentNode.style.color = floored ? "#e3c988" : "";
     $("qBlankEach").textContent = money(blankEach);
     $("qPer").textContent       = money(perPiece);
     $("qQty").textContent       = qty.toLocaleString();
@@ -348,7 +364,7 @@ details.settings .grid{margin-top:.7rem}
   }
 
   ["pStitches","pColors","pW","pH","pName","oQty","oBlank","oItem","oCust",
-   "dFee","dRepeat","sRate","sMarkup","sTax","t1","t2","t3","t4","t5"]
+   "dFee","dRepeat","sRate","sMin","sMarkup","sTax","t1","t2","t3","t4","t5"]
     .forEach(function(id){
       $(id).addEventListener("input", calc);
       $(id).addEventListener("change", calc);
