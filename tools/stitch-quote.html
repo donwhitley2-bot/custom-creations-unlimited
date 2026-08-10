@@ -174,7 +174,7 @@ details.settings .grid{margin-top:.7rem}
       <div class="grid" style="margin-top:.8rem">
         <div>
           <label>Finished width (mm)</label>
-          <input id="lW" type="number" min="0" step="0.1" value="76.2">
+          <input id="lW" type="number" min="0" step="0.1" value="76.2" placeholder="76.2 = 3 in left chest">
         </div>
         <div>
           <label>Finished height (mm)</label>
@@ -914,7 +914,9 @@ details.settings .grid{margin-top:.7rem}
     $("lApplied").style.display = "none";
     $("lMsg").style.display = "none";
     $("lStats").innerHTML = "";
-    $("lH").value = 0;
+    $("lW").value = "";          // both size fields, not just the height
+    $("lH").value = "";
+    $("lfile").value = "";       // so re-picking the same file still fires change
     calc();
   });
 
