@@ -63,9 +63,9 @@ const SHOP_CONFIG = {
    name/initial + artwork-upload fields on the order page.
    -------------------------------------------------------------------------- */
 const PRODUCTS = [
-  { id: "whiskey-glasses", name: "Engraved Whiskey Glasses Cigar Holder", price: 19.95, from: true, unit: "set of 2",
+  { id: "whiskey-glasses", name: "Engraved Whiskey Glasses Cigar Holder", price: 19.95, from: true, unit: "each",
     img: "assets/img/drinkware-3.webp?v=3", cat: "Drinkware",
-    blurb: "A pair of heavy-base rocks glasses with a built-in cigar rest, laser-etched with the name, initial or monogram of your choice.",
+    blurb: "A heavy-base rocks glass with a built-in cigar rest, laser-etched with the name, initial or monogram of your choice.",
     // Ordering happens in the dedicated customizer on its own subdomain, so
     // `url` takes over from the built-in order form for this item.
     url: "https://glasses.ccucustom.com",
