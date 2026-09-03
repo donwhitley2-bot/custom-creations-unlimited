@@ -13,7 +13,10 @@ const SHOP_CONFIG = {
      empty (""), that product falls back to the "email me a secure invoice"
      flow instead of instant card checkout. */
   stripeLinks: {
-    "whiskey-glasses": "https://buy.stripe.com/4gM4gz3SB0h8fhZ3fHfrW00",
+    // retired with the $42.99 set price — pricing now starts at $19.95 and
+    // ordering runs through glasses.ccucustom.com:
+    // "whiskey-glasses": "https://buy.stripe.com/4gM4gz3SB0h8fhZ3fHfrW00",
+    "whiskey-glasses": "",
     "engraved-tumbler": "",
     "cutting-board": "",
     "coffee-mug": "",
@@ -60,9 +63,12 @@ const SHOP_CONFIG = {
    name/initial + artwork-upload fields on the order page.
    -------------------------------------------------------------------------- */
 const PRODUCTS = [
-  { id: "whiskey-glasses", name: "Engraved Whiskey Glasses Cigar Holder", price: 42.99, unit: "set of 2",
+  { id: "whiskey-glasses", name: "Engraved Whiskey Glasses Cigar Holder", price: 19.95, from: true, unit: "set of 2",
     img: "assets/img/drinkware-3.webp?v=3", cat: "Drinkware",
     blurb: "A pair of heavy-base rocks glasses with a built-in cigar rest, laser-etched with the name, initial or monogram of your choice.",
+    // Ordering happens in the dedicated customizer on its own subdomain, so
+    // `url` takes over from the built-in order form for this item.
+    url: "https://glasses.ccucustom.com",
     personalize: true },
   { id: "engraved-tumbler", name: "Engraved Stainless Tumbler", price: 27.99, unit: "each",
     img: "assets/img/prod-engravedtumblers.webp", cat: "Drinkware",
@@ -344,13 +350,19 @@ function renderShopGrid() {
   grid.innerHTML = PRODUCTS.map((p, i) => {
     const v = VARIANTS[p.id];
     const price = v ? variantMinPrice(v) : p.price;
-    const showFrom = v ? variantIsFrom(v) : false;   // non-variant items are single-price
     // "Set" item with a Stripe link (no variants/options/personalization) → buy now,
     // straight to Stripe checkout, skipping the order form entirely.
     const stripeUrl = SHOP_CONFIG.stripeLinks[p.id];
     const directBuy = !!stripeUrl && (p.directBuy || (!v && !p.personalize && !p.options));
-    const href = directBuy ? stripeUrl : `order.html?item=${encodeURIComponent(p.id)}`;
-    const btnLabel = directBuy ? "Buy now" : ((showFrom || v || p.from) ? "Order" : "Customize &amp; Order");
+    // The card used to ignore a flat item's own `from` flag, so it showed a bare
+    // price while the order page showed "from" for the same item. Honour it here
+    // too — except on a direct Stripe checkout, where the amount charged is fixed
+    // and "from" would imply a range that cannot happen.
+    const showFrom = v ? variantIsFrom(v) : (!!p.from && !directBuy);
+    const href = p.url || (directBuy ? stripeUrl : `order.html?item=${encodeURIComponent(p.id)}`);
+    const btnLabel = p.url ? "Customize &amp; Order"
+                   : directBuy ? "Buy now"
+                   : ((showFrom || v || p.from) ? "Order" : "Customize &amp; Order");
     return `
     <article class="product-card" data-cat="${esc(p.cat)}" data-reveal data-delay="${i % 3}">
       <a class="product-card__media" href="${href}" aria-label="${directBuy ? "Buy" : "Customize"} ${esc(p.name)}">
