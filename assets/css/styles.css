@@ -1200,7 +1200,7 @@ body.has-light-hero .site-header:not(.is-scrolled) .brand__mark rect { fill: rgb
    below is a raw token (--ink-*, --ivory-*, --gold-*) rather than a semantic
    one (--text, --bg) for exactly that reason. */
 .hero--ed{ position:relative; min-height:100svh; display:flex; align-items:center;
-  background:var(--ivory-50); overflow:hidden; padding-top:var(--header-h); color-scheme:light; }
+  background:var(--ivory-50); overflow:hidden; padding-top:var(--header-h); }
 
 .hero--ed__inner{ position:relative; z-index:1; display:grid; gap:clamp(2rem,4.5vw,3.4rem);
   grid-template-columns:1fr; align-items:center; padding-block:clamp(1.6rem,4.5vh,3rem); }
@@ -1260,6 +1260,29 @@ body.has-light-hero .site-header:not(.is-scrolled) .brand__mark rect { fill: rgb
   .hero--ed__art{ max-width:16rem }
   .hero--ed::before{ display:none }
 }
-@media (prefers-color-scheme:dark){
-  :root:not([data-theme="light"]) .hero--ed{ background:var(--ivory-50) !important }
-}
+/* Dark theme. The hero states its colours as raw tokens rather than semantic
+   ones so a half-applied theme can never leave light text on a light ground —
+   which means the dark variant has to be spelled out here rather than coming
+   for free from --text/--bg. */
+[data-theme="dark"] .hero--ed { background: var(--ink-900); }
+[data-theme="dark"] .hero--ed__h1 { color: var(--ivory-100); }
+[data-theme="dark"] .hero--ed__h1 em { color: var(--gold-300); }
+[data-theme="dark"] .hero--ed__eyebrow,
+[data-theme="dark"] .hero--ed__sub,
+[data-theme="dark"] .hero--ed__proof { color: rgba(247,244,238,.72); }
+[data-theme="dark"] .hero--ed__proof { border-top-color: rgba(247,244,238,.16); }
+[data-theme="dark"] .hero--ed__proof b { color: var(--ivory-50); }
+[data-theme="dark"] .hero--ed__frame { background: var(--ink-800); }
+[data-theme="dark"] .hero--ed__scroll { color: rgba(247,244,238,.6); }
+[data-theme="dark"] .btn--outline-ed { border-color: rgba(247,244,238,.42); color: var(--ivory-50); }
+[data-theme="dark"] .btn--outline-ed:hover { background: var(--ivory-50); color: var(--ink-900); }
+
+/* The header sits on the hero, so its nav has to follow the hero's ground:
+   dark ink over the light hero, pale over the dark one. */
+[data-theme="dark"] body.has-light-hero .site-header:not(.is-scrolled) .brand__name,
+[data-theme="dark"] body.has-light-hero .site-header:not(.is-scrolled) .nav-link { color: rgba(247,244,238,.90); }
+[data-theme="dark"] body.has-light-hero .site-header:not(.is-scrolled) .nav-link:hover,
+[data-theme="dark"] body.has-light-hero .site-header:not(.is-scrolled) .nav-item:hover .nav-link { color: var(--gold-300); }
+[data-theme="dark"] body.has-light-hero .site-header:not(.is-scrolled) .icon-btn { color: rgba(247,244,238,.88); border-color: rgba(247,244,238,.20); }
+[data-theme="dark"] body.has-light-hero .site-header:not(.is-scrolled) .icon-btn:hover { border-color: var(--gold-400); color: var(--gold-300); }
+[data-theme="dark"] body.has-light-hero .site-header:not(.is-scrolled) .brand__mark rect { fill: rgba(247,244,238,.12); }
