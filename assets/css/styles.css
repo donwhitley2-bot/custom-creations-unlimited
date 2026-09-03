@@ -1153,60 +1153,6 @@ body.has-dark-hero .site-header:not(.is-scrolled) .brand__mark rect { fill: rgba
 .hero--laser .hero-badge span { color: rgba(247, 244, 238, 0.72); }
 
 
-/* =========================================================================
-   Homepage video hero
-   Sits on top of .hero--laser, which still supplies the copy typography,
-   text colours and shadows. Only the backdrop changes.
-   ========================================================================= */
-.hero--vid { position: relative; min-height: 100svh; display: flex; align-items: center;
-  overflow: hidden; background: #0c0a08; }
-.hero-vid { position: absolute; inset: 0; }
-.hero-vid__el { width: 100%; height: 100%; object-fit: cover; display: block;
-  transform: scale(1.02);              /* hides edge softness from the encode */
-  filter: saturate(.95) brightness(.88); }
-
-/* Two scrims, not one: a left-to-right wash so the headline always has
-   contrast, plus a floor gradient so the section hands off to the page below.
-   Tuned against the brightest frame in the loop — peak luminance across the
-   left 40% of frame, where the copy sits, is 133/255. */
-.hero-vid__scrim { position: absolute; inset: 0; pointer-events: none;
-  background:
-    linear-gradient(90deg, rgba(8,7,6,.84) 0%, rgba(8,7,6,.70) 32%,
-                           rgba(8,7,6,.42) 60%, rgba(8,7,6,.18) 100%),
-    linear-gradient(180deg, rgba(8,7,6,.62) 0%, rgba(8,7,6,.18) 30%,
-                            rgba(8,7,6,.22) 60%, rgba(8,7,6,.78) 100%); }
-
-.hero--vid .hero__inner { position: relative; z-index: 2; padding-block: clamp(5rem, 12vh, 8rem); }
-
-.hero__proof { display: flex; flex-wrap: wrap; gap: .55rem 1.5rem; margin-top: 1.9rem;
-  padding-top: 1.35rem; border-top: 1px solid rgba(255,255,255,.16);
-  font-size: .88rem; color: #cfc9bf; }
-.hero__proof b { color: #fff; font-weight: 700; }
-
-/* bottom-LEFT: the floating call/chat buttons own the bottom-right corner */
-.hero-vid__btn { position: absolute; left: 1.15rem; bottom: 1.15rem; z-index: 3;
-  width: 2.5rem; height: 2.5rem; border-radius: 50%; cursor: pointer;
-  display: grid; place-items: center; color: #fff;
-  background: rgba(12,10,8,.5); border: 1px solid rgba(255,255,255,.28);
-  backdrop-filter: blur(6px); opacity: .55; transition: opacity .2s; }
-.hero-vid__btn:hover, .hero-vid__btn:focus-visible { opacity: 1; }
-.hero-vid__btn svg { width: 15px; height: 15px; }
-.hero-vid__btn .i-play { display: none; }
-.hero-vid__btn.paused .i-pause { display: none; }
-.hero-vid__btn.paused .i-play { display: block; }
-
-@media (max-width: 719px) {
-  .hero-vid__scrim { background:
-    linear-gradient(180deg, rgba(8,7,6,.74) 0%, rgba(8,7,6,.62) 40%, rgba(8,7,6,.92) 100%); }
-  .hero__proof { gap: .4rem 1.1rem; font-size: .82rem; }
-}
-
-/* Anyone who asks for less motion just gets the poster frame. */
-@media (prefers-reduced-motion: reduce) {
-  .hero-vid__el { display: none; }
-  .hero-vid { background: url(../video/hero-poster.jpg?v=1) center / cover no-repeat; }
-  .hero-vid__btn { display: none; }
-}
 
 /* Laptop header fit.
    Between the mobile breakpoint (1080px) and roughly 1500px the full nav —
@@ -1223,4 +1169,97 @@ body.has-dark-hero .site-header:not(.is-scrolled) .brand__mark rect { fill: rgba
 @media (min-width: 1081px) and (max-width: 1279px) {
   .nav-link { padding: .5rem .34rem; font-size: .84rem; }
   .header-actions .btn { padding: .5rem .7rem; font-size: .8rem; }
+}
+
+/* =========================================================================
+   Homepage editorial hero
+   Replaced the full-bleed video hero. Light ground, one framed photograph,
+   quiet typography. Pinned light regardless of the site theme.
+   ========================================================================= */
+/* The header has no background until scrolled — it relies on a body class to
+   recolor nav text for whatever sits behind it. has-dark-hero (pale text)
+   already exists for the old dark hero; this is its mirror for a pinned-light
+   one. Needed for real visitors, not just this preview: the header has a
+   light/dark toggle, and in the site's dark theme --text flips to near-white,
+   which would vanish against this hero's ivory ground without this override.
+   Mirrors has-dark-hero, which sits with the other header rules above. */
+body.has-light-hero .site-header:not(.is-scrolled) .brand__name,
+body.has-light-hero .site-header:not(.is-scrolled) .nav-link { color: rgba(16,16,25,.88); }
+body.has-light-hero .site-header:not(.is-scrolled) .nav-link:hover,
+body.has-light-hero .site-header:not(.is-scrolled) .nav-item:hover .nav-link { color: var(--gold-700); }
+body.has-light-hero .site-header:not(.is-scrolled) .icon-btn { color: rgba(16,16,25,.82); border-color: rgba(16,16,25,.18); }
+body.has-light-hero .site-header:not(.is-scrolled) .icon-btn:hover { border-color: var(--gold-600); color: var(--gold-700); }
+body.has-light-hero .site-header:not(.is-scrolled) .brand__mark rect { fill: rgba(16,16,25,.08); }
+
+/* ============ editorial hero (preview) ============ */
+/* Pinned light regardless of the site's dark-mode toggle — same principle as
+   the old dark video hero, which was pinned dark regardless of theme. A photo
+   presented as a framed object needs a fixed, deliberate ground; letting it
+   flip to the dark palette would also silently swap --text to near-white,
+   which is invisible against this section's ivory background. Every color
+   below is a raw token (--ink-*, --ivory-*, --gold-*) rather than a semantic
+   one (--text, --bg) for exactly that reason. */
+.hero--ed{ position:relative; min-height:100svh; display:flex; align-items:center;
+  background:var(--ivory-50); overflow:hidden; padding-top:var(--header-h); color-scheme:light; }
+
+.hero--ed__inner{ position:relative; z-index:1; display:grid; gap:clamp(2rem,4.5vw,3.4rem);
+  grid-template-columns:1fr; align-items:center; padding-block:clamp(1.6rem,4.5vh,3rem); }
+@media (min-width:980px){
+  .hero--ed__inner{ grid-template-columns:minmax(0,1.16fr) minmax(0,.84fr); }
+}
+
+.hero--ed__copy{ max-width:42rem }
+.hero--ed__eyebrow{ display:flex; align-items:center; gap:.7rem; font-size:.8rem; letter-spacing:.08em;
+  color:var(--ink-500); margin-bottom:1.1rem }
+.hero--ed__eyebrow .rule{ width:2.4rem; height:2px; background:linear-gradient(90deg,var(--gold-500),var(--gold-700)) }
+
+/* Flowing, not stacked: hard line-breaks tuned for one column width look
+   broken at another, and with a headline this large, forcing five short
+   lines pushed the buttons below the fold on an ordinary laptop screen.
+   Letting it wrap naturally keeps the section to two or three lines at any
+   width. */
+.hero--ed__h1{ font-family:var(--font-display); font-weight:600; letter-spacing:-.01em;
+  font-size:clamp(2.1rem,1.4rem + 2.4vw,3.4rem); line-height:1.13; color:var(--ink-800); margin-bottom:1.1rem }
+.hero--ed__h1 em{ font-style:italic; color:var(--gold-600) }
+
+.hero--ed__sub{ font-size:clamp(.98rem,.92rem + .25vw,1.08rem); line-height:1.6; color:var(--ink-500);
+  max-width:36ch; margin-bottom:1.6rem }
+
+.hero--ed__cta{ display:flex; gap:.8rem; flex-wrap:wrap; margin-bottom:1.7rem }
+.btn--outline-ed{ display:inline-flex; align-items:center; gap:.4rem; padding:.85rem 1.5rem;
+  border-radius:var(--pill,999px); border:1.5px solid var(--ink-800); color:var(--ink-800);
+  font-weight:600; text-decoration:none; transition:background .2s,color .2s }
+.btn--outline-ed:hover{ background:var(--ink-800); color:#fff }
+
+.hero--ed__proof{ display:flex; align-items:center; gap:.6rem; font-size:.9rem; color:var(--ink-500);
+  padding-top:1.15rem; border-top:1px solid rgba(20,20,28,.10) }
+.hero--ed__proof .stars{ display:inline-flex; gap:1px }
+.hero--ed__proof .stars svg{ width:15px; height:15px; color:var(--gold-500) }
+.hero--ed__proof b{ color:var(--ink-800); font-weight:700 }
+
+/* the single photograph, presented as a framed object rather than a backdrop */
+.hero--ed__art{ position:relative; justify-self:center; width:100%; max-width:28rem }
+.hero--ed__art-back{ position:absolute; inset:1.1rem -1.1rem -1.1rem 1.1rem; z-index:0;
+  border:1.5px solid var(--gold-300); border-radius:var(--radius-lg); }
+.hero--ed__frame{ position:relative; z-index:1; margin:0; border-radius:var(--radius-lg);
+  overflow:hidden; box-shadow:var(--shadow-lg); background:var(--ivory-200); }
+.hero--ed__frame img{ width:100%; aspect-ratio:4/3; object-fit:cover; display:block }
+
+
+.hero--ed__scroll{ position:absolute; left:50%; bottom:1.6rem; transform:translateX(-50%);
+  display:flex; flex-direction:column; align-items:center; gap:.35rem; z-index:1;
+  color:var(--ink-500); text-decoration:none; font-size:.68rem; letter-spacing:.14em;
+  text-transform:uppercase; opacity:.75 }
+.hero--ed__scroll svg{ width:15px; height:15px; animation:edbob 2.2s ease-in-out infinite }
+@keyframes edbob{ 0%,100%{ transform:translateY(0) } 50%{ transform:translateY(5px) } }
+
+@media (max-width:979px){
+  .hero--ed{ text-align:center }
+  .hero--ed__copy{ max-width:none; margin-inline:auto }
+  .hero--ed__eyebrow,.hero--ed__cta{ justify-content:center }
+  .hero--ed__art{ max-width:16rem }
+  .hero--ed::before{ display:none }
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]) .hero--ed{ background:var(--ivory-50) !important }
 }
